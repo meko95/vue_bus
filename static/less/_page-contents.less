@@ -1,0 +1,144 @@
+/*# my own LESS file */
+body{
+  padding-top: 0px;
+}
+//index.html css
+.mycontainer{
+  margin-left: auto;
+  margin-right: auto;
+}
+.logo_top{
+  height: 60px;
+  padding: 0 10px;
+  .navbar-brand{
+    float: left;
+    padding: 4px 0 0 0;
+  }
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+  background-color: @gray-lightest;
+}
+.form_panel{
+  @media(min-width: @screen-md){
+    padding: 16px;
+    width: 400px;
+    margin: 120px auto;
+  }
+  @media(min-width: @screen-sm) and (max-width: @screen-md){
+    padding: 8px;
+    width: 350px;
+    margin: 80px auto;
+  }
+  @media(min-width: @screen-xs) and (max-width: @screen-sm){
+    padding: 6px;
+    width: 250px;
+    margin: 100px auto;
+  }
+  input{
+    font-size: 1.5em;
+    line-height: 1.5em;
+    width: 350px;
+    height: 50px;
+  }
+  color: rgba(0, 0, 0, 0.87);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+}
+.input_info{
+  line-height: 2.5;
+}
+//contract.html css
+.logout{
+  >ul>li{
+    list-style: none;
+  }
+}
+.left{
+  font-size: 0.5em;
+  line-height: 0.5;
+  //background-color: yellowgreen;
+  >ul>li{
+    list-style: none;
+    margin: 5px 0px;
+  }
+  a{
+    width: 150px;
+    line-height: 1.5em;
+    font-size: 1.9em;
+    color: white;
+  }
+}
+.right{
+  height: 648px;
+  margin-top: 1px;
+  .contract_table_name,.basic_table_name,.changes_table_name,.status_table_name,.check_table_name,.fix_table_name,.quality_table_name,.report_table_name,.sys_table_name{
+    color: white;
+    font-size: 1.4em;
+    font-weight: bold;
+    text-align: center;
+    background-color: @panel-primary-border;
+    line-height: 40px;
+    height: 40px;
+  }
+  table>thead>tr>th{
+    font-size: 1.1em;
+  }
+}
+header[role="banner"] {
+  .banner-brand{
+    padding: 6px 0px;
+    width: 125px;
+  }
+  > .container{
+    position: relative;
+  }
+  .utility_nav{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    >ul{
+      list-style: none;
+      >li{
+        float: left;
+        >a{
+          display: inline-block;
+          padding: 18px 12px;
+          &:hover{
+            text-decoration: none;
+          }
+          @media (max-width: (@grid-float-breakpoint - 1)){
+            span{
+              .sr-only();
+            }
+            .icon{
+              margin-right: 3px;
+              font-size: 1.5em;
+              line-height: 1.5;
+            }
+          }
+        }
+      }
+    }
+    z-index: 1999;
+    @media (min-width: @screen-sm-max){
+      .btn-feature{
+        .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
+      }
+    }
+  }
+  #logout{
+    height: 30px;
+  }
+}
+.navbar-header{
+  margin-top: 9px;
+}
+#tags_arrows{
+  display: flex;
+  line-height: 1.5em;
+}
+.page_choise{
+  padding: 0 20px;
+}
+//paging
+.page_choise{
+  margin: 5px 187px;
+}
