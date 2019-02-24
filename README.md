@@ -3,9 +3,9 @@
 > A Vue.js project
 # desciption
 
-> v19.2.23  GridManager插件Vue环境彻底调通
+> GridManager插件Vue环境彻底调通 难点：与服务器返回数据key键值绑定，如totalsKey、dataKey等
 
-> v19.2.24  Vue表单登录验证完成 难点：Vue全局前置路由
+> Vue表单登录验证完成 难点：Vue全局前置路由
 ## Build Setup
 
 ``` bash
