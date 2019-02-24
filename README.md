@@ -1,7 +1,11 @@
 # vue_bus
 
 > A Vue.js project
+# desciption
 
+> v19.2.23
+
+> description:GridManager插件Vue环境彻底调通
 ## Build Setup
 
 ``` bash
