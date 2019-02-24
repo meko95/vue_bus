@@ -1,40 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import ContractList from '@/components/ContractList'
-import getContract from '@/components/getContract'
-import addContract from '@/components/addContract'
-import delContract from '@/components/delContract'
-import editContract from '@/components/editContract'
+import Login from '@/components/Login'
+// import axios from "axios"
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
-  routes: [
-    {
-      path:'/',
-      redirect:'bus/contract/getContract'
-    },
-    {
-      path:'/bus/contract/',
-      name:'ContractList',
-      component:ContractList,
-      children:[
+    mode: 'history',
+    routes: [
         {
-          path:'getContract',
-          component: getContract
-        },{
-          path:'addContract',
-          component:addContract
+            path: '/',
+            redirect: '/bus/login'
         },
         {
-          path:'delContract',
-          component:delContract
+            path: '/bus/login',
+            name: 'Login',
+            component: Login
         },
         {
-          path:'editContract',
-          component:editContract
+            path: '/bus/contract/getContract',
+            name: 'ContractList',
+            component: ContractList
         }
-      ]
-    }
-  ]
+    ]
 })

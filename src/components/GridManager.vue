@@ -123,7 +123,8 @@
       })
 
       // 销毁实例
-      GridManager.destroy(this.$el)
+      // 不知道什么作用 但不注释的话报destroy函数控制台报错
+      // GridManager.destroy(this.$el)
     }
   }
 </script>

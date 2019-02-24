@@ -1,20 +1,11 @@
 <template>
   <div>
-    <!--<input type="button" class="btn btn-warning" value="请求数据" @click="getData">-->
-    <!--<router-link to="/bus/contract/getContract">-->
-    <!--<input type="button" value="请求数据" class="btn btn-warning" @click="getData"/>-->
-    <!--</router-link>-->
-    <!--<router-link to="/bus/contract/addContract">-->
-    <!--<input type="button" value="增加数据" class="btn btn-success" @click="addData"/>-->
-    <!--</router-link>-->
-    <!--<router-link to="/bus/contract/delContract">-->
-    <!--<input type="button" value="删除数据" class="btn btn-danger" @click="delData"/>-->
-    <!--</router-link>-->
-    <!--<router-link to="/bus/contract/editContract">-->
-    <!--<input type="button" value="修改数据" class="btn btn-primary" @click="editData"/>-->
-    <!--</router-link>-->
-    <!--<a href="http://localhost:8080/bus/contract/getContract">点我</a>-->
-    <router-view></router-view>
+
+    <Header></Header>
+
+    <div id="title">
+      合同列表
+    </div>
     <section class="search-area">
       <div class="sa-ele">
         <label class="se-title">名称:</label>
@@ -35,6 +26,7 @@
       <div class="sa-ele">
         <button class="search-action" @click="onSearch()">搜索</button>
         <button class="reset-action" @click="onReset()">重置</button>
+        <button class="reset-action" @click="onAdd()">新增</button>
       </div>
     </section>
 
@@ -45,16 +37,11 @@
         ref="grid"
       ></GridManager>
     </section>
-
-    <!--<section class="bottom-bar">-->
-    <!--<button id="init-gm" @click="onInit()" v-bind:disabled="initDisabled">init</button>-->
-    <!--<button id="destroy-gm" @click="onDestroy()" v-bind:disabled="destroyDisabled">destroy</button>-->
-    <!--</section>-->
   </div>
 </template>
 <script>
-  import GridManager from './GridManager.vue'
-
+  import GridManager from '@/components/GridManager'
+  import Header from '@/components/Header'
   // 模拟的一个Promise请求
   const getBlogList = function (params) {
     return new Promise((resolve, reject) => {
@@ -93,8 +80,9 @@
     name: "ContractList",
     data() {
       return {
-        contractList: [],
-        // 表单数据
+        // contractList: [],
+
+        // ----表单数据----
         formData: {
           title: '',
           content: '',
@@ -137,7 +125,6 @@
 
         // 初始化按纽禁用标识
         // initDisabled: true,
-
         // 销毁按纽禁用标识
         // destroyDisabled: true,
 
@@ -151,7 +138,7 @@
         option: {
           supportRemind: true,
           gridManagerName: 'contract',
-          height: '524px',
+          height: '574px',
           supportAjaxPage: true,
           supportSorting: true,
           isCombSorting: false,
@@ -166,7 +153,8 @@
           ajax_type: 'POST',
           supportMenu: true,
           query: {
-            test: 22
+            // url查询时传的参数
+            // test: 22
           },
           pageSize: 30,
           columnData: [
@@ -275,8 +263,8 @@
               text: '<span style="color: red">操作</span>',
               // 使用@click
               template: () => {
-                return '<span class="plugin-action" @click="delectRow(row, index)">&nbsp;删除&nbsp;</span>' +
-                  '<span class="plugin-action" @click="delectRow(row, index)">&nbsp;增加&nbsp;</span>';
+                return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
+                  '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
               }
             }],
           // 排序后事件
@@ -287,51 +275,58 @@
       }
     },
     components: {
-      GridManager
+      GridManager,
+      Header
     },
-
     methods: {
       // 测试vue下的GM事件
-      delectRow: function (row, index) {
+      delRow: function (row, index) {
         if (window.confirm(`确认要删除当前页第[${index}]条的['${row.title}]?`)) {
           console.log('----删除操作开始----')
           this.$refs['grid'].$el.GM('refreshGrid')
           console.log('数据没变是正常的, 因为这只是个示例,并不会真实删除数据.');
           console.log('----删除操作完成----')
-          console.log('')
         }
       },
-
-      // 事件: 搜索
+      editRow:function(row, index){
+        if (window.confirm(`确认要修改当前页第[${index}]条的['${row.title}]?`)) {
+          console.log('----修改操作开始----')
+          this.$refs['grid'].$el.GM('refreshGrid')
+          console.log('数据没变是正常的, 因为这只是个示例,并不会真实修改数据.');
+          console.log('----修改操作完成----')
+        }
+      },
+      // 事件:搜索
       onSearch: function () {
         var params = Object.assign({
           cPage: 1
         }, this.formData)
-
         this.$refs['grid'].$el.GM('setQuery', params, function () {
           console.log('setQuery执行成功')
         })
       },
-
-      // 事件: 重置
+      // 事件:重置
       onReset: function () {
         this.formData.title = ''
         this.formData.content = ''
         this.formData.type = ''
       },
-
+      // 事件:新增
+      onAdd:function(){
+        console.log('----新增操作开始----')
+      },
       // 事件: 初始化
       // onInit: function () {
       //   this.$refs['grid'].$el.GM('init', this.option);
-      //   this.initDisabled = true
-      //   this.destroyDisabled = false
+      //   // this.initDisabled = true
+      //   // this.destroyDisabled = false
       // },
 
       // 事件: 销毁
       // onDestroy: function () {
       //   this.$refs['grid'].$el.GM('destroy')
-      //   this.initDisabled = false
-      //   this.destroyDisabled = true
+      //   // this.initDisabled = false
+      //   // this.destroyDisabled = true
       // },
       getData: function () {
         console.log('获取数据---单击按钮事件')
@@ -346,21 +341,26 @@
         console.log('删除数据---单击按钮事件')
       }
     },
-    // created() {
-    //   //localhost:8080/bus/contract/getContract
-    //   //https://api.myjson.com/bins/spafe
-    //   this.$http.get('http://localhost:8080/bus/contract/getContract').then(res => {
-    //     this.contractList = res.data
-    //   }, err => {
-    //     console.log('Error,未获取到数据' + err)
-    //   })
-    // }
+    watch:{
+      '$route'(to,from){
+        console.log(to)
+      }
+    },
+    beforeDestroy() {
+      this.$refs['grid'].$el.GM('destroy')
+    }
   }
 </script>
 
 <style lang="less" scoped>
-  @import "../../static/less/_variables.less";
-
+  #title{
+    height: 26px;
+    text-align: center;
+    background-color: #428bca;
+    color: white;
+    font-size: 18px;
+    margin-top: 0px;
+  }
   div {
     /*font-size: @font-size-base;*/
     /*color: @brand-primary;*/
@@ -441,9 +441,5 @@
     padding: 5px 20px;
     margin-right: 10px;
   }
-
-  /*.grid-main {*/
-  /*height: calc(100vh - 64px - 57px);*/
-  /*}*/
 
 </style>
