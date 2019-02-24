@@ -1,5 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+
+// Main引入的插件能否都放到index.js中去呢？
+// 弹性窗口样式最后应用
 import Vue from 'vue'
 import App from './App'
 import router from './router'

@@ -13,6 +13,10 @@ export default new Router({
             redirect: '/bus/login'
         },
         {
+            path:'/bus/contract',
+            redirect: '/bus/contract/getContract'
+        },
+        {
             path: '/bus/login',
             name: 'Login',
             component: Login
@@ -24,3 +28,4 @@ export default new Router({
         }
     ]
 })
+
