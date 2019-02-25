@@ -11,11 +11,8 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrapvalidator'
 import '../static/css/bootstrapValidator.min.css'
-// import VueResource from 'vue-resource'
 import axios from 'axios'
-// Vue.use(VueResource)
-// Vue.use(axios)
-Vue.prototype.axios = axios
+// Vue.prototype.axios = axios
 import GridManager from './components/GridManager'
 
 // Vue install, Vue.use 会调用该方法
@@ -27,8 +24,8 @@ import GridManager from './components/GridManager'
 if (typeof window !== 'undefined' && window.Vue) {
     GridManager.install(window.Vue)
 }
-// GridManager 的版本号。 需要注意的是: 这仅仅是vue环境的壳, 验证功能需要查看GridManager的版本号
 GridManager.version = process.env.VERSION
+// GridManager 的版本号。 需要注意的是: 这仅仅是vue环境的壳, 验证功能需要查看GridManager的版本号
 // 将构造函数挂载至Vue原型上，这样在Vue环境下可直接用 this.$gridManager调用
 // export default GridManager
 

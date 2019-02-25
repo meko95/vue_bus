@@ -3,11 +3,17 @@
 </template>
 
 <script>
-  import Login from './components/Login.vue'
+  import Login from '@/components/Login'
+  import DeviceCollectData from '@/components/DeviceCollectData'
+  import DeviceBasicInfo from '@/components/DeviceBasicInfo'
+  import DeviceType from '@/components/DeviceType'
   export default {
     name: 'App',
     components:{
-      Login
+      Login,
+      DeviceCollectData,
+      DeviceBasicInfo,
+      DeviceType
     }
   }
 </script>

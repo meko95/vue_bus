@@ -1,8 +1,7 @@
 <template>
   <div>
-
     <Header></Header>
-
+    <!--暂时不考虑合并进Header组件-->
     <div id="title">
       合同列表
     </div>
@@ -29,7 +28,6 @@
         <button class="reset-action" @click="onAdd()">新增</button>
       </div>
     </section>
-
     <section class="grid-main">
       <GridManager
         :option="option"
@@ -37,34 +35,28 @@
         ref="grid"
       ></GridManager>
     </section>
+    <!--Modals-->
+    <Modal modal-id="modal_addContract" modal-title="输入新增合同信息：" :modal-body="info" footer-btn-left="确定提交"
+           @l_func="submit_data"
+           btn-left-color="btn btn-success" footer-btn-right="重新填写" btn-right-color="btn btn-default"></Modal>
   </div>
 </template>
 <script>
   import GridManager from '@/components/GridManager'
   import Header from '@/components/Header'
+  import Modal from '@/components/Modal'
   // 模拟的一个Promise请求
-  function getBlogList(params){
-  // const getBlogList = function (params) {
+  const getContractList = function (params) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
-      // https://www.lovejavascript.com/blogManager/getBlogList
-      // http://kathryn.cn:8080/bus/contract/getContractList rowsList
-      // https://api.myjson.com/bins/1408yu data
       // GridManager Error  请求数据失败！response中的必须为数组类型，可通过配置项[dataKey]修改字段名 data!!!!!
-      xhr.open('POST', 'http://kathryn.cn:8080/bus/contract/getContractList',true)
-      // xhr.open('http://kathryn.cn:8080/bus/contract/getContract')
+      xhr.open('POST', 'http://kathryn.cn:8080/bus/contract/getContractList', true)
       xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
       xhr.onreadystatechange = function () {
         if (xhr.readyState !== 4) {
           return
         }
-        console.log(xhr.status) //404
         if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-          console.log('xhr.response')
-          console.log(xhr.response)
-          // console.log(JSON.parse(xhr.response))
-          // console.log(JSON.parse(xhr.response).rowsList)
-          // resolve(JSON.parse(xhr.response).rowsList)
           resolve(xhr.response)
         } else {
           reject(xhr)
@@ -78,7 +70,7 @@
         }
         formData += key + '=' + params[key]
       }
-      console.log('xhr.send()参数formData符合规则为')
+      console.log('xhr.send()参数formData符合参数规则为')
       console.log(formData) // test=22&type=3&cPage=1&pSize=30&sort_createDate=DESC
       xhr.send(formData)
     })
@@ -87,15 +79,14 @@
     name: "ContractList",
     data() {
       return {
-        contractList: [],
-
-        // ----表单数据----
+        // 模态框body嵌入表单
+        info: ' ',
+        // 表单数据
         formData: {
           htmc: '',
           htbh: '',
           htlb: ''
         },
-
         // 分类
         TYPE_LIST: [
           {
@@ -107,20 +98,17 @@
             text: '分包'
           }
         ],
-        // github地址
-        github: 'https://github.com/baukh789',
-
         // 表格渲染回调函数
         // query为gmOptions中配置的query
         callback: function (query) {
-          console.log('callback => ', query);
+          console.log('callback => ', query)
         },
 
         // GM所需参数
         option: {
           supportRemind: true,
           gridManagerName: 'contract',
-          height: '562px',
+          height: '573px',
           supportAjaxPage: true,
           supportSorting: true,
           isCombSorting: false,
@@ -130,20 +118,19 @@
           ajax_data: (settings, params) => {
             console.log('ajax_data请求时带的参数为')
             console.log(params)
-            return getBlogList(params)
+            return getContractList(params)
           },
           ajax_type: 'POST',
           supportMenu: true,
           query: {
             // url查询时传的参数
-            // test: 22
             htmc: '',
             htbh: '',
             htlb: ''
           },
           // 绑定服务器返回数据的key值
           dataKey: 'rowsList',
-          totalsKey:'total',
+          totalsKey: 'total',
           pageSize: 30,
           columnData: [
             {
@@ -289,7 +276,8 @@
     },
     components: {
       GridManager,
-      Header
+      Header,
+      Modal
     },
     methods: {
       // 测试vue下的GM事件
@@ -326,7 +314,223 @@
       },
       // 事件:新增
       onAdd: function () {
+        $('.modal-body').html('<div class="modal-body">' +
+          '                    <form id="add_contract_form" class="form-horizontal bv-form" method="post" action="http://47.102.117.31:8080/bus/contract/insertContract"' +
+          '                        novalidate="novalidate">' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">合同编号</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="htbh" placeholder="合同编号" data-bv-field="htbh">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="htbh"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="htbh" data-bv-result="NOT_VALIDATED">合同编号不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">合同名称</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="htmc" placeholder="合同名称" data-bv-field="htmc">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="htmc"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="htmc" data-bv-result="NOT_VALIDATED">合同名称不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">合同类别</label>' +
+          '                            <!-- <input type="text" class="form-control" name="htlb" placeholder="合同类别" data-bv-field="htlb"> -->' +
+          '                            <div class="col-lg-4">' +
+          '                                <select class="form-control" id="exampleFormControlSelect1">' +
+          '                                    <option value="-1">请选择</option>' +
+          '                                    <option value="1">主合同</option>' +
+          '                                    <option value="0">分包合同</option>' +
+          '                                </select>' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="htlb"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="htlb" data-bv-result="NOT_VALIDATED">请选择合同类别' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">甲方名称</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <input type="text" class="form-control" name="jfmc" placeholder="请输入甲方名称" data-bv-field="fmc">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="fmc"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">甲方名称不可为空' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="stringLength"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">The username must be more than 6' +
+          '                                    and less than 30 characters long' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="regexp" data-bv-for="fmc"' +
+          '                                    data-bv-result="NOT_VALIDATED">The username can only consist of alphabetical,' +
+          '                                    number, dot and' +
+          '                                    underscore' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="remote" data-bv-for="fmc"' +
+          '                                    data-bv-result="NOT_VALIDATED">The username is not available' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="different"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">The username and password cannot' +
+          '                                    be the same as each other' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">乙方名称</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <input type="text" class="form-control" name="yfmc" placeholder="请输入乙方名称" data-bv-field="fmc">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="fmc"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">The username is required and' +
+          '                                    cannot be empty' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="stringLength"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">The username must be more than 6' +
+          '                                    and less than 30 characters long' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="regexp" data-bv-for="fmc"' +
+          '                                    data-bv-result="NOT_VALIDATED">The username can only consist of alphabetical,' +
+          '                                    number, dot and' +
+          '                                    underscore' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="remote" data-bv-for="fmc"' +
+          '                                    data-bv-result="NOT_VALIDATED">The username is not available' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="different"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">The username and password cannot' +
+          '                                    be the same as each other' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">丙方名称</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <input type="text" class="form-control" name="bfmc" placeholder="请输入丙方名称" data-bv-field="fmc">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="fmc"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">The username is required and' +
+          '                                    cannot be empty' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="stringLength"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">The username must be more than 6' +
+          '                                    and less than 30 characters long' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="regexp" data-bv-for="fmc"' +
+          '                                    data-bv-result="NOT_VALIDATED">The username can only consist of alphabetical,' +
+          '                                    number, dot and' +
+          '                                    underscore' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="remote" data-bv-for="fmc"' +
+          '                                    data-bv-result="NOT_VALIDATED">The username is not available' +
+          '                                </small>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="different"' +
+          '                                    data-bv-for="fmc" data-bv-result="NOT_VALIDATED">The username and password cannot' +
+          '                                    be the same as each other' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">签订日期</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <input type="text" class="form-control" name="qdrq" placeholder="请输入合同签订日期"' +
+          '                                    data-bv-field="qdrq">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="qdrq"></i>' +
+          '                                YYYY-MM-DD，例如2019-01-24' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="date" data-bv-for="qdrq"' +
+          '                                    data-bv-result="NOT_VALIDATED">签订日期输入错误，请重新输入' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">合同期限</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <input type="text" class="form-control" name="htqx" placeholder="请输入合同期限" data-bv-field="htqx">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="htqx"></i>' +
+          '                                单位：年' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="date" data-bv-for="htqx"' +
+          '                                    data-bv-result="NOT_VALIDATED">' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">付款方式</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <div class="radio">' +
+          '                                    <label>' +
+          '                                        <input type="radio" name="fkfs" value="0" data-bv-field="fkfs">支付宝' +
+          '                                    </label>' +
+          '                                </div>' +
+          '                                <div class="radio">' +
+          '                                    <label>' +
+          '                                        <input type="radio" name="fkfs" value="1" data-bv-field="fkfs">微信' +
+          '                                    </label>' +
+          '                                </div>' +
+          '                                <div class="radio">' +
+          '                                    <label>' +
+          '                                        <input type="radio" name="fkfs" value="2" data-bv-field="fkfs">银行卡' +
+          '                                    </label>' +
+          '                                    <i style="display: none;" class="form-control-feedback" data-bv-icon-for="fkfs"></i>' +
+          '                                </div>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="fkfs" data-bv-result="NOT_VALIDATED">请选择付款方式' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备使用寿命</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <input type="text" class="form-control" name="sbsysm" placeholder="请输入合同期限"' +
+          '                                    data-bv-field="sbsysm">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbsysm"></i>' +
+          '                                单位：年' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="date" data-bv-for="sbsysm"' +
+          '                                    data-bv-result="NOT_VALIDATED">' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备质包款</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <input type="text" class="form-control" name="sbzbk" placeholder="请输入设备质包款"' +
+          '                                    data-bv-field="sbzbk">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbzbk"></i>' +
+          '                                单位：万元' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="date" data-bv-for="sbzbk"' +
+          '                                    data-bv-result="NOT_VALIDATED">' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备质保期</label>' +
+          '                            <div class="col-lg-5">' +
+          '                                <input type="text" class="form-control" name="sbzbq" placeholder="请输入设备质包款"' +
+          '                                    data-bv-field="sbzbq">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbzbq"></i>' +
+          '                                单位：月' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="date" data-bv-for="sbzbq"' +
+          '                                    data-bv-result="NOT_VALIDATED">' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div>' +
+          '                            <br>' +
+          '                        </div>' +
+          '                    </form>' +
+          '                </div>')
+        $('#modal_addContract').modal()
         console.log('----新增操作开始----')
+      },
+      check_form: function () {
+        console.log('表单检查函数')
+      },
+      submit_data: function () {
+        console.log('模态框确定时间 应在此时检查表单输入规范')
+        // 如果输入规范 addContract接口提交数据 若提交成功关闭模态
+        $('#modal_addContract').modal('toggle')
+        // 如果输入不规范 validator检查并重新填写 调用check_form()
       },
       // 事件: 初始化
       onInit: function () {
@@ -345,12 +549,12 @@
 
 <style lang="less" scoped>
   #title {
-    height: 26px;
+    height: 36px;
     text-align: center;
     background-color: #428bca;
     color: white;
     font-size: 18px;
-    margin-top: 0px;
+    line-height: 36px;
   }
 
   div {
@@ -380,7 +584,9 @@
   }
 
   .search-area {
-    padding: 10px 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 104px;
     border: 1px solid #ccc;
     background: #efefef;
     margin-bottom: 15px;
@@ -388,13 +594,13 @@
 
   .search-area .sa-ele {
     display: inline-block;
-    margin-right: 20px;
+    padding-left: 48px;
     font-size: 12px;
   }
 
   .search-area .sa-ele .se-title {
     display: inline-block;
-    margin-right: 10px;
+    margin-left: 20px;
   }
 
   .search-area .sa-ele .se-con {
