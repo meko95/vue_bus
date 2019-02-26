@@ -8,7 +8,6 @@
       <div class="sa-ele">
         <label class="se-title">设备类别:</label>
         <select class="se-con" name="type" v-model="formData.sblb">
-          <!--<option value="-1">请选择</option>-->
           <option v-for="(item,index) in DEVICE_LIST" :key="index" :value="item.value">{{item.text}}</option>
           <!--通过js增加-->
         </select>
@@ -26,6 +25,9 @@
         ref="grid"
       ></GridManager>
     </section>
+    <Modal modal-id="modal_addDeviceBasicInfo" modal-title="输入新增设备信息：" :modal-body="info" footer-btn-left="确定提交"
+           @l_func="submit_data"
+           btn-left-color="btn btn-success" footer-btn-right="重新填写" btn-right-color="btn btn-default"></Modal>
   </div>
 </template>
 
@@ -68,6 +70,7 @@
     name: "DeviceBasicInfo",
     data() {
       return {
+        info: ' ',
         formData: {
           sblb: ''
         },
@@ -104,8 +107,8 @@
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'contract',
-          height: '573px',
+          gridManagerName: 'DeviceBasicInfo',
+          height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
           isCombSorting: false,
@@ -123,104 +126,366 @@
           // 绑定服务器返回数据的key值
           // dataKey: 'data',
           dataKey: 'rowsList',
+          // 绑定服务器返回数据总条数
           totalsKey: 'total',
           pageSize: 30,
           columnData: [{
             text: '编号',
-            remind:'设备唯一编号',
+            remind: '设备唯一编号',
             key: 'sbjyh',
             width: '200px',
             align: 'center',
-            // {{row.sbjyh}}
             template: '<span>21009872622222131000123</span>'
           }, {
             text: '自编号',
             key: 'sbzbh',
             width: '120px',
             align: 'center',
-            // {{row.sbzbh}
-            template: '<span>100201921221</span>'
+            template: '<span>123456789012</span>'
           }, {
-            text: '安装地点',
-            key: 'azddmc',
-            width: '110px',
-            align: 'center',
-            // {{row.azddmc}}
-            template: '<span>上南路XXX站</span>'
-          }, {
-            text: '型号',
-            key: 'sbxh',
-            width: '90px',
-            align: 'center',
-            // {{row.sbxh}}
-            template: '<span>Z-SO31-4</span>'
-          }, {
-            text: '品牌',
-            key: 'sbpp',
-            width: '50px',
-            align: 'center',
-            // {{row.sbpp}}
-            template: '<span>美的</span>'
-          }, {
-            text: '等级',
-            remind:'设备管理等级',
+            text: '管理等级',
             key: 'gldj',
-            width: '10px',
+            width: '3px',
             align: 'center',
-            // {{row.gldj}}
             template: '<span>A</span>'
           }, {
-            text: '公司',
-            remind:'设备归属公司',
+            text: '设备品牌',
+            key: 'sbpp',
+            width: '3px',
+            align: 'center',
+            template: '<span>大索尼</span>'
+          }, {
+            text: '设备型号',
+            key: 'sbxh',
+            width: '110px',
+            align: 'center',
+            template: '<span>Z-SO31-4105</span>'
+          },
+            {
+              text: 'SIM卡号',
+              key: 'simkh',
+              width: '180px',
+              align: 'center',
+              template: '<span>12345678901234567890</a></span>'
+            }, {
+              text: '归属集团',
+              remind: '点击可查看设备归属集团详细信息',
+              key: 'sbgsjt',
+              width: '110px',
+              align: 'center',
+              // 重点 集团=>公司=>车队=>线路
+              template: '<a @click="into_com">设备集团名称A</a>'
+            }, {
+              text: '启动日期',
+              key: 'sbqdrq',
+              width: '83px',
+              align: 'center',
+              template: '<span>2/26/2019</span>'
+            }, {
+              text: '更新日期',
+              key: 'sbgxrq',
+              width: '83px',
+              align: 'center',
+              template: '<span>2/26/2019</span>'
+            }, {
+              text: '报废日期',
+              key: 'sbbfrq',
+              width: '83px',
+              align: 'center',
+              template: '<span>2/26/2019</span>'
+            }, {
+              text: '供应商',
+              key: 'sbgys',
+              width: '68px',
+              align: 'center',
+              template: '<span>供应商A</span>'
+            }, {
+              text: '集成商',
+              key: 'sbjcs',
+              width: '68px',
+              align: 'center',
+              template: '<span>集成商A</span>'
+            }, {
+              text: '<span style="color: gray">操作</span>',
+              key: 'action',
+              align: 'center',
+              width: '100px',
+              // 使用@click
+              template: () => {
+                return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
+                  '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
+              }
+            }]
+        }
+      }
+    },
+    components: {
+      Header,
+      GridManager,
+      Modal
+    },
+    methods: {
+      onSearch: function () {
+
+      },
+      onReset: function () {
+        this.formData.htlb = ''
+      },
+      onAdd: function () {
+        // 条码编号报废日期更新日期启动日期安装照片安装地点SIM卡号公司等级品牌型号自编号编号
+        $('.modal-body').html('<div class="modal-body">' +
+          '                    <form id="add_contract_form" class="form-horizontal bv-form" method="post" action="http://47.102.117.31:8080/bus/contract/insertContract"' +
+          '                        novalidate="novalidate">' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备编号</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="sbjyh" placeholder="设备编号" data-bv-field="sbjyh">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbjyh"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="sbjyh" data-bv-result="NOT_VALIDATED">设备自编号不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备自编号</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="sbzbh" placeholder="设备自编号" data-bv-field="sbzbh">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbzbh"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="sbzbh" data-bv-result="NOT_VALIDATED">设备自编号不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备型号</label>' +
+          '                            <div class="col-lg-4">' +
+          '                                <select class="form-control">' +
+          '                                    <option value="-1">请选择</option>' +
+          '                                    <option value="1">Z-SO31-1</option>' +
+          '                                    <option value="2">Z-SO31-2</option>' +
+          '                                    <option value="3">Z-SO31-4</option>' +
+          '                                </select>' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbxh"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="sbxh" data-bv-result="NOT_VALIDATED">请选择设备型号' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备品牌</label>' +
+          '                            <div class="col-lg-4">' +
+          '                                <select class="form-control">' +
+          '                                    <option value="-1">请选择</option>' +
+          '                                    <option value="1">美的</option>' +
+          '                                    <option value="2">联想</option>' +
+          '                                    <option value="3">创维</option>' +
+          '                                </select>' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbpp"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="sbpp" data-bv-result="NOT_VALIDATED">请选择设备品牌' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备管理等级</label>' +
+          '                            <div class="col-lg-4">' +
+          '                                <select class="form-control">' +
+          '                                    <option value="-1">请选择</option>' +
+          '                                    <option value="1">A</option>' +
+          '                                    <option value="2">B</option>' +
+          '                                    <option value="3">C</option>' +
+          '                                    <option value="4">D</option>' +
+          '                                </select>' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="gldj"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="gldj" data-bv-result="NOT_VALIDATED">请选择设备管理等级' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备归属公司</label>' +
+          '                            <div class="col-lg-4">' +
+          '                                <select class="form-control">' +
+          '                                    <option value="-1">请选择</option>' +
+          '                                    <option value="1">上海集鑫</option>' +
+          '                                    <option value="2">上海澳马</option>' +
+          '                                    <option value="3">上海宾泰</option>' +
+          '                                </select>' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbgsgsmc"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="sbgsgsmc" data-bv-result="NOT_VALIDATED">请选择设备归属公司' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备SIM卡号</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="simkh" placeholder="设备SIM卡号"' +
+          '                                    data-bv-field="simkh">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="simkh"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="simkh" data-bv-result="NOT_VALIDATED">设备SIM卡号不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备安装地点</label>' +
+          '                            <div class="col-lg-4">' +
+          '                                <select class="form-control">' +
+          '                                    <option value="-1">请选择城市</option>' +
+          '                                    <option value="1">上海市</option>' +
+          '                                    <option value="2">杭州市</option>' +
+          '                                    <option value="3">苏州市</option>' +
+          '                                    <option value="3">...</option>' +
+          '                                </select>' +
+          '                                <div style="height:6px"></div>' +
+          '                                <select class="form-control">' +
+          '                                    <option value="-1">请选择行政区域</option>' +
+          '                                    <option value="1">杨浦区</option>' +
+          '                                    <option value="2">静安区</option>' +
+          '                                    <option value="3">虹口区</option>' +
+          '                                    <option value="4">徐汇区</option>' +
+          '                                    <option value="5">...</option>' +
+          '                                </select>' +
+          '                                <div style="height:6px"></div>' +
+          '                                <select class="form-control">' +
+          '                                    <option value="-1">请选择安装地点</option>' +
+          '                                    <option value="1">爱国路</option>' +
+          '                                    <option value="2">隆昌路</option>' +
+          '                                    <option value="3">宁国路</option>' +
+          '                                    <option value="4">...</option>' +
+          '                                </select>' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="azddmc"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="azddmc" data-bv-result="NOT_VALIDATED">请选择设备安装地点' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div>' +
+          '                            <b>上传设备安装照片</b>' +
+          '                            <input id="file-0" class="file" type="file" multiple data-min-file-count="1">' +
+          '                            <br>' +
+          '                            <!-- <button id="#add_contract_btn" type="submit" class="btn btn-primary">提交</button> -->' +
+          '                            <button id="validateBtn" type="submit" class="btn btn-primary">提交</button>' +
+          '                            <button id="resetBtn" type="reset" class="btn btn-primary">重新选择</button>' +
+          '                            <!--<button type="reset" class="btn btn-default">重新选择</button>-->' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备启动日期</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="sbqdrq" placeholder="日期选择插件"' +
+          '                                    data-bv-field="sbqdrq">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbqdrq"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="sbqdrq" data-bv-result="NOT_VALIDATED">设备启动日期不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备更新日期</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="sbgxrq" placeholder="日期选择插件"' +
+          '                                    data-bv-field="sbgxrq">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbgxrq"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="sbgxrq" data-bv-result="NOT_VALIDATED">设备更新日期不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备报废日期</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="sbbfrq" placeholder="日期选择插件"' +
+          '                                    data-bv-field="sbbfrq">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="sbbfrq"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="sbbfrq" data-bv-result="NOT_VALIDATED">设备报废日期不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div class="form-group has-feedback">' +
+          '                            <label class="col-lg-3 control-label">设备条码编号</label>' +
+          '                            <div class="col-lg-7">' +
+          '                                <input type="text" class="form-control" name="tmbh" placeholder="设备条码编号" data-bv-field="tmbh">' +
+          '                                <i style="display: none;" class="form-control-feedback" data-bv-icon-for="tmbh"></i>' +
+          '                                <small style="display: none;" class="help-block" data-bv-validator="notEmpty"' +
+          '                                    data-bv-for="tmbh" data-bv-result="NOT_VALIDATED">设备条码编号不可为空' +
+          '                                </small>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <div>' +
+          '                            <br>' +
+          '                        </div>' +
+          '                    </form>' +
+          '                </div>')
+        $('#modal_addDeviceBasicInfo').modal()
+        console.log('----新增操作开始----')
+      },
+      check_form: function () {
+        console.log('表单检查函数')
+      },
+      submit_data: function () {
+        console.log('模态框确定时间 应在此时检查表单输入规范')
+        // 首先validator检查 调用check_form()
+        // 如果输入规范 addContract接口提交数据 若提交成功关闭模态
+        $('#modal_addContract').modal('toggle')
+        // 如果输入不规范 validator自会处理
+      },
+      onReset: function () {
+
+      },
+      into_com: function () {
+        this.option.columnData = [{
+          text: '设备编号',
+          remind: '设备唯一编号',
+          key: 'sbjyh',
+          width: '200px',
+          align: 'center',
+          template: '<span>21009872622222131000123</span>'
+        }, {
+          text: '设备自编号',
+          key: 'sbzbh',
+          width: '120px',
+          align: 'center',
+          template: '<span>123456789012</span>'
+        },
+          {
+            text: '设备归属集团',
+            key: 'jtmc',
+            width: '140px',
+            align: 'center',
+            template: '<span>上海久士公交集团</span>'
+          }, {
+            text: '设备归属公司',
             key: 'sbgsgsmc',
-            width: '83px',
+            width: '120px',
             align: 'center',
-            // {{row.sbgsgsmc}}
-            // 重点 公司=>集团=>车队=>线路
-            template: '<span><a>上海澳马</a></span>'
+            template: '<span>巴士一公司</span>'
           }, {
-            text: 'SIM卡号',
-            key: 'simkh',
-            width: '150px',
+            text: '设备归属车队',
+            key: 'cd',
+            width: '80px',
             align: 'center',
-            // {{row.simkh}}
-            template: '<span>12345678901234567</a></span>'
+            template: '<span>一车队</span>'
           }, {
-            text: '安装照片',
-            key: 'azzp',
-            width: '50px',
+            text: '设备所属线路',
+            key: 'xl',
+            width: '240px',
             align: 'center',
-            // 重点 {{row.azzp}}
-            template: '<span>照片</span>'
+            template: '<span>55路,101,B102,306,405,201</span>'
           }, {
-            text: '启动日期',
-            key: 'sbqdrq',
-            width: '83px',
-            align: 'center',
-            // 重点 {{row.sbqdrq}}
-            template: '<span>2/26/2019</span>'
-          }, {
-            text: '更新日期',
-            key: 'sbgxrq',
-            width: '83px',
-            align: 'center',
-            // 重点 {{row.sbgxrq}}
-            template: '<span>2/26/2019</span>'
-          }, {
-            text: '报废日期',
-            key: 'sbbfrq',
-            width: '83px',
-            align: 'center',
-            // 重点 {{row.sbbfrq}}
-            template: '<span>2/26/2019</span>'
-          },{
-            text: '条码编号',
+            text: '设备条码编号',
             key: 'tmbh',
-            width: '50px',
+            width: '120px',
             align: 'center',
-            // 重点 {{row.tmbh}}
-            template: '<span>110121010101</span>'
-          },  {
+            template: '<span>0123456789</span>'
+          }, {
+            text: '设备二维码编号',
+            key: 'ewmbh',
+            width: '200px',
+            align: 'center',
+            template: '<span>0123456789</span>'
+          }, {
             text: '<span style="color: gray">操作</span>',
             key: 'action',
             align: 'center',
@@ -231,13 +496,15 @@
                 '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
             }
           }]
-        }
+        this.$refs['grid'].$el.GM('destroy')
+        this.$refs['grid'].$el.GM('init', this.option);
+      },
+      onDestroy: function () {
+        this.$refs['grid'].$el.GM('destroy')
       }
     },
-    components: {
-      Header,
-      GridManager,
-      Modal
+    beforeDestroy() {
+      this.onDestroy()
     }
   }
 </script>

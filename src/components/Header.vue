@@ -43,7 +43,7 @@
               <!--</router-link>-->
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                  aria-expanded="false">
-                基础数据管理&nbsp;&nbsp;<span class="caret"></span>
+                设备基础数据管理&nbsp;&nbsp;<span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li>
@@ -51,6 +51,9 @@
                 </li>
                 <li>
                   <router-link to="/bus/basicdata/getDeviceBasicInfo">查看基础信息</router-link>
+                </li>
+                <li>
+                  <router-link to="/bus/basicdata/getDeviceInstallInfo">查看安装信息</router-link>
                 </li>
                 <li>
                   <router-link to="/bus/basicdata/getDeviceType">管理设备类型</router-link>

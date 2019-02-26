@@ -81,7 +81,7 @@
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'contract',
+          gridManagerName: 'DeviceType',
           height: '573px',
           supportAjaxPage: true,
           supportSorting: true,

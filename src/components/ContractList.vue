@@ -107,8 +107,8 @@
         // GM所需参数
         option: {
           supportRemind: true,
-          gridManagerName: 'contract',
-          height: '573px',
+          gridManagerName: 'ContractList',
+          height: '570px',
           supportAjaxPage: true,
           supportSorting: true,
           isCombSorting: false,
