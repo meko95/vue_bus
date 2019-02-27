@@ -61,8 +61,8 @@
               </ul>
             </li>
             <li>
-              <router-link to="/bus/change">
-                设备变动情况
+              <router-link to="/bus/changedata">
+                设备迁移情况
               </router-link>
             </li>
             <li>

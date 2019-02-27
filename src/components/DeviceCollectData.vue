@@ -105,7 +105,7 @@
         option: {
           supportRemind: true,
           gridManagerName: 'DeviceCollectData',
-          height: '573px',
+          height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
           isCombSorting: false,

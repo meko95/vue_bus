@@ -586,7 +586,7 @@
   .search-area {
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 104px;
+    padding-left: 110px;
     border: 1px solid #ccc;
     background: #efefef;
     margin-bottom: 15px;
@@ -639,5 +639,4 @@
     padding: 5px 20px;
     margin-right: 10px;
   }
-
 </style>

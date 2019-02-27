@@ -166,7 +166,7 @@
               key: 'simkh',
               width: '180px',
               align: 'center',
-              template: '<span>12345678901234567890</a></span>'
+              template: '<span>12345678901234567890</span>'
             }, {
               text: '归属集团',
               remind: '点击可查看设备归属集团详细信息',
@@ -497,7 +497,7 @@
             }
           }]
         this.$refs['grid'].$el.GM('destroy')
-        this.$refs['grid'].$el.GM('init', this.option);
+        this.$refs['grid'].$el.GM('init', this.option)
       },
       onDestroy: function () {
         this.$refs['grid'].$el.GM('destroy')
