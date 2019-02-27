@@ -3,9 +3,11 @@
 > A Vue.js project
 # desciption
 
-> GridManager插件Vue环境彻底调通 难点：与服务器返回数据key键值绑定，如totalsKey、dataKey等
+> jQuery插件：GridManager插件Vue环境彻底调通 难点：与服务器返回数据key键值绑定，如totalsKey、dataKey等
 
 > Vue表单登录验证完成 难点：Vue全局前置路由
+
+> Bootstrap Modal
 ## Build Setup
 
 ``` bash
