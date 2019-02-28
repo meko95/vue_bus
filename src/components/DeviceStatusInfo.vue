@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="title">
-      设备迁移情况
+      设备工作状态
     </div>
     <section class="search-area">
       <div class="sa-ele">
@@ -25,9 +25,7 @@
         ref="grid"
       ></GridManager>
     </section>
-    <Modal modal-id="modal_addDeviceMoveInfo" modal-title="输入新增设备信息：" :modal-body="info" footer-btn-left="确定提交"
-           @l_func="submit_data"
-           btn-left-color="btn btn-success" footer-btn-right="重新填写" btn-right-color="btn btn-default"></Modal>
+
   </div>
 </template>
 
@@ -36,7 +34,7 @@
   import GridManager from '@/components/GridManager'
   import Modal from '@/components/Modal'
 
-  const getDeviceMoveInfo = function (params) {
+  const getDeviceStatusInfo = function (params) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       // GridManager Error  请求数据失败！response中的必须为数组类型，可通过配置项[dataKey]修改字段名 data!!!!!
@@ -67,12 +65,12 @@
     })
   }
   export default {
-    name: "DeviceMoveInfo",
+    name: "DeviceStatusInfo",
+    info: ' ',
     data() {
       return {
-        info: ' ',
         formData: {
-          sblb: ''
+          htlb: ''
         },
         DEVICE_LIST: [{
           text: 'RFID4G',
@@ -107,7 +105,7 @@
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'DeviceMoveInfo',
+          gridManagerName: 'DeviceStatusInfo',
           height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
@@ -116,7 +114,7 @@
           ajax_data: (settings, params) => {
             console.log('ajax_data请求时带的参数为')
             console.log(params)
-            return getDeviceMoveInfo(params)
+            return getDeviceStatusInfo(params)
           },
           ajax_type: 'POST',
           supportMenu: true,
@@ -130,87 +128,64 @@
           pageSize: 30,
           columnData: [
             {
-              text: '迁移单号',
-              remind: '设备每次迁移编号',
-              key: 'sbqydh',
-              width: '120px',
-              align: 'center',
-              template: '<span>012345678912</span>'
-            },
-            {
               text: '编号',
-              remind: '设备唯一编号',
               key: 'sbjyh',
-              width: '190px',
+              width: '220px',
               align: 'center',
-              template: '<span>21009872622222131000123</span>'
-            }, {
+              template: '<span>01234567890123456789123</span>'
+            },{
               text: '设备自编号',
               key: 'sbzbh',
+              width: '130px',
+              align: 'center',
+              template: '<span>012345678912</span>'
+            },{
+              text: '上线日期',
+              remind:'月/日/年',
+              key: 'sxrq',
               width: '110px',
               align: 'center',
-              template: '<a @click="into_ejsbInfo">123456789012</a>'
-            }, {
+              template: '<span>4/30/2019</span>'
+            },{
               text: '安装位置',
               key: 'sbazwz',
               width: '110px',
               align: 'center',
-              template: '<span>宝杨路停车场</span>'
-            }, {
-              text: '迁移日期',
-              remind: '月/日/年',
-              key: 'sbqyrq',
-              width: '90px',
+              template: '<span>沪A30125车头</span>'
+            },{
+              text: '线路名称',
+              key: 'xlmc',
+              width: '110px',
               align: 'center',
-              template: '<span>6/5/2019</span>'
+              template: '<span>1001</span>'
+            },{
+              text: '运营车辆上线情况',
+              key: 'yyclsxqk',
+              width: '110px',
+              align: 'center',
+              template: '<span>已上线</span>'
             },
             {
-              text: '原始地址',
-              key: 'sbysdz',
+              text:'车载一体机工作状态',
+              key:'gzzt',
+              width:'110px',
+              align:'center',
+              template:'<span>正在维修</span>'
+            },
+            {
+              text: '巴士通工作情况（GPS）',
+              key: 'bst',
               width: '110px',
               align: 'center',
-              template: '<span>宝杨路停车场</span>'
-            }, {
-              text: '目标地址',
-              key: 'sbmbdz',
+              template: '<a @click="into_gps">1点击进入单一设备历史情况</a>'
+            },
+            {
+              text: '流媒体工作情况（DVR）',
+              key: 'lmt',
               width: '110px',
               align: 'center',
-              template: '<span>外滩1号停车场</span>'
-            }, {
-              text: '操作工号',
-              remind: '操作人员工号',
-              key: 'qyczrygh',
-              width: '50px',
-              align: 'center',
-              template: '<span>10001</span>'
-            }, {
-              text: '姓名',
-              remind: '操作人员姓名',
-              key: 'qyczryxm',
-              width: '60px',
-              align: 'center',
-              template: '<span>鹧鸪哨</span>'
-            }, {
-              text: '审批工号',
-              remind: '审批人员工号',
-              key: 'qysprygh',
-              width: '50px',
-              align: 'center',
-              template: '<span>20001</span>'
-            }, {
-              text: '姓名',
-              key: 'qyspryxm',
-              remind: '审批人员姓名',
-              width: '60px',
-              align: 'center',
-              template: '<span>陈玉楼</span>'
-            }, {
-              text: '迁移备注',
-              key: 'qybz',
-              width: '130px',
-              align: 'center',
-              template: '<span>迁移一切顺利</span>'
-            }, {
+              template: '<a @click="into_dvr">2</a>'
+            },{
               text: '<span style="color: gray">操作</span>',
               key: 'action',
               align: 'center',
@@ -220,8 +195,7 @@
                 return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
                   '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
               }
-            }
-          ]
+            }]
         }
       }
     },
@@ -243,104 +217,127 @@
       check_form: function () {
         console.log('表单检查函数')
       },
-      submit_data: function () {
-        console.log('模态框确定时间 应在此时检查表单输入规范')
-        // 首先validator检查 调用check_form()
-        // 如果输入规范 addContract接口提交数据 若提交成功关闭模态
-        $('#modal_addDeviceMoveInfo').modal('toggle')
-        // 如果输入不规范 validator自会处理
-      },
       onReset: function () {
 
       },
-      into_ejsbInfo: function () {
+      into_gps:function(){
         this.$refs['grid'].$el.GM('destroy')
+        this.option.gridManagerName = 'gps'
         this.option.columnData = [
           {
-            text: '一级设备编号',
-            key: 'sbbh',
-            width: '190px',
-            align: 'center',
-            template: '<span>21009872622222131000123</span>'
-          }, {
-            text: '二级设备编号',
-            key: 'ejbh',
-            width: '130px',
-            align: 'center',
-            template: '<span>000000000001</span>'
-          }, {
-            text: '安装位置',
-            remind: '二级设备安装位置',
-            key: 'ejsbazwz',
-            width: '155px',
-            align: 'center',
-            template: '<span>宝杨路停车场一层3号门</span>'
-          }, {
-            text: '迁移日期',
-            remind: '月/日/年',
-            key: 'sbqyrq',
-            width: '90px',
-            align: 'center',
-            template: '<span>6/5/2019</span>'
+            text:'日期',
+            remind:'月/日/年',
+            key:'rq',
+            width:'90px',
+            align:'center',
+            template:'<span>11/11/2019</span>'
+          },{
+            text:'故障单号',
+            key:'dh',
+            width:'120px',
+            align:'center',
+            template:'<span>012345678912</span>'
           },
           {
-            text: '原始地址',
-            key: 'sbysdz',
-            width: '150px',
-            align: 'center',
-            template: '<span>宝杨路停车场一层2号门</span>'
-          }, {
-            text: '目标地址',
-            key: 'sbmbdz',
-            width: '150px',
-            align: 'center',
-            template: '<span>宝杨路停车场二层1号门</span>'
-          }, {
-            text: '操作工号',
-            remind: '操作人员工号',
-            key: 'qyczrygh',
-            width: '50px',
-            align: 'center',
-            template: '<span>10001</span>'
-          }, {
-            text: '姓名',
-            remind: '操作人员姓名',
-            key: 'qyczryxm',
+            text:'巴士通总计',
+            key:'bst',
+            width:'70px',
+            align:'center',
+            template:'<span>1</span>'
+          },
+          {
+            text: '漂移',
+            key: 'py',
             width: '60px',
             align: 'center',
-            template: '<span>鹧鸪哨</span>'
+            template: '<span>0</span>'
           }, {
-            text: '审批工号',
-            remind: '审批人员工号',
-            key: 'qysprygh',
-            width: '50px',
+            text: '不报站',
+            key: 'bbz',
+            width: '70px',
             align: 'center',
-            template: '<span>20001</span>'
+            template: '<span>0</span>'
           }, {
-            text: '姓名',
-            key: 'qyspryxm',
-            remind: '审批人员姓名',
+            text: '电子路单',
+            remind:'电子路单不生成或错误',
+            key: 'dzld',
+            width: '70px',
+            align: 'center',
+            template: '<span>0</span>'
+          }, {
+            text: '推送',
+            remind:'不推送车号和时间',
+            key: 'bts',
             width: '60px',
             align: 'center',
-            template: '<span>陈玉楼</span>'
-          }, {
-            text: '迁移备注',
-            key: 'qybz',
-            width: '130px',
+            template: '<span>0</span>'
+          },
+          {
+            text: '不切换路线',
+            key: 'bqh',
+            width: '70px',
             align: 'center',
-            template: '<span>迁移一切顺利</span>'
+            template: '<span>0</span>'
           }, {
-            text: '<span style="color: gray">操作</span>',
-            key: 'action',
+            text: '走字屏',
+            remind:'走字屏不显示或显示错误',
+            key: 'zzp',
+            width: '70px',
             align: 'center',
-            width: '100px',
-            // 使用@click
-            template: () => {
-              return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
-                '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
-            }
+            template: '<span>0</span>'
+          }, {
+            text: '不显示班次',
+            key: 'bxsbc',
+            width: '70px',
+            align: 'center',
+            template: '<span>0</span>'
+          }, {
+            text: '无法签到签退',
+            key: 'gpsqdqt',
+            width: '70px',
+            align: 'center',
+            template: '<span>1</span>'
+          }, {
+            text: '其他',
+            key: 'gpsqt',
+            width: '60px',
+            align: 'center',
+            template: '<span>0</span>'
+          }, {
+            text: '流媒体总计',
+            key: 'dvr',
+            width: '70px',
+            align: 'center',
+            template: '<span>2</span>'
+          }, {
+            text: '无图像',
+            key: 'wtx',
+            width: '70px',
+            align: 'center',
+            template: '<span>1</span>'
+          }, {
+            text: '导不出录像',
+            key: 'dlx',
+            width: '70px',
+            align: 'center',
+            template: '<span>1</span>'
+          },  {
+            text: '无法签到签退',
+            key: 'dvrqdqt',
+            width: '70px',
+            align: 'center',
+            template: '<span>1</span>'
+          }, {
+            text: '其他',
+            key: 'dvrqt',
+            width: '60px',
+            align: 'center',
+            template: '<span>0</span>'
           }]
         this.$refs['grid'].$el.GM('init', this.option)
+      },
+      into_dvr:function(){
+
       },
       onDestroy: function () {
         this.$refs['grid'].$el.GM('destroy')

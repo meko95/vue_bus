@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="title">
-      设备迁移情况
+      设备基础信息
     </div>
     <section class="search-area">
       <div class="sa-ele">
@@ -25,18 +25,14 @@
         ref="grid"
       ></GridManager>
     </section>
-    <Modal modal-id="modal_addDeviceMoveInfo" modal-title="输入新增设备信息：" :modal-body="info" footer-btn-left="确定提交"
-           @l_func="submit_data"
-           btn-left-color="btn btn-success" footer-btn-right="重新填写" btn-right-color="btn btn-default"></Modal>
   </div>
 </template>
 
 <script>
   import Header from '@/components/Header'
   import GridManager from '@/components/GridManager'
-  import Modal from '@/components/Modal'
 
-  const getDeviceMoveInfo = function (params) {
+  const getDeviceLineInfo = function (params) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       // GridManager Error  请求数据失败！response中的必须为数组类型，可通过配置项[dataKey]修改字段名 data!!!!!
@@ -67,7 +63,7 @@
     })
   }
   export default {
-    name: "DeviceMoveInfo",
+    name: "DeviceLineInfo",
     data() {
       return {
         info: ' ',
@@ -107,7 +103,7 @@
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'DeviceMoveInfo',
+          gridManagerName: 'DeviceLineInfo',
           height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
@@ -116,100 +112,101 @@
           ajax_data: (settings, params) => {
             console.log('ajax_data请求时带的参数为')
             console.log(params)
-            return getDeviceMoveInfo(params)
+            return getDeviceLineInfo(params)
           },
           ajax_type: 'POST',
           supportMenu: true,
           query: {
-            htlb: ''
+            sblb: ''
           },
           // 绑定服务器返回数据的key值
+          // dataKey: 'data',
           dataKey: 'rowsList',
           // 绑定服务器返回数据总条数
           totalsKey: 'total',
           pageSize: 30,
           columnData: [
             {
-              text: '迁移单号',
-              remind: '设备每次迁移编号',
-              key: 'sbqydh',
-              width: '120px',
-              align: 'center',
-              template: '<span>012345678912</span>'
-            },
-            {
-              text: '编号',
+              text: '设备编号',
               remind: '设备唯一编号',
               key: 'sbjyh',
-              width: '190px',
+              width: '200px',
               align: 'center',
               template: '<span>21009872622222131000123</span>'
-            }, {
+            },
+            {
               text: '设备自编号',
               key: 'sbzbh',
               width: '110px',
               align: 'center',
-              template: '<a @click="into_ejsbInfo">123456789012</a>'
-            }, {
-              text: '安装位置',
-              key: 'sbazwz',
-              width: '110px',
-              align: 'center',
-              template: '<span>宝杨路停车场</span>'
-            }, {
-              text: '迁移日期',
-              remind: '月/日/年',
-              key: 'sbqyrq',
-              width: '90px',
-              align: 'center',
-              template: '<span>6/5/2019</span>'
+              template: '<span>123456789012</span>'
             },
             {
-              text: '原始地址',
-              key: 'sbysdz',
-              width: '110px',
-              align: 'center',
-              template: '<span>宝杨路停车场</span>'
-            }, {
-              text: '目标地址',
-              key: 'sbmbdz',
-              width: '110px',
-              align: 'center',
-              template: '<span>外滩1号停车场</span>'
-            }, {
-              text: '操作工号',
-              remind: '操作人员工号',
-              key: 'qyczrygh',
-              width: '50px',
-              align: 'center',
-              template: '<span>10001</span>'
-            }, {
-              text: '姓名',
-              remind: '操作人员姓名',
-              key: 'qyczryxm',
+              text:'归属集团',
+              key:'sbgsht',
+              width:'90px',
+              align:'center',
+              template:'<span>上海澳马</span>'
+            },
+            {
+              text:'归属公司',
+              key:'sbgsgs',
+              width:'90px',
+              align:'center',
+              template:'<span>巴士一公司</span>'
+            },
+            {
+              text:'归属车队',
+              key:'sbgsgscd',
+              width:'90px',
+              align:'center',
+              template:'<span>一车队</span>'
+            },
+            {
+              text: '线路',
+              key: 'jtmc',
               width: '60px',
               align: 'center',
-              template: '<span>鹧鸪哨</span>'
+              template: '<span>555路</span>'
             }, {
-              text: '审批工号',
-              remind: '审批人员工号',
-              key: 'qysprygh',
-              width: '50px',
+              text: '日期',
+              remind: '月/日/年',
+              key: 'sbgsgsmc',
+              width: '95px',
               align: 'center',
-              template: '<span>20001</span>'
+              template: '<span>12/09/2019</span>'
             }, {
-              text: '姓名',
-              key: 'qyspryxm',
-              remind: '审批人员姓名',
+              text: '线路编码',
+              remind:'运管处线路编码',
+              key: 'cd',
+              width: '80px',
+              align: 'center',
+              template: '<span>005500</span>'
+            }, {
+              text: '上下行',
+              key: 'xl',
               width: '60px',
               align: 'center',
-              template: '<span>陈玉楼</span>'
+              template: '<span>下行</span>'
             }, {
-              text: '迁移备注',
-              key: 'qybz',
-              width: '130px',
+              text: '起讫站名称',
+              key: 'tmbh',
+              width: '120px',
               align: 'center',
-              template: '<span>迁移一切顺利</span>'
+              template: '<span>世界路新江湾城</span>'
+            }, {
+              text: 'RFID基站编号',
+              key: 'jzbh',
+              width: '200px',
+              align: 'center',
+              template: '<span>041073；045001；045002；045003</span>'
+            },
+            {
+              text: 'RFID信号',
+              key: 'ewmbh',
+              width: '40px',
+              align: 'center',
+              template: '<span>有</span>'
             }, {
               text: '<span style="color: gray">操作</span>',
               key: 'action',
@@ -220,15 +217,13 @@
                 return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
                   '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
               }
-            }
-          ]
+            }]
         }
       }
     },
     components: {
       Header,
-      GridManager,
-      Modal
+      GridManager
     },
     methods: {
       onSearch: function () {
@@ -245,109 +240,16 @@
       },
       submit_data: function () {
         console.log('模态框确定时间 应在此时检查表单输入规范')
-        // 首先validator检查 调用check_form()
-        // 如果输入规范 addContract接口提交数据 若提交成功关闭模态
-        $('#modal_addDeviceMoveInfo').modal('toggle')
-        // 如果输入不规范 validator自会处理
       },
       onReset: function () {
 
       },
-      into_ejsbInfo: function () {
-        this.$refs['grid'].$el.GM('destroy')
-        this.option.columnData = [
-          {
-            text: '一级设备编号',
-            key: 'sbbh',
-            width: '190px',
-            align: 'center',
-            template: '<span>21009872622222131000123</span>'
-          }, {
-            text: '二级设备编号',
-            key: 'ejbh',
-            width: '130px',
-            align: 'center',
-            template: '<span>000000000001</span>'
-          }, {
-            text: '安装位置',
-            remind: '二级设备安装位置',
-            key: 'ejsbazwz',
-            width: '155px',
-            align: 'center',
-            template: '<span>宝杨路停车场一层3号门</span>'
-          }, {
-            text: '迁移日期',
-            remind: '月/日/年',
-            key: 'sbqyrq',
-            width: '90px',
-            align: 'center',
-            template: '<span>6/5/2019</span>'
-          },
-          {
-            text: '原始地址',
-            key: 'sbysdz',
-            width: '150px',
-            align: 'center',
-            template: '<span>宝杨路停车场一层2号门</span>'
-          }, {
-            text: '目标地址',
-            key: 'sbmbdz',
-            width: '150px',
-            align: 'center',
-            template: '<span>宝杨路停车场二层1号门</span>'
-          }, {
-            text: '操作工号',
-            remind: '操作人员工号',
-            key: 'qyczrygh',
-            width: '50px',
-            align: 'center',
-            template: '<span>10001</span>'
-          }, {
-            text: '姓名',
-            remind: '操作人员姓名',
-            key: 'qyczryxm',
-            width: '60px',
-            align: 'center',
-            template: '<span>鹧鸪哨</span>'
-          }, {
-            text: '审批工号',
-            remind: '审批人员工号',
-            key: 'qysprygh',
-            width: '50px',
-            align: 'center',
-            template: '<span>20001</span>'
-          }, {
-            text: '姓名',
-            key: 'qyspryxm',
-            remind: '审批人员姓名',
-            width: '60px',
-            align: 'center',
-            template: '<span>陈玉楼</span>'
-          }, {
-            text: '迁移备注',
-            key: 'qybz',
-            width: '130px',
-            align: 'center',
-            template: '<span>迁移一切顺利</span>'
-          }, {
-            text: '<span style="color: gray">操作</span>',
-            key: 'action',
-            align: 'center',
-            width: '100px',
-            // 使用@click
-            template: () => {
-              return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
-                '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
-            }
-          }]
-        this.$refs['grid'].$el.GM('init', this.option)
-      },
       onDestroy: function () {
         this.$refs['grid'].$el.GM('destroy')
-      },
-      beforeDestroy() {
-        this.onDestroy()
       }
+    },
+    beforeDestroy() {
+      this.onDestroy()
     }
   }
 </script>

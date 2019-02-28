@@ -121,7 +121,7 @@
           ajax_type: 'POST',
           supportMenu: true,
           query: {
-            htlb: ''
+            sblb: ''
           },
           // 绑定服务器返回数据的key值
           // dataKey: 'data',
@@ -174,7 +174,7 @@
               width: '110px',
               align: 'center',
               // 重点 集团=>公司=>车队=>线路
-              template: '<a @click="into_com">设备集团名称A</a>'
+              template:'<router-link to="/bus/basicdata/getDeviceComInfo">设备集团名称A</router-link>'
             }, {
               text: '启动日期',
               key: 'sbqdrq',
@@ -426,78 +426,9 @@
       },
       submit_data: function () {
         console.log('模态框确定时间 应在此时检查表单输入规范')
-        // 首先validator检查 调用check_form()
-        // 如果输入规范 addContract接口提交数据 若提交成功关闭模态
-        $('#modal_addContract').modal('toggle')
-        // 如果输入不规范 validator自会处理
       },
       onReset: function () {
 
-      },
-      into_com: function () {
-        this.option.columnData = [{
-          text: '设备编号',
-          remind: '设备唯一编号',
-          key: 'sbjyh',
-          width: '200px',
-          align: 'center',
-          template: '<span>21009872622222131000123</span>'
-        }, {
-          text: '设备自编号',
-          key: 'sbzbh',
-          width: '120px',
-          align: 'center',
-          template: '<span>123456789012</span>'
-        },
-          {
-            text: '设备归属集团',
-            key: 'jtmc',
-            width: '140px',
-            align: 'center',
-            template: '<span>上海久士公交集团</span>'
-          }, {
-            text: '设备归属公司',
-            key: 'sbgsgsmc',
-            width: '120px',
-            align: 'center',
-            template: '<span>巴士一公司</span>'
-          }, {
-            text: '设备归属车队',
-            key: 'cd',
-            width: '80px',
-            align: 'center',
-            template: '<span>一车队</span>'
-          }, {
-            text: '设备所属线路',
-            key: 'xl',
-            width: '240px',
-            align: 'center',
-            template: '<span>55路,101,B102,306,405,201</span>'
-          }, {
-            text: '设备条码编号',
-            key: 'tmbh',
-            width: '120px',
-            align: 'center',
-            template: '<span>0123456789</span>'
-          }, {
-            text: '设备二维码编号',
-            key: 'ewmbh',
-            width: '200px',
-            align: 'center',
-            template: '<span>0123456789</span>'
-          }, {
-            text: '<span style="color: gray">操作</span>',
-            key: 'action',
-            align: 'center',
-            width: '100px',
-            // 使用@click
-            template: () => {
-              return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
-                '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
-            }
-          }]
-        this.$refs['grid'].$el.GM('destroy')
-        this.$refs['grid'].$el.GM('init', this.option)
       },
       onDestroy: function () {
         this.$refs['grid'].$el.GM('destroy')

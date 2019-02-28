@@ -6,10 +6,15 @@ import ContractList from '@/components/ContractList'
 
 import DeviceCollectData from '@/components/DeviceCollectData'
 import DeviceBasicInfo from '@/components/DeviceBasicInfo'
+import DeviceComInfo from '@/components/DeviceComInfo'
+import DeviceLineInfo from '@/components/DeviceLineInfo'
 import DeviceInstallInfo from '@/components/DeviceInstallInfo'
 import DeviceType from '@/components/DeviceType'
 
 import DeviceMoveInfo from '@/components/DeviceMoveInfo'
+
+import DeviceStatusInfo from '@/components/DeviceStatusInfo'
+import DeviceFaultStatistics from '@/components/DeviceFaultStatistics'
 
 Vue.use(Router)
 
@@ -45,6 +50,16 @@ export default new Router({
       component: DeviceBasicInfo
     },
     {
+      path:'/bus/basicdata/getDeviceComInfo',
+      name:'DeviceComInfo',
+      component:DeviceComInfo
+    },
+    {
+      path:'/bus/basicdata/getDeviceLineInfo',
+      name:'DeviceLineInfo',
+      component:DeviceLineInfo
+    },
+    {
       path: '/bus/basicdata/getDeviceInstallInfo',
       name: 'DeviceInstallInfo',
       component: DeviceInstallInfo
@@ -62,6 +77,20 @@ export default new Router({
       path:'/bus/changedata/getDeviceMoveInfo',
       name:'DeviceMoveInfo',
       component:DeviceMoveInfo
+    },
+    {
+      path:'/bus/status',
+      redirect:'/bus/status/getDeviceStatusInfo'
+    },
+    {
+      path:'/bus/status/getDeviceStatusInfo',
+      name:'DeviceStatusInfo',
+      component:DeviceStatusInfo
+    },
+    {
+      path:'/bus/status/getDeviceFaultStatistics',
+      name:'DeviceFaultStatistics',
+      component:DeviceFaultStatistics
     }
   ]
 })

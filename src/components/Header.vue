@@ -31,11 +31,12 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav nav-tabs">
-            <li class="active">
+            <li>
               <router-link to="/bus/contract/getContract">
                 合同管理
               </router-link>
             </li>
+
             <li role="presentation" class="dropdown">
               <!--<router-link to="/bus/basicdata" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"-->
               <!--aria-expanded="false">-->
@@ -60,15 +61,28 @@
                 </li>
               </ul>
             </li>
+
             <li>
               <router-link to="/bus/changedata">
                 设备迁移情况
               </router-link>
             </li>
             <li>
-              <router-link to="/bus/status">
-                设备工作情况
-              </router-link>
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                设备工作情况&nbsp;<span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <router-link to="/bus/status/getDeviceStatusInfo">
+                    查看设备工作情况
+                  </router-link>
+                </li>
+                <li>
+                  <router-link to="/bus/status/getDeviceFaultStatistics">
+                    设备故障情况统计
+                  </router-link>
+                </li>
+              </ul>
             </li>
             <li>
               <router-link to="/bus/check">
