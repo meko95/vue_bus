@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="title">
-      设备工作状态
+      车载一体机二级设备迁移信息
     </div>
     <section class="search-area">
       <div class="sa-ele">
@@ -25,16 +25,14 @@
         ref="grid"
       ></GridManager>
     </section>
-
   </div>
 </template>
 
 <script>
   import Header from '@/components/Header'
   import GridManager from '@/components/GridManager'
-  import Modal from '@/components/Modal'
 
-  const getDeviceStatusInfo = function (params) {
+  const getEJDeviceMoveInfo = function (params) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       // GridManager Error  请求数据失败！response中的必须为数组类型，可通过配置项[dataKey]修改字段名 data!!!!!
@@ -65,12 +63,12 @@
     })
   }
   export default {
-    name: "DeviceStatusInfo",
-    info: ' ',
+    name: "EJDeviceMoveInfo",
     data() {
       return {
+        into: ' ',
         formData: {
-          htlb: ''
+          sblb: ''
         },
         DEVICE_LIST: [{
           text: 'RFID4G',
@@ -105,7 +103,7 @@
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'DeviceStatusInfo',
+          gridManagerName: 'EJDeviceMoveInfo',
           height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
@@ -114,7 +112,7 @@
           ajax_data: (settings, params) => {
             console.log('ajax_data请求时带的参数为')
             console.log(params)
-            return getDeviceStatusInfo(params)
+            return getEJDeviceMoveInfo(params)
           },
           ajax_type: 'POST',
           supportMenu: true,
@@ -126,60 +124,80 @@
           // 绑定服务器返回数据总条数
           totalsKey: 'total',
           pageSize: 30,
-          columnData: [
+          columnData: [{
+            text: '一级设备编号',
+            key: 'sbbh',
+            width: '190px',
+            align: 'center',
+            template: '<span>21009872622222131000123</span>'
+          }, {
+            text: '二级设备编号',
+            key: 'ejbh',
+            width: '110px',
+            align: 'center',
+            template: '<span>000000000001</span>'
+          }, {
+            text: '安装位置',
+            remind: '二级设备安装位置',
+            key: 'ejsbazwz',
+            width: '155px',
+            align: 'center',
+            template: '<span>宝杨路停车场一层3号门</span>'
+          }, {
+            text: '迁移日期',
+            remind: '月/日/年',
+            key: 'sbqyrq',
+            width: '90px',
+            align: 'center',
+            template: '<span>6/5/2019</span>'
+          },
             {
-              text: '编号',
-              key: 'sbjyh',
-              width: '220px',
+              text: '原始地址',
+              key: 'sbysdz',
+              width: '150px',
               align: 'center',
-              template: '<span>01234567890123456789123</span>'
+              template: '<span>宝杨路停车场一层2号门</span>'
             }, {
-              text: '设备自编号',
-              key: 'sbzbh',
-              width: '140px',
+              text: '目标地址',
+              key: 'sbmbdz',
+              width: '150px',
               align: 'center',
-              template: '<span>012345678912</span>'
+              template: '<span>宝杨路停车场二层1号门</span>'
             }, {
-              text: '上线日期',
-              remind: '月/日/年',
-              key: 'sxrq',
-              width: '110px',
+              text: '操作工号',
+              remind: '操作人员工号',
+              key: 'qyczrygh',
+              width: '50px',
               align: 'center',
-              template: '<span>4/30/2019</span>'
+              template: '<span>10001</span>'
             }, {
-              text: '安装位置',
-              key: 'sbazwz',
-              width: '230px',
+              text: '姓名',
+              remind: '操作人员姓名',
+              key: 'qyczryxm',
+              width: '60px',
               align: 'center',
-              template: '<span>巴士一公司二车队101线路沪A30125车头</span>'
+              template: '<span>鹧鸪哨</span>'
             }, {
-              text: '线路名称',
-              key: 'xlmc',
-              width: '110px',
+              text: '审批工号',
+              remind: '审批人员工号',
+              key: 'qysprygh',
+              width: '50px',
               align: 'center',
-              template: '<span>1001</span>'
+              template: '<span>20001</span>'
             }, {
-              text: '运营车辆上线情况',
-              key: 'yyclsxqk',
-              width: '140px',
+              text: '姓名',
+              key: 'qyspryxm',
+              remind: '审批人员姓名',
+              width: '60px',
               align: 'center',
-              template: '<span>已上线</span>'
-            },
-            {
-              text: '车载一体机工作状态',
-              key: 'gzzt',
-              width: '140px',
+              template: '<span>陈玉楼</span>'
+            }, {
+              text: '迁移备注',
+              key: 'qybz',
+              width: '130px',
               align: 'center',
-              template: '<span>正在维修</span>'
-            },
-            {
-              text: '车载一体机故障总次数',
-              key: 'gzcshj',
-              width: '180px',
-              align: 'center',
-              template: '<router-link to="/bus/status/getYTJFaultReason">2(不上线、GPS、DVR)</router-link>'
-            },
-            {
+              template: '<span>迁移一切顺利</span>'
+            }, {
               text: '<span style="color: gray">操作</span>',
               key: 'action',
               align: 'center',
@@ -195,8 +213,7 @@
     },
     components: {
       Header,
-      GridManager,
-      Modal
+      GridManager
     },
     methods: {
       onSearch: function () {
@@ -210,6 +227,13 @@
       },
       check_form: function () {
         console.log('表单检查函数')
+      },
+      submit_data: function () {
+        console.log('模态框确定时间 应在此时检查表单输入规范')
+        // 首先validator检查 调用check_form()
+        // 如果输入规范 addContract接口提交数据 若提交成功关闭模态
+        $('#modal_addDeviceMoveInfo').modal('toggle')
+        // 如果输入不规范 validator自会处理
       },
       onReset: function () {
 

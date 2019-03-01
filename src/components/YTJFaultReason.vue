@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="title">
-      设备工作状态
+      一体机故障原因统计
     </div>
     <section class="search-area">
       <div class="sa-ele">
@@ -25,16 +25,14 @@
         ref="grid"
       ></GridManager>
     </section>
-
   </div>
 </template>
 
 <script>
   import Header from '@/components/Header'
   import GridManager from '@/components/GridManager'
-  import Modal from '@/components/Modal'
 
-  const getDeviceStatusInfo = function (params) {
+  const getYTJFaultReason = function (params) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       // GridManager Error  请求数据失败！response中的必须为数组类型，可通过配置项[dataKey]修改字段名 data!!!!!
@@ -65,12 +63,12 @@
     })
   }
   export default {
-    name: "DeviceStatusInfo",
-    info: ' ',
+    name: "YTJFaultReason",
     data() {
       return {
+        info: ' ',
         formData: {
-          htlb: ''
+          sblb: ''
         },
         DEVICE_LIST: [{
           text: 'RFID4G',
@@ -105,7 +103,7 @@
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'DeviceStatusInfo',
+          gridManagerName: 'YTJFaultReason',
           height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
@@ -114,7 +112,7 @@
           ajax_data: (settings, params) => {
             console.log('ajax_data请求时带的参数为')
             console.log(params)
-            return getDeviceStatusInfo(params)
+            return getYTJFaultReason(params)
           },
           ajax_type: 'POST',
           supportMenu: true,
@@ -126,77 +124,122 @@
           // 绑定服务器返回数据总条数
           totalsKey: 'total',
           pageSize: 30,
-          columnData: [
+          columnData: [{
+            text: '日期',
+            remind: '月/日/年',
+            key: 'rq',
+            width: '90px',
+            align: 'center',
+            template: '<span>11/11/2019</span>'
+          }, {
+            text: '故障单号',
+            key: 'dh',
+            width: '120px',
+            align: 'center',
+            template: '<span>012345678912</span>'
+          },
             {
-              text: '编号',
-              key: 'sbjyh',
-              width: '220px',
+              text: '巴士通总计',
+              key: 'bst',
+              width: '70px',
               align: 'center',
-              template: '<span>01234567890123456789123</span>'
-            }, {
-              text: '设备自编号',
-              key: 'sbzbh',
-              width: '140px',
-              align: 'center',
-              template: '<span>012345678912</span>'
-            }, {
-              text: '上线日期',
-              remind: '月/日/年',
-              key: 'sxrq',
-              width: '110px',
-              align: 'center',
-              template: '<span>4/30/2019</span>'
-            }, {
-              text: '安装位置',
-              key: 'sbazwz',
-              width: '230px',
-              align: 'center',
-              template: '<span>巴士一公司二车队101线路沪A30125车头</span>'
-            }, {
-              text: '线路名称',
-              key: 'xlmc',
-              width: '110px',
-              align: 'center',
-              template: '<span>1001</span>'
-            }, {
-              text: '运营车辆上线情况',
-              key: 'yyclsxqk',
-              width: '140px',
-              align: 'center',
-              template: '<span>已上线</span>'
+              template: '<span>1</span>'
             },
             {
-              text: '车载一体机工作状态',
-              key: 'gzzt',
-              width: '140px',
+              text: '漂移',
+              key: 'py',
+              width: '60px',
               align: 'center',
-              template: '<span>正在维修</span>'
+              template: '<span>0</span>'
+            }, {
+              text: '不报站',
+              key: 'bbz',
+              width: '70px',
+              align: 'center',
+              template: '<span>0</span>'
+            }, {
+              text: '电子路单',
+              remind: '电子路单不生成或错误',
+              key: 'dzld',
+              width: '70px',
+              align: 'center',
+              template: '<span>0</span>'
+            }, {
+              text: '推送',
+              remind: '不推送车号和时间',
+              key: 'bts',
+              width: '60px',
+              align: 'center',
+              template: '<span>0</span>'
             },
             {
-              text: '车载一体机故障总次数',
-              key: 'gzcshj',
-              width: '180px',
+              text: '不切换路线',
+              key: 'bqh',
+              width: '70px',
               align: 'center',
-              template: '<router-link to="/bus/status/getYTJFaultReason">2(不上线、GPS、DVR)</router-link>'
-            },
-            {
-              text: '<span style="color: gray">操作</span>',
-              key: 'action',
+              template: '<span>0</span>'
+            }, {
+              text: '走字屏',
+              remind: '走字屏不显示或显示错误',
+              key: 'zzp',
+              width: '70px',
               align: 'center',
-              width: '100px',
-              // 使用@click
-              template: () => {
-                return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
-                  '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
-              }
+              template: '<span>0</span>'
+            }, {
+              text: '不显示班次',
+              key: 'bxsbc',
+              width: '70px',
+              align: 'center',
+              template: '<span>0</span>'
+            }, {
+              text: '无法签到签退',
+              key: 'gpsqdqt',
+              width: '70px',
+              align: 'center',
+              template: '<span>1</span>'
+            }, {
+              text: '其他',
+              key: 'gpsqt',
+              width: '60px',
+              align: 'center',
+              template: '<span>0</span>'
+            }, {
+              text: '流媒体总计',
+              key: 'dvr',
+              width: '70px',
+              align: 'center',
+              template: '<span>2</span>'
+            }, {
+              text: '无图像',
+              key: 'wtx',
+              width: '70px',
+              align: 'center',
+              template: '<span>1</span>'
+            }, {
+              text: '导不出录像',
+              key: 'dlx',
+              width: '70px',
+              align: 'center',
+              template: '<span>1</span>'
+            }, {
+              text: '无法签到签退',
+              key: 'dvrqdqt',
+              width: '70px',
+              align: 'center',
+              template: '<span>1</span>'
+            }, {
+              text: '其他',
+              key: 'dvrqt',
+              width: '60px',
+              align: 'center',
+              template: '<span>0</span>'
             }]
         }
       }
     },
     components: {
       Header,
-      GridManager,
-      Modal
+      GridManager
     },
     methods: {
       onSearch: function () {

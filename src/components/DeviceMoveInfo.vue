@@ -135,7 +135,7 @@
               key: 'sbqydh',
               width: '120px',
               align: 'center',
-              template: '<span>012345678912</span>'
+              template: '<router-link to="/bus/changedata/getEJDeviceMoveInfo">012345678912</router-link>'
             },
             {
               text: '编号',
@@ -149,7 +149,7 @@
               key: 'sbzbh',
               width: '110px',
               align: 'center',
-              template: '<a @click="into_ejsbInfo">123456789012</a>'
+              template: '<span>123456789012</span>'
             }, {
               text: '安装位置',
               key: 'sbazwz',
@@ -253,101 +253,12 @@
       onReset: function () {
 
       },
-      into_ejsbInfo: function () {
-        this.$refs['grid'].$el.GM('destroy')
-        this.option.columnData = [
-          {
-            text: '一级设备编号',
-            key: 'sbbh',
-            width: '190px',
-            align: 'center',
-            template: '<span>21009872622222131000123</span>'
-          }, {
-            text: '二级设备编号',
-            key: 'ejbh',
-            width: '130px',
-            align: 'center',
-            template: '<span>000000000001</span>'
-          }, {
-            text: '安装位置',
-            remind: '二级设备安装位置',
-            key: 'ejsbazwz',
-            width: '155px',
-            align: 'center',
-            template: '<span>宝杨路停车场一层3号门</span>'
-          }, {
-            text: '迁移日期',
-            remind: '月/日/年',
-            key: 'sbqyrq',
-            width: '90px',
-            align: 'center',
-            template: '<span>6/5/2019</span>'
-          },
-          {
-            text: '原始地址',
-            key: 'sbysdz',
-            width: '150px',
-            align: 'center',
-            template: '<span>宝杨路停车场一层2号门</span>'
-          }, {
-            text: '目标地址',
-            key: 'sbmbdz',
-            width: '150px',
-            align: 'center',
-            template: '<span>宝杨路停车场二层1号门</span>'
-          }, {
-            text: '操作工号',
-            remind: '操作人员工号',
-            key: 'qyczrygh',
-            width: '50px',
-            align: 'center',
-            template: '<span>10001</span>'
-          }, {
-            text: '姓名',
-            remind: '操作人员姓名',
-            key: 'qyczryxm',
-            width: '60px',
-            align: 'center',
-            template: '<span>鹧鸪哨</span>'
-          }, {
-            text: '审批工号',
-            remind: '审批人员工号',
-            key: 'qysprygh',
-            width: '50px',
-            align: 'center',
-            template: '<span>20001</span>'
-          }, {
-            text: '姓名',
-            key: 'qyspryxm',
-            remind: '审批人员姓名',
-            width: '60px',
-            align: 'center',
-            template: '<span>陈玉楼</span>'
-          }, {
-            text: '迁移备注',
-            key: 'qybz',
-            width: '130px',
-            align: 'center',
-            template: '<span>迁移一切顺利</span>'
-          }, {
-            text: '<span style="color: gray">操作</span>',
-            key: 'action',
-            align: 'center',
-            width: '100px',
-            // 使用@click
-            template: () => {
-              return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
-                '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
-            }
-          }]
-        this.$refs['grid'].$el.GM('init', this.option)
-      },
       onDestroy: function () {
         this.$refs['grid'].$el.GM('destroy')
-      },
-      beforeDestroy() {
-        this.onDestroy()
       }
+    },
+    beforeDestroy() {
+      this.onDestroy()
     }
   }
 </script>

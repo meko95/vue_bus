@@ -226,7 +226,16 @@
       },
       onAdd: function () {
 
+      },
+      onReset: function () {
+
+      },
+      onDestroy: function () {
+        this.$refs['grid'].$el.GM('destroy')
       }
+    },
+    beforeDestroy(){
+      this.onDestroy()
     }
   }
 </script>

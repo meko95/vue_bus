@@ -12,8 +12,10 @@ import DeviceInstallInfo from '@/components/DeviceInstallInfo'
 import DeviceType from '@/components/DeviceType'
 
 import DeviceMoveInfo from '@/components/DeviceMoveInfo'
+import EJDeviceMoveInfo from '@/components/EJDeviceMoveInfo'
 
 import DeviceStatusInfo from '@/components/DeviceStatusInfo'
+import YTJFaultReason from '@/components/YTJFaultReason'
 import DeviceFaultStatistics from '@/components/DeviceFaultStatistics'
 
 Vue.use(Router)
@@ -79,6 +81,11 @@ export default new Router({
       component:DeviceMoveInfo
     },
     {
+      path:'/bus/changedata/getEJDeviceMoveInfo',
+      name:'EJDeviceMoveInfo',
+      component:EJDeviceMoveInfo
+    },
+    {
       path:'/bus/status',
       redirect:'/bus/status/getDeviceStatusInfo'
     },
@@ -86,6 +93,11 @@ export default new Router({
       path:'/bus/status/getDeviceStatusInfo',
       name:'DeviceStatusInfo',
       component:DeviceStatusInfo
+    },
+    {
+      path:'/bus/status/getYTJFaultReason',
+      name:'YTJFaultReason',
+      component:YTJFaultReason
     },
     {
       path:'/bus/status/getDeviceFaultStatistics',
