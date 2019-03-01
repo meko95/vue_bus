@@ -18,6 +18,15 @@ import DeviceStatusInfo from '@/components/DeviceStatusInfo'
 import YTJFaultReason from '@/components/YTJFaultReason'
 import DeviceFaultStatistics from '@/components/DeviceFaultStatistics'
 
+import DeviceInspect from '@/components/DeviceInspect'
+import DeviceRepair from '@/components/DeviceRepair'
+import DeviceRepairStatistics from '@/components/DeviceRepairStatistics'
+
+import DeviceFixInfo from '@/components/DeviceFixInfo'
+
+import DeviceFixStatistics from '@/components/DeviceFixStatistics'
+import DeviceAvailStatistics from '@/components/DeviceAvailStatistics'
+
 Vue.use(Router)
 
 export default new Router({
@@ -103,6 +112,48 @@ export default new Router({
       path:'/bus/status/getDeviceFaultStatistics',
       name:'DeviceFaultStatistics',
       component:DeviceFaultStatistics
+    },
+    {
+      path:'/bus/check',
+      redirect:'/bus/check/getDeviceInspect'
+    },
+    {
+      path:'/bus/check/getDeviceInspect',
+      name:'DeviceInspect',
+      component:DeviceInspect
+    },
+    {
+      path:'/bus/check/getDeviceRepair',
+      name:'DeviceRepair',
+      component:DeviceRepair
+    },
+    {
+      path:'/bus/check/getDeviceRepairStatistics',
+      name:'DeviceRepairStatistics',
+      component:DeviceRepairStatistics
+    },
+    {
+      path:'/bus/fix',
+      redirect:'/bus/fix/getDeviceFixInfo'
+    },
+    {
+      path:'/bus/fix/getDeviceFixInfo',
+      name:'DeviceFixInfo',
+      component:DeviceFixInfo
+    },
+    {
+      path:'/bus/quality',
+      redirect:'/bus/fix/getDeviceFixStatistics'
+    },
+    {
+      path:'/bus/quality/getDeviceFixStatistics',
+      name:'DeviceFixStatistics',
+      component:DeviceFixStatistics
+    },
+    {
+      path:'/bus/quality/getDeviceAvailStatistics',
+      name:'DeviceAvailStatistics',
+      component:DeviceFixStatistics
     }
   ]
 })

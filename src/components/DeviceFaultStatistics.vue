@@ -99,13 +99,13 @@
         ;
         return data;
       }
-
       var date = ['2016/11/1', '2016/11/2', '2016/11/3', '2016/11/4', '2016/11/5', '2016/11/6', '2016/11/7', '2016/11/8', '2016/11/9', '2016/11/10',
         '2016/11/11', '2016/11/12', '2016/11/13', '2016/11/14', '2016/11/15', '2016/11/16', '2016/11/17', '2016/11/18'
         , '2016/11/19', '2016/11/20', '2016/11/21', '2016/11/22', '2016/11/23', '2016/11/24', '2016/11/25', '2016/11/26', '2016/11/27'
         , '2016/11/28', '2016/11/29', '2016/11/30'];
       var myChart = echarts.init(document.getElementById('charts'))
       var option = {
+        color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d','#005eaa','#fc97af'],
         title: {
           text: '不上线故障发生次数'
         },
@@ -169,28 +169,24 @@
             type: 'bar',
             stack: '总量',
             barMaxWidth: 30,
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '天线断',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: 'SIM卡欠费',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           }
         ]
@@ -198,6 +194,7 @@
       myChart.setOption(option)
       var myChart1 = echarts.init(document.getElementById('charts1'))
       var option1 = {
+        color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d','#005eaa','#fc97af','#eb8146','#8c6ac4','#32a487'],
         title: {
           text: '巴士通（GPS）故障发生次数'
         },
@@ -261,60 +258,51 @@
             type: 'bar',
             stack: '总量',
             barMaxWidth: 30,
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '不报站',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '电子路单不生成或出错',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '超级VIP会员',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '不推送车号和时间',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },{
             name: '不切换路线',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },{
             name: '走字屏不显示或显示错误',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '不显示班次',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },{
             name: '无法签到签退',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           }
         ]
@@ -322,6 +310,7 @@
       myChart1.setOption(option1)
       var myChart2 = echarts.init(document.getElementById('charts2'))
       var option2 = {
+        color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d','#005eaa','#fc97af'],
         title: {
           text: '流媒体（DVR）故障发生次数'
         },
@@ -385,28 +374,24 @@
             type: 'bar',
             stack: '总量',
             barMaxWidth: 30,
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '导不出录像',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '倒车视屏故障',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
             stack: '总量',
-            //itemStyle: {normal: {areaStyle: {type: 'default'}}},
             data: my_data()
           }
         ]
@@ -427,9 +412,7 @@
   }
 
   #charts,#charts1,#charts2 {
-    height: 500px;
-    width: 50%;
-    float: left;
+    height: 636px;
   }
 
   div {

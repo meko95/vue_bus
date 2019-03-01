@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="title">
-      设备工作状态
+      巡检信息
     </div>
     <section class="search-area">
       <div class="sa-ele">
@@ -31,9 +31,8 @@
 <script>
   import Header from '@/components/Header'
   import GridManager from '@/components/GridManager'
-  import Modal from '@/components/Modal'
 
-  const getDeviceStatusInfo = function (params) {
+  const getDeviceInspect = function (params) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       // GridManager Error  请求数据失败！response中的必须为数组类型，可通过配置项[dataKey]修改字段名 data!!!!!
@@ -64,12 +63,12 @@
     })
   }
   export default {
-    name: "DeviceStatusInfo",
-    info: ' ',
+    name: "DeviceInspect",
     data() {
       return {
+        info: ' ',
         formData: {
-          htlb: ''
+          sblb: ''
         },
         DEVICE_LIST: [{
           text: 'RFID4G',
@@ -104,7 +103,7 @@
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'DeviceStatusInfo',
+          gridManagerName: 'DeviceInspect',
           height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
@@ -113,7 +112,7 @@
           ajax_data: (settings, params) => {
             console.log('ajax_data请求时带的参数为')
             console.log(params)
-            return getDeviceStatusInfo(params)
+            return getDeviceInspect(params)
           },
           ajax_type: 'POST',
           supportMenu: true,
@@ -127,56 +126,99 @@
           pageSize: 30,
           columnData: [
             {
-              text: '编号',
-              key: 'sbjyh',
-              width: '220px',
-              align: 'center',
-              template: '<span>01234567890123456789123</span>'
-            }, {
-              text: '设备自编号',
-              key: 'sbzbh',
-              width: '140px',
+              text: '巡检单号',
+              key: 'sbxjdh',
+              width: '113px',
               align: 'center',
               template: '<span>012345678912</span>'
-            }, {
-              text: '上线日期',
-              remind: '月/日/年',
-              key: 'sxrq',
-              width: '110px',
-              align: 'center',
-              template: '<span>4/30/2019</span>'
-            }, {
-              text: '安装位置',
-              key: 'sbazwz',
-              width: '230px',
-              align: 'center',
-              template: '<span>巴士一公司二车队101线路沪A30125车头</span>'
-            }, {
-              text: '线路名称',
-              key: 'xlmc',
-              width: '110px',
-              align: 'center',
-              template: '<span>1001</span>'
-            }, {
-              text: '运营车辆上线情况',
-              key: 'yyclsxqk',
-              width: '140px',
-              align: 'center',
-              template: '<span>已上线</span>'
             },
             {
-              text: '车载一体机工作状态',
-              key: 'gzzt',
-              width: '140px',
+              text: '设备编号',
+              key: 'sbjyh',
+              width: '190px',
               align: 'center',
-              template: '<span>正在维修</span>'
+              template: '<span>01234567890123456789123</span>'
             },
             {
-              text: '车载一体机故障总次数',
-              key: 'gzcshj',
-              width: '180px',
+              text: '巡检设备自编号',
+              key: 'xjsbzbh',
+              width: '90px',
               align: 'center',
-              template: '<router-link to="/bus/status/getYTJFaultReason">2(不上线、GPS、DVR)</router-link>'
+              template: '<span>012345678912</span>'
+            },
+            {
+              text: '设备状态',
+              key: 'sbzt',
+              width: '100px',
+              align: 'center',
+              template: '<span>正常运行&nbsp;<div class="glyphicon glyphicon-ok"></div></span>'
+            },
+            {
+              text: '巡检时间',
+              key: 'sbxjsj',
+              width: '124px',
+              align: 'center',
+              template: '<span>11/11/2019 14:00</span>'
+            },
+            {
+              text: '巡检备注',
+              key: 'sbxjbz',
+              width: '90px',
+              align: 'center',
+              template: '<span>无备注</span>'
+            },
+            {
+              text: '条形码',
+              remind: '设备条形码',
+              key: 'sbtxm',
+              width: '100px',
+              align: 'center',
+              template: '<span>0123456789</span>'
+            },
+            {
+              text: '二维码',
+              remind: '设备二维码',
+              key: 'sbewm',
+              width: '100px',
+              align: 'center',
+              template: '<span>0123456789</span>'
+            },
+            {
+              text: '巡检工号',
+              remind: '巡检人工号',
+              key: 'xjrgh',
+              width: '70px',
+              align: 'center',
+              template: '<span>00001</span>'
+            },
+            {
+              text: '巡检人',
+              remind: '巡检人姓名',
+              key: 'xjrxm',
+              width: '70px',
+              align: 'center',
+              template: '<span>鹧鸪哨</span>'
+            },
+            {
+              text: '部门主管',
+              key: 'bmzgmc',
+              width: '70px',
+              align: 'center',
+              template: '<span>胡八一</span>'
+            },
+            {
+              text: '供应商',
+              key: 'sbgys',
+              width: '70px',
+              align: 'center',
+              template: '<span>华为</span>'
+            },
+            {
+              text: '集成商',
+              key: 'sbjcs',
+              width: '70px',
+              align: 'center',
+              template: '<span>三星</span>'
             },
             {
               text: '<span style="color: gray">操作</span>',
@@ -188,14 +230,14 @@
                 return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
                   '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
               }
-            }]
+            }
+          ]
         }
       }
     },
     components: {
       Header,
-      GridManager,
-      Modal
+      GridManager
     },
     methods: {
       onSearch: function () {

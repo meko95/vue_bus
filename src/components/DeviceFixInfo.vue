@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="title">
-      设备工作状态
+      查看修理设备
     </div>
     <section class="search-area">
       <div class="sa-ele">
@@ -31,9 +31,8 @@
 <script>
   import Header from '@/components/Header'
   import GridManager from '@/components/GridManager'
-  import Modal from '@/components/Modal'
 
-  const getDeviceStatusInfo = function (params) {
+  const getDeviceFixInfo = function (params) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       // GridManager Error  请求数据失败！response中的必须为数组类型，可通过配置项[dataKey]修改字段名 data!!!!!
@@ -64,12 +63,12 @@
     })
   }
   export default {
-    name: "DeviceStatusInfo",
-    info: ' ',
+    name: "DeviceFixInfo",
     data() {
       return {
+        info: ' ',
         formData: {
-          htlb: ''
+          sblb: ''
         },
         DEVICE_LIST: [{
           text: 'RFID4G',
@@ -104,7 +103,7 @@
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'DeviceStatusInfo',
+          gridManagerName: 'DeviceFixInfo',
           height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
@@ -113,7 +112,7 @@
           ajax_data: (settings, params) => {
             console.log('ajax_data请求时带的参数为')
             console.log(params)
-            return getDeviceStatusInfo(params)
+            return getDeviceFixInfo(params)
           },
           ajax_type: 'POST',
           supportMenu: true,
@@ -121,81 +120,99 @@
             htlb: ''
           },
           // 绑定服务器返回数据的key值
+          // dataKey: 'data',
           dataKey: 'rowsList',
           // 绑定服务器返回数据总条数
           totalsKey: 'total',
           pageSize: 30,
           columnData: [
             {
-              text: '编号',
-              key: 'sbjyh',
-              width: '220px',
-              align: 'center',
-              template: '<span>01234567890123456789123</span>'
-            }, {
-              text: '设备自编号',
-              key: 'sbzbh',
-              width: '140px',
+              text: '维修单号',
+              key: 'sbwxdh',
+              width: '113px',
               align: 'center',
               template: '<span>012345678912</span>'
-            }, {
-              text: '上线日期',
-              remind: '月/日/年',
-              key: 'sxrq',
-              width: '110px',
-              align: 'center',
-              template: '<span>4/30/2019</span>'
-            }, {
-              text: '安装位置',
-              key: 'sbazwz',
-              width: '230px',
-              align: 'center',
-              template: '<span>巴士一公司二车队101线路沪A30125车头</span>'
-            }, {
-              text: '线路名称',
-              key: 'xlmc',
-              width: '110px',
-              align: 'center',
-              template: '<span>1001</span>'
-            }, {
-              text: '运营车辆上线情况',
-              key: 'yyclsxqk',
-              width: '140px',
-              align: 'center',
-              template: '<span>已上线</span>'
             },
             {
-              text: '车载一体机工作状态',
-              key: 'gzzt',
-              width: '140px',
+              text: '原报修单号',
+              key: 'ybxdh',
+              width: '113px',
               align: 'center',
-              template: '<span>正在维修</span>'
+              template: '<span>012345678912</span>'
             },
             {
-              text: '车载一体机故障总次数',
-              key: 'gzcshj',
-              width: '180px',
+              text: '设备编号',
+              key: 'sbjyh',
+              width: '190px',
               align: 'center',
-              template: '<router-link to="/bus/status/getYTJFaultReason">2(不上线、GPS、DVR)</router-link>'
+              template: '<span>01234567890123456789123</span>'
             },
             {
-              text: '<span style="color: gray">操作</span>',
-              key: 'action',
+              text: '修理时间',
+              key: 'xlsj',
+              width: '124px',
               align: 'center',
-              width: '100px',
-              // 使用@click
-              template: () => {
-                return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
-                  '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
-              }
-            }]
+              template: '<span>11/11/2011 11:11</span>'
+            },
+            {
+              text: '修理工时',
+              remind: '单位：小时',
+              key: 'slgs',
+              width: '50px',
+              align: 'center',
+              template: '<span>1.5</span>'
+            },
+            {
+              text: '修复状态',
+              key: 'xgzt',
+              width: '90px',
+              align: 'center',
+              template: '<span>未能修复&nbsp;<div class="glyphicon glyphicon-remove"></div></span>'
+            },
+            {
+              text: '修复方式',
+              key: 'xffs',
+              width: '90px',
+              align: 'center',
+              template: '<span>现场修理&nbsp;<div class="glyphicon glyphicon-briefcase"></div></span>'
+            },
+            {
+              text: '备注',
+              remind: '修复过程备注',
+              key: 'xfgcbz',
+              width: '300px',
+              align: 'center',
+              template: '<span>一切顺利，没什么大问题，临时采购了部分零件</span>'
+            },
+            {
+              text: '修理工号',
+              remind: '修理人工号',
+              key: 'xfrgh',
+              width: '70px',
+              align: 'center',
+              template: '<span>00001</span>'
+            },
+            {
+              text: '修理人',
+              key: 'xlrxm',
+              width: '60px',
+              align: 'center',
+              template: '<span>鹧鸪哨</span>'
+            },
+            {
+              text: '集成商',
+              key: 'jcsmc',
+              width: '45px',
+              align: 'center',
+              template: '<span>新新媒体所</span>'
+            }
+          ]
         }
       }
     },
     components: {
       Header,
-      GridManager,
-      Modal
+      GridManager
     },
     methods: {
       onSearch: function () {
@@ -209,6 +226,12 @@
       },
       check_form: function () {
         console.log('表单检查函数')
+      },
+      submit_data: function () {
+        console.log('模态框确定时间 应在此时检查表单输入规范')
+        // 首先validator检查 调用check_form()
+        // 如果输入规范 addContract接口提交数据 若提交成功关闭模态
+        // 如果输入不规范 validator自会处理
       },
       onReset: function () {
 
