@@ -7,7 +7,9 @@
 
 > Vue表单登录验证完成 难点：Vue全局前置路由
 
-> Bootstrap Modal
+> Bootstrap
+
+> echarts
 ## Build Setup
 
 ``` bash
