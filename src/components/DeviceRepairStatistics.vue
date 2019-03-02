@@ -37,7 +37,7 @@
         }
         return data;
       }
-      const deviceType = ['RFID4G', '车辆标签', 'RFID4G（场站）', '车载一体机', '55寸预报屏', '站杆预报屏', '报到机', '一程一检', '站点通']
+
       const data = ['2016/11/1', '2016/11/2', '2016/11/3', '2016/11/4', '2016/11/5', '2016/11/6', '2016/11/7', '2016/11/8', '2016/11/9', '2016/11/10',
         '2016/11/11', '2016/11/12', '2016/11/13', '2016/11/14', '2016/11/15', '2016/11/16', '2016/11/17', '2016/11/18'
         , '2016/11/19', '2016/11/20', '2016/11/21', '2016/11/22', '2016/11/23', '2016/11/24', '2016/11/25', '2016/11/26', '2016/11/27'
@@ -52,10 +52,10 @@
       const ycyjChart = echarts.init(document.getElementById('ycyj'))
       const zdtChart = echarts.init(document.getElementById('zdt'))
       const rfid4gOption = {
-        title:{
-          text:'RFID4G',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: 'RFID4G',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -123,46 +123,46 @@
             name: '系统预警',
             type: 'bar',
             barMaxWidth: 40,
-            stack:'RFID4G',
+            stack: 'RFID4G',
             data: my_data()
           },
           {
             name: '平台报修',
             type: 'bar',
-            stack:'RFID4G',
+            stack: 'RFID4G',
             data: my_data()
           },
           {
             name: '微信报修',
             type: 'bar',
-            stack:'RFID4G',
+            stack: 'RFID4G',
             data: my_data()
           },
           {
             name: 'QQ报修',
             type: 'bar',
-            stack:'RFID4G',
+            stack: 'RFID4G',
             data: my_data()
           },
           {
             name: '电话报修',
             type: 'bar',
-            stack:'RFID4G',
+            stack: 'RFID4G',
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
-            stack:'RFID4G',
+            stack: 'RFID4G',
             data: my_data()
           }
         ]
       }
       const clbqChartOption = {
-        title:{
-          text:'车辆标签',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: '车辆标签',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -176,7 +176,7 @@
           type: 'scroll',
           orient: 'horizontal',
           left: 43,
-          top: 23,
+          top: 25,
           bottom: 20,
           data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
         },
@@ -264,10 +264,10 @@
           }]
       }
       const rfid4gczChartOption = {
-        title:{
-          text:'RFID4G（场站）',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: 'RFID4G（场站）',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -334,45 +334,45 @@
           name: '系统预警',
           type: 'bar',
           barMaxWidth: 40,
-          stack:'RFID4G（场站）',
+          stack: 'RFID4G（场站）',
           data: my_data()
         },
           {
             name: '平台报修',
             type: 'bar',
-            stack:'RFID4G（场站）',
+            stack: 'RFID4G（场站）',
             data: my_data()
           },
           {
             name: '微信报修',
             type: 'bar',
-            stack:'RFID4G（场站）',
+            stack: 'RFID4G（场站）',
             data: my_data()
           },
           {
             name: 'QQ报修',
             type: 'bar',
-            stack:'RFID4G（场站）',
+            stack: 'RFID4G（场站）',
             data: my_data()
           },
           {
             name: '电话报修',
             type: 'bar',
-            stack:'RFID4G（场站）',
+            stack: 'RFID4G（场站）',
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
-            stack:'RFID4G（场站）',
+            stack: 'RFID4G（场站）',
             data: my_data()
           }]
       }
       const czytjChartOption = {
-        title:{
-          text:'车载一体机',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: '车载一体机',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -386,7 +386,7 @@
           type: 'scroll',
           orient: 'horizontal',
           left: 43,
-          top: 23,
+          top: 25,
           bottom: 20,
           data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
         },
@@ -439,45 +439,45 @@
           name: '系统预警',
           type: 'bar',
           barMaxWidth: 40,
-          stack:'车载一体机',
+          stack: '车载一体机',
           data: my_data()
         },
           {
             name: '平台报修',
             type: 'bar',
-            stack:'车载一体机',
+            stack: '车载一体机',
             data: my_data()
           },
           {
             name: '微信报修',
             type: 'bar',
-            stack:'车载一体机',
+            stack: '车载一体机',
             data: my_data()
           },
           {
             name: 'QQ报修',
             type: 'bar',
-            stack:'车载一体机',
+            stack: '车载一体机',
             data: my_data()
           },
           {
             name: '电话报修',
             type: 'bar',
-            stack:'车载一体机',
+            stack: '车载一体机',
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
-            stack:'车载一体机',
+            stack: '车载一体机',
             data: my_data()
           }]
       }
       const fcybpChartOption = {
-        title:{
-          text:'55寸预报屏',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: '55寸预报屏',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -491,7 +491,7 @@
           type: 'scroll',
           orient: 'horizontal',
           left: 43,
-          top: 23,
+          top: 25,
           bottom: 20,
           data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
         },
@@ -515,7 +515,7 @@
         toolbox: {
           show: true,
           right: 53,
-          top: 20,
+          top: 25,
           feature: {
             mark: {show: true},
             magicType: {show: true, type: ['tiled']},
@@ -544,45 +544,45 @@
           name: '系统预警',
           type: 'bar',
           barMaxWidth: 40,
-          stack:'55寸预报屏',
+          stack: '55寸预报屏',
           data: my_data()
         },
           {
             name: '平台报修',
             type: 'bar',
-            stack:'55寸预报屏',
+            stack: '55寸预报屏',
             data: my_data()
           },
           {
             name: '微信报修',
             type: 'bar',
-            stack:'55寸预报屏',
+            stack: '55寸预报屏',
             data: my_data()
           },
           {
             name: 'QQ报修',
             type: 'bar',
-            stack:'55寸预报屏',
+            stack: '55寸预报屏',
             data: my_data()
           },
           {
             name: '电话报修',
             type: 'bar',
-            stack:'55寸预报屏',
+            stack: '55寸预报屏',
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
-            stack:'55寸预报屏',
+            stack: '55寸预报屏',
             data: my_data()
           }]
       }
       const zgybpChartOption = {
-        title:{
-          text:'站杆预报屏',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: '站杆预报屏',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -596,7 +596,7 @@
           type: 'scroll',
           orient: 'horizontal',
           left: 43,
-          top: 23,
+          top: 25,
           bottom: 20,
           data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
         },
@@ -649,45 +649,45 @@
           name: '系统预警',
           type: 'bar',
           barMaxWidth: 40,
-          stack:'站杆预报屏',
+          stack: '站杆预报屏',
           data: my_data()
         },
           {
             name: '平台报修',
             type: 'bar',
-            stack:'站杆预报屏',
+            stack: '站杆预报屏',
             data: my_data()
           },
           {
             name: '微信报修',
             type: 'bar',
-            stack:'站杆预报屏',
+            stack: '站杆预报屏',
             data: my_data()
           },
           {
             name: 'QQ报修',
             type: 'bar',
-            stack:'站杆预报屏',
+            stack: '站杆预报屏',
             data: my_data()
           },
           {
             name: '电话报修',
             type: 'bar',
-            stack:'站杆预报屏',
+            stack: '站杆预报屏',
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
-            stack:'站杆预报屏',
+            stack: '站杆预报屏',
             data: my_data()
           }]
       }
       const bdjChartOption = {
-        title:{
-          text:'报到机',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: '报到机',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -701,7 +701,7 @@
           type: 'scroll',
           orient: 'horizontal',
           left: 43,
-          top: 23,
+          top: 25,
           bottom: 20,
           data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
         },
@@ -754,45 +754,45 @@
           name: '系统预警',
           type: 'bar',
           barMaxWidth: 40,
-          stack:'报到机',
+          stack: '报到机',
           data: my_data()
         },
           {
             name: '平台报修',
             type: 'bar',
-            stack:'报到机',
+            stack: '报到机',
             data: my_data()
           },
           {
             name: '微信报修',
             type: 'bar',
-            stack:'报到机',
+            stack: '报到机',
             data: my_data()
           },
           {
             name: 'QQ报修',
             type: 'bar',
-            stack:'报到机',
+            stack: '报到机',
             data: my_data()
           },
           {
             name: '电话报修',
             type: 'bar',
-            stack:'报到机',
+            stack: '报到机',
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
-            stack:'报到机',
+            stack: '报到机',
             data: my_data()
           }]
       }
       const ycyjChartOption = {
-        title:{
-          text:'一程一检',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: '一程一检',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -806,7 +806,7 @@
           type: 'scroll',
           orient: 'horizontal',
           left: 43,
-          top: 23,
+          top: 25,
           bottom: 20,
           data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
         },
@@ -859,45 +859,45 @@
           name: '系统预警',
           type: 'bar',
           barMaxWidth: 40,
-          stack:'一程一检',
+          stack: '一程一检',
           data: my_data()
         },
           {
             name: '平台报修',
             type: 'bar',
-            stack:'一程一检',
+            stack: '一程一检',
             data: my_data()
           },
           {
             name: '微信报修',
             type: 'bar',
-            stack:'一程一检',
+            stack: '一程一检',
             data: my_data()
           },
           {
             name: 'QQ报修',
             type: 'bar',
-            stack:'一程一检',
+            stack: '一程一检',
             data: my_data()
           },
           {
             name: '电话报修',
             type: 'bar',
-            stack:'一程一检',
+            stack: '一程一检',
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
-            stack:'一程一检',
+            stack: '一程一检',
             data: my_data()
           }]
       }
       const zdtChartOption = {
-        title:{
-          text:'站点通',
-          textStyle:{
-            fontSize:22
+        title: {
+          text: '站点通',
+          textStyle: {
+            fontSize: 22
           }
         },
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
@@ -911,7 +911,7 @@
           type: 'scroll',
           orient: 'horizontal',
           left: 43,
-          top: 23,
+          top: 25,
           bottom: 23,
           data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
         },
@@ -964,37 +964,37 @@
           name: '系统预警',
           type: 'bar',
           barMaxWidth: 40,
-          stack:'站点通',
+          stack: '站点通',
           data: my_data()
         },
           {
             name: '平台报修',
             type: 'bar',
-            stack:'站点通',
+            stack: '站点通',
             data: my_data()
           },
           {
             name: '微信报修',
             type: 'bar',
-            stack:'站点通',
+            stack: '站点通',
             data: my_data()
           },
           {
             name: 'QQ报修',
             type: 'bar',
-            stack:'站点通',
+            stack: '站点通',
             data: my_data()
           },
           {
             name: '电话报修',
             type: 'bar',
-            stack:'站点通',
+            stack: '站点通',
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
-            stack:'站点通',
+            stack: '站点通',
             data: my_data()
           }]
       }
@@ -1020,7 +1020,8 @@
     font-size: 18px;
     line-height: 36px;
   }
-  #rfid4g,#clbq,#rfid4gcz,#czytj,#fcybp,#zgybp,#bdj,#ycyj,#zdt {
+
+  #rfid4g, #clbq, #rfid4gcz, #czytj, #fcybp, #zgybp, #bdj, #ycyj, #zdt {
     height: 636px;
   }
 </style>
