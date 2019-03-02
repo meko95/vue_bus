@@ -122,8 +122,13 @@
                   </router-link>
                 </li>
                 <li>
-                  <router-link to="/bus/quality/getDeviceAvailStatistics">
-                    查看设备完好率
+                  <router-link to="/bus/quality/getDeviceDStatistics">
+                    查看当日统计
+                  </router-link>
+                </li>
+                <li>
+                  <router-link to="/bus/quality/getDeviceMStatistics">
+                    查看当月统计
                   </router-link>
                 </li>
               </ul>
@@ -134,7 +139,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/bus/sys">
+              <router-link to="/bus/sys/getSystemInfo">
                 &nbsp;系统管理&nbsp;
               </router-link>
             </li>

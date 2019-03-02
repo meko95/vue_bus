@@ -25,7 +25,10 @@ import DeviceRepairStatistics from '@/components/DeviceRepairStatistics'
 import DeviceFixInfo from '@/components/DeviceFixInfo'
 
 import DeviceFixStatistics from '@/components/DeviceFixStatistics'
-import DeviceAvailStatistics from '@/components/DeviceAvailStatistics'
+import DeviceDStatistics from '@/components/DeviceDStatistics'
+import DeviceMStatistics from '@/components/DeviceMStatistics'
+
+import System from '@/components/System'
 
 Vue.use(Router)
 
@@ -151,9 +154,23 @@ export default new Router({
       component:DeviceFixStatistics
     },
     {
-      path:'/bus/quality/getDeviceAvailStatistics',
-      name:'DeviceAvailStatistics',
-      component:DeviceFixStatistics
+      path:'/bus/quality/getDeviceDStatistics',
+      name:'DeviceDStatistics',
+      component:DeviceDStatistics
+    },
+    {
+      path:'/bus/quality/getDeviceMStatistics',
+      name:'DeviceMStatistics',
+      component:DeviceMStatistics
+    },
+    {
+      path:'/bus/sys',
+      redirect:'/bus/sys/getSystemInfo'
+    },
+    {
+      path:'/bus/sys/getSystemInfo',
+      name:'System',
+      component:System
     }
   ]
 })

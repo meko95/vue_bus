@@ -6,7 +6,7 @@
   import echarts from 'echarts'
 
   export default {
-    name: "PieFixChart",
+    name: "PieAvailChart",
     props: {
       chartId: String,
       text: String,
@@ -31,7 +31,7 @@
           right: 80,
           top: 25,
           bottom: 20,
-          data: ['当天修复', '次日修复', '3天内修复', '超过3天修复', '不能修复', '更换设备'],
+          data: ['当日故障次数', '当月累计故障次数', '当日完好率', '当月平均完好率'],
           selected: true
         },
         series: [

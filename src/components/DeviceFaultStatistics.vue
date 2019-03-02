@@ -103,14 +103,17 @@
         '2016/11/11', '2016/11/12', '2016/11/13', '2016/11/14', '2016/11/15', '2016/11/16', '2016/11/17', '2016/11/18'
         , '2016/11/19', '2016/11/20', '2016/11/21', '2016/11/22', '2016/11/23', '2016/11/24', '2016/11/25', '2016/11/26', '2016/11/27'
         , '2016/11/28', '2016/11/29', '2016/11/30'];
-      var myChart = echarts.init(document.getElementById('charts'))
-      var option = {
+      const myChart = echarts.init(document.getElementById('charts'))
+      const option = {
         color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d','#005eaa','#fc97af'],
         title: {
           text: '不上线故障发生次数'
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
         legend: {
           type: 'scroll',
@@ -168,25 +171,28 @@
             name: '设备故障',
             type: 'bar',
             stack: '总量',
-            barMaxWidth: 30,
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '天线断',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: 'SIM卡欠费',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           }
         ]
@@ -199,14 +205,17 @@
           text: '巴士通（GPS）故障发生次数'
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
         legend: {
           type: 'scroll',
           orient: 'horizontal',
-          right: 10,
+          left:0,
           top: 25,
-          bottom: 0,
+          bottom: 20,
           data: ['漂移', '不报站', '电子路单不生成或出错', '不推送车号和时间', '不切换路线', '走字屏不显示或显示错误', '不显示班次', '无法签到签退']
         },
         toolbox: {
@@ -257,52 +266,60 @@
             name: '漂移',
             type: 'bar',
             stack: '总量',
-            barMaxWidth: 30,
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '不报站',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '电子路单不生成或出错',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '超级VIP会员',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '不推送车号和时间',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },{
             name: '不切换路线',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },{
             name: '走字屏不显示或显示错误',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '不显示班次',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },{
             name: '无法签到签退',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           }
         ]
@@ -315,7 +332,10 @@
           text: '流媒体（DVR）故障发生次数'
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
         legend: {
           type: 'scroll',
@@ -373,25 +393,28 @@
             name: '无图像',
             type: 'bar',
             stack: '总量',
-            barMaxWidth: 30,
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '导不出录像',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '倒车视屏故障',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           },
           {
             name: '其他',
             type: 'bar',
             stack: '总量',
+            barMaxWidth: 39,
             data: my_data()
           }
         ]

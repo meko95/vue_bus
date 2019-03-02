@@ -20,7 +20,6 @@
     name: "DeviceFixStatistics",
     data() {
       return {
-        text: '澳马公司',
         data: [{name: '当天修复', value: 8}, {name: '次日修复', value: 4}, {name: '3天内修复', value: 3}, {
           name: '超过3天修复',
           value: 1
