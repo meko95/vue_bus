@@ -18,6 +18,9 @@
         <button class="reset-action" @click="onAdd()">新增</button>
       </div>
     </section>
+    <Modal modal-id="modal_addDeviceBasicInfo" modal-title="输入新增设备信息：" :modal-body="info" footer-btn-left="确定提交"
+           @l_func="submit_data"
+           btn-left-color="btn btn-success" footer-btn-right="重新填写" btn-right-color="btn btn-default"></Modal>
     <section class="grid-main">
       <GridManager
         :option="option"
@@ -25,9 +28,6 @@
         ref="grid"
       ></GridManager>
     </section>
-    <Modal modal-id="modal_addDeviceBasicInfo" modal-title="输入新增设备信息：" :modal-body="info" footer-btn-left="确定提交"
-           @l_func="submit_data"
-           btn-left-color="btn btn-success" footer-btn-right="重新填写" btn-right-color="btn btn-default"></Modal>
   </div>
 </template>
 
@@ -174,7 +174,7 @@
               width: '110px',
               align: 'center',
               // 重点 集团=>公司=>车队=>线路
-              template:'<router-link to="/bus/basicdata/getDeviceComInfo">设备集团名称A</router-link>'
+              template: '<router-link to="/bus/basicdata/getDeviceComInfo">设备集团名称A</router-link>'
             }, {
               text: '启动日期',
               key: 'sbqdrq',
@@ -425,10 +425,10 @@
         console.log('表单检查函数')
       },
       submit_data: function () {
-        console.log('模态框确定时间 应在此时检查表单输入规范')
+        console.log('模态框确定事件 应在此时检查表单输入规范')
       },
       onReset: function () {
-
+        console.log('重置表单填写')
       },
       onDestroy: function () {
         this.$refs['grid'].$el.GM('destroy')

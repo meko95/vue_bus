@@ -30,6 +30,16 @@ import DeviceMStatistics from '@/components/DeviceMStatistics'
 
 import System from '@/components/System'
 
+/* 设备基本信息 */
+import Rfid4gBasicInfo from '../components/rfid4g/Rfid4gBasicInfo'
+import ClbqBasicInfo from '../components/clbq/ClbqBasicInfo'
+import Rfid4gczBasicInfo from '../components/rfid4gcz/Rfid4gczBasicInfo'
+import CzytjBasicInfo from '../components/czytj/CzytjBasicInfo'
+import BdjBasicInfo from '../components/bdj/BdjBasicInfo'
+import YcyjBasicInfo from '../components/ycyj/YcyjBasicInfo'
+import ZdtBasicInfo from '../components/zdt/ZdtBasicInfo'
+import FfcpBasicInfo from '../components/ffcp/FfcpBasicInfo'
+import ZgybpBasicInfo from '../components/zgybp/ZgybpBasicInfo'
 Vue.use(Router)
 
 export default new Router({
@@ -53,6 +63,53 @@ export default new Router({
       name: 'ContractList',
       component: ContractList
     },
+    // 设备基本信息组件
+    {
+      path:'/bus/basicdata/getRfid4gBasicInfo',
+      name:'Rfid4gBasicInfo',
+      component:Rfid4gBasicInfo
+    },
+    {
+      path:'/bus/basicdata/getClbqBasicInfo',
+      name:'ClbqBasicInfo',
+      component:ClbqBasicInfo
+    },
+    {
+      path:'/bus/basicdata/getRfid4gczBasicInfo',
+      name:'Rfid4gczBasicInfo',
+      component:Rfid4gczBasicInfo
+    },
+    {
+      path:'/bus/basicdata/getCzytjBasicInfo',
+      name:'CzytjBasicInfo',
+      component:CzytjBasicInfo
+    },
+    {
+      path:'/bus/basicdata/getBdjBasicInfo',
+      name:'BdjBasicInfo',
+      component:BdjBasicInfo
+    },
+    {
+      path:'/bus/basicdata/getYcyjBasicInfo',
+      name:'YcyjBasicInfo',
+      component:YcyjBasicInfo
+    },
+    {
+      path:'/bus/basicdata/getZdtBasicInfo',
+      name:'ZdtBasicInfo',
+      component:ZdtBasicInfo
+    },
+    {
+      path:'/bus/basicdata/getFfcpBasicInfo',
+      name:'FfcpBasicInfo',
+      component:FfcpBasicInfo
+    },
+    {
+      path:'/bus/basicdata/getZgybpBasicInfo',
+      name:'ZgybpBasicInfo',
+      component:ZgybpBasicInfo
+    },
+
     {
       path: '/bus/basicdata/getDeviceType',
       name: 'DeviceType',

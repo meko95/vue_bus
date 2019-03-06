@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div id="title">
-      设备工作状态
+      一程一检基本信息
     </div>
     <section class="search-area">
       <div class="sa-ele">
@@ -29,11 +29,11 @@
 </template>
 
 <script>
-  import Header from '@/components/Header'
-  import GridManager from '@/components/GridManager'
-  import Modal from '@/components/Modal'
+  import Header from '../Header'
+  import GridManager from '../GridManager'
+  import Modal from '../Modal'
 
-  const getDeviceStatusInfo = function (params) {
+  const getYcyjBasicInfo = function (params) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
       // GridManager Error  请求数据失败！response中的必须为数组类型，可通过配置项[dataKey]修改字段名 data!!!!!
@@ -56,6 +56,7 @@
         if (formData !== '') {
           formData += '&'
         }
+        // 服务器返回参数中无sblb这项
         formData += key + '=' + params[key]
       }
       console.log('xhr.send()参数formData符合参数规则为')
@@ -64,121 +65,140 @@
     })
   }
   export default {
-    name: "DeviceStatusInfo",
-    info: ' ',
+    name: "YcyjBasicInfo",
     data() {
       return {
+        info: ' ',
         formData: {
-          htlb: ''
+          sblb: ''
         },
-        DEVICE_LIST: [{
-          text: 'RFID4G',
-          value: '1'
-        }, {
-          text: 'RFID4G(场站)',
-          value: '2'
-        }, {
-          text: '车辆标签',
-          value: '3'
-        }, {
-          text: '车载一体机',
-          value: '4'
-        }, {
-          text: '报到机',
-          value: '5'
-        }, {
-          text: '一程一检',
-          value: '6'
-        }, {
-          text: '站点通',
-          value: '7'
-        }, {
-          text: '55寸屏',
-          value: '8'
-        }, {
-          text: '站杆预报屏',
-          value: '9'
-        }],
+        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
         callback: function (query) {
           console.log('callback => ', query)
         },
         option: {
           supportRemind: true,
-          gridManagerName: 'DeviceStatusInfo',
+          gridManagerName: 'YcyjBasicInfo',
           height: '572px',
           supportAjaxPage: true,
           supportSorting: true,
           isCombSorting: false,
-          disableCache: false,
           ajax_data: (settings, params) => {
             console.log('ajax_data请求时带的参数为')
             console.log(params)
-            return getDeviceStatusInfo(params)
+            return getYcyjBasicInfo(params)
           },
           ajax_type: 'POST',
           supportMenu: true,
           query: {
-            htlb: ''
+            sblb: this.$store.getters.getSblb
           },
-          // 绑定服务器返回数据的key值
           dataKey: 'rowsList',
-          // 绑定服务器返回数据总条数
           totalsKey: 'total',
           pageSize: 30,
           columnData: [
             {
-              text: '编号',
-              key: 'sbjyh',
-              width: '220px',
-              align: 'center',
-              template: '<span>01234567890123456789123</span>'
-            }, {
-              text: '设备自编号',
+              text: '签到屏编号',
               key: 'sbzbh',
-              width: '140px',
+              width: '5px',
               align: 'center',
-              template: '<span>012345678912</span>'
-            }, {
-              text: '上线日期',
-              remind: '月/日/年',
-              key: 'sxrq',
+              template: '<span>123456789012</span>'
+            },
+            {
+              text: '分片编号',
+              key: 'fpbh',
+              width: '76px',
+              align: 'center',
+              template: '<span>00001</span>'
+            },
+            {
+              text: '合同编号',
+              key: 'rfidhtbh',
+              width: '96px',
+              align: 'center',
+              template: '<span>0123456789</span>'
+            },
+            {
+              text: '管理等级',
+              key: 'gldj',
+              width: '3px',
+              align: 'center',
+              template: '<span>A</span>'
+            },
+            {
+              text: '设备品牌',
+              key: 'sbpp',
+              width: '3px',
+              align: 'center',
+              template: '<span>大索尼</span>'
+            },
+            {
+              text: '设备型号',
+              key: 'sbxh',
               width: '110px',
               align: 'center',
-              template: '<span>4/30/2019</span>'
-            }, {
-              text: '安装位置',
-              key: 'sbazwz',
-              width: '230px',
+              template: '<span>Z-SO31-4105</span>'
+            },
+            {
+              text: 'SIM卡号',
+              key: 'simkh',
+              width: '5px',
               align: 'center',
-              template: '<span>巴士一公司二车队101线路沪A30125车头</span>'
-            }, {
-              text: '线路名称',
-              key: 'xlmc',
+              template: '<span>12345678901234567890</span>'
+            },
+            {
+              text: '线路',
+              key: 'ycyjdyxl',
               width: '110px',
               align: 'center',
-              template: '<span>1001</span>'
+              template: '<span>1001;上南路;B支4</span>'
+            },
+            {
+              text: '站点',
+              key: 'ycyjzd',
+              width: '80px',
+              align: 'center',
+              template: '<span>上南路站</span>'
+            },
+            {
+              text: '归属集团',
+              remind: '点击可查看设备归属集团详细信息',
+              key: 'sbgsjt',
+              width: '110px',
+              align: 'center',
+              // 重点 集团=>公司=>车队=>线路
+              template: '<router-link to="/bus/basicdata/getDeviceComInfo">设备集团名称A</router-link>'
             }, {
-              text: '运营车辆上线情况',
-              key: 'yyclsxqk',
-              width: '140px',
+              text: '启动日期',
+              key: 'sbqdrq',
+              width: '83px',
               align: 'center',
-              template: '<span>已上线&nbsp;<div class="glyphicon glyphicon-ok-sign"></div></span>'
-            },
-            {
-              text: '车载一体机工作状态',
-              key: 'gzzt',
-              width: '140px',
+              template: '<span>2/26/2019</span>'
+            }, {
+              text: '更新日期',
+              key: 'sbgxrq',
+              width: '83px',
               align: 'center',
-              template: '<span>正在维修&nbsp;<div class="glyphicon glyphicon-wrench"></div></span>'
-            },
-            {
-              text: '车载一体机故障总次数',
-              key: 'gzcshj',
-              width: '180px',
+              template: '<span>2/26/2019</span>'
+            }, {
+              text: '报废日期',
+              key: 'sbbfrq',
+              width: '83px',
               align: 'center',
-              template: '<router-link to="/bus/status/getYTJFaultReason">2(不上线、GPS、DVR)</router-link>'
-            },
-            {
+              template: '<span>2/26/2019</span>'
+            }, {
+              text: '供应商',
+              key: 'sbgys',
+              width: '68px',
+              align: 'center',
+              template: '<span>供应商A</span>'
+            }, {
+              text: '集成商',
+              key: 'sbjcs',
+              width: '68px',
+              align: 'center',
+              template: '<span>集成商A</span>'
+            }, {
               text: '<span style="color: gray">操作</span>',
               key: 'action',
               align: 'center',
@@ -188,7 +208,8 @@
                 return '<span class="plugin-action" @click="delRow(row, index)">&nbsp;删除&nbsp;</span>' +
                   '<span class="plugin-action" @click="editRow(row, index)">&nbsp;修改&nbsp;</span>';
               }
-            }]
+            }
+          ]
         }
       }
     },
@@ -199,23 +220,65 @@
     },
     methods: {
       onSearch: function () {
-
+        const device_type = parseInt(this.$store.getters.getSblb)
+        if(device_type===6){
+          this.$refs['grid'].$el.GM('refreshGrid')
+          return
+        }
+        console.log(device_type)
+        switch (device_type) {
+          case 1:
+            this.$router.push('/bus/basicdata/getRfid4gBasicInfo')
+            break
+          case 2:
+            this.$router.push('/bus/basicdata/getRfid4gczBasicInfo')
+            break
+          case 3:
+            this.$router.push('/bus/basicdata/getClbqBasicInfo')
+            break
+          case 4:
+            this.$router.push('/bus/basicdata/getCzytjBasicInfo')
+            break
+          case 5:
+            this.$router.push('/bus/basicdata/getBdjBasicInfo')
+            break
+          case 6:
+            this.$router.push('/bus/basicdata/getYcyjBasicInfo')
+            break
+          case 7:
+            this.$router.push('/bus/basicdata/getZdtBasicInfo')
+            break
+          case 8:
+            this.$router.push('/bus/basicdata/getFfcpBasicInfo')
+            break
+          case 9:
+            this.$router.push('/bus/basicdata/getZgybpBasicInfo')
+            break
+          default:
+            console.log('Alert("请先选择设备类别")')
+        }
       },
       onReset: function () {
-        this.formData.htlb = ''
+        this.formData.sblb = ''
       },
       onAdd: function () {
 
       },
-      check_form: function () {
-        console.log('表单检查函数')
-      },
-      onReset: function () {
-
+      onInit() {
+        this.$refs['grid'].$el.GM('init', this.option)
       },
       onDestroy: function () {
         this.$refs['grid'].$el.GM('destroy')
+      },
+      delRow(row, index) {
+        console.log('删除事件')
+      },
+      editRow(row, index) {
+        console.log('修改事件')
       }
+    },
+    beforeUpdate() {
+      this.$store.commit('setSblb', this.formData.sblb)
     },
     beforeDestroy() {
       this.onDestroy()
@@ -223,7 +286,7 @@
   }
 </script>
 
-<style lang="less" type="text/less" scoped>
+<style lang="less" scoped>
   #title {
     height: 36px;
     text-align: center;

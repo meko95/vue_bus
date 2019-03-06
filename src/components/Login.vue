@@ -1,5 +1,4 @@
 <template>
-
   <div>
     <div id="head">
       <img src="../../static/image/aoma.png" alt="上海奥马运维有限公司">
@@ -10,7 +9,6 @@
           <!--<form @submit.prevent="checkData" id="login_form" method="post" action="http://kathryn.cn:8080/bus/login"-->
           <!--novalidate="novalidate">-->
           <form id="login_form" @submit.prevent="checkData" method="post" novalidate="novalidate">
-
             <div id="inputId">
               <div class="form-group-lg">
                 <label>工号：</label>
@@ -19,7 +17,6 @@
                        placeholder="请在此输入工号">
               </div>
             </div>
-
             <div id="inputPass">
               <div class="form-group-lg">
                 <label>密码：</label>
@@ -27,11 +24,9 @@
                        placeholder="请在此输入密码">
               </div>
             </div>
-
             <div id="register">
               没有账户？<a href="#">注册账户</a>
             </div>
-
             <div id="login">
               <!--data-toggle="modal" data-target="#myModal"-->
               <!--data-toggle="modal" :data-target="modal_id"-->
@@ -45,11 +40,10 @@
         </div>
       </div>
     </div>
-
-
     <!-- Modals -->
     <Modal modal-id="modal_login" modal-title="警告：" :modal-body="info" footer-btn-left="取消"
-           btn-left-color="btn btn-default" @l_func="cancel" footer-btn-right="确定" btn-right-color="btn btn-danger" @r_func="ok"></Modal>
+           btn-left-color="btn btn-default" @l_func="cancel" footer-btn-right="确定" btn-right-color="btn btn-danger"
+           @r_func="ok"></Modal>
 
   </div>
 </template>
@@ -72,19 +66,23 @@
     },
     methods: {
       checkData: function () {
-        if (this.formData.uid == '' || this.formData.password == '') {
+        if (this.formData.uid === '' || this.formData.password === '') {
           this.info = '工号/密码不可为空'
           $('#modal_login').modal()
           this.clearData()
         } else {
           // 100001 lab607
-          axios.post('http://kathryn.cn:8080/bus/login/check', JSON.stringify(this.formData)).then(res => {
+          // 测试模式登录
+          this.$router.push('/bus/contract/getContract')
+          axios.post('http://kathryn.cn:8080/bus/login', JSON.stringify(this.formData)).then(res => {
             // console.log(JSON.stringify(this.formData))
-            console.log('Login.vue 82')
+            console.log('Login.vue 77')
             console.log(res)
             let code = res.data.code
+            console.log(code)
             // code == 0
             if (true) {
+              // 获取服务端session=>浏览器设置cookie=>每次请求判断cookie是否存在 退出账户时移除cookie
               // main.js验证登录状态 next()表示验证通过
               this.$router.push('/bus/contract/getContract')
               this.clearData()
@@ -109,10 +107,10 @@
         this.formData.uid = ''
         this.formData.password = ''
       },
-      cancel:function () {
+      cancel: function () {
         $('#modal_login').modal('toggle')
       },
-      ok:function () {
+      ok: function () {
         $('#modal_login').modal('toggle')
       }
     },

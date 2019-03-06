@@ -51,7 +51,7 @@
                   <router-link to="/bus/basicdata/getDeviceCollectData">查看采集数据</router-link>
                 </li>
                 <li>
-                  <router-link to="/bus/basicdata/getDeviceBasicInfo">查看基础信息</router-link>
+                  <router-link to="/bus/basicdata/getRfid4gBasicInfo">查看基础信息</router-link>
                 </li>
                 <li>
                   <router-link to="/bus/basicdata/getDeviceInstallInfo">查看安装信息</router-link>
