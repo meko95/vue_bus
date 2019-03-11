@@ -7,18 +7,32 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+
+
 import 'jquery'
+
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
+
 import 'bootstrapvalidator'
 import '../static/css/bootstrapValidator.min.css'
+
+import '../static/js/bootstrap-datetimepicker'
+import '../static/css/bootstrap-datetimepicker.min.css'
+
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
+
 import axios from 'axios'
+Vue.prototype.axios = axios // 把axios加到 Vue原型中 其他组件中this.axios调用
 import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
 import GridManager from './components/GridManager'
 
-Vue.use(VueCookies)
-//
 // axios.defaults.withCredentials = true
+
 // Vue install, Vue.use 会调用该方法
 // GridManagerVue.install = (Vue, opts = {}) => {
 //   Vue.prototype.$gridManager = window.GridManager;
@@ -44,7 +58,6 @@ new Vue({
   },
   template: '<App/>'
 })
-
 /* 全局前置路由 */
 router.beforeEach((to, from, next) => {
   // 暂时省略一些用户访问需验证登录的路径

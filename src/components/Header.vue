@@ -63,9 +63,7 @@
             </li>
 
             <li>
-              <router-link to="/bus/changedata">
-                设备迁移情况
-              </router-link>
+              <router-link to="/bus/changedata">设备迁移情况</router-link>
             </li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -73,14 +71,10 @@
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <router-link to="/bus/status/getDeviceStatusInfo">
-                    查看设备工作情况
-                  </router-link>
+                  <router-link to="/bus/status/getDeviceStatusInfo">查看设备工作情况</router-link>
                 </li>
                 <li>
-                  <router-link to="/bus/status/getDeviceFaultStatistics">
-                    设备故障情况统计
-                  </router-link>
+                  <router-link to="/bus/status/getDeviceFaultStatistics">设备故障情况统计</router-link>
                 </li>
               </ul>
             </li>
@@ -90,58 +84,42 @@
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <router-link to="/bus/check/getDeviceInspect">
-                    查看巡检设备
-                  </router-link>
+                  <router-link to="/bus/check/getDeviceInspect">查看巡检设备</router-link>
                 </li>
                 <li>
-                  <router-link to="/bus/check/getDeviceRepair">
-                    查看报修设备
-                  </router-link>
+                  <router-link to="/bus/check/getDeviceRepair">查看报修设备</router-link>
                 </li>
                 <li>
-                  <router-link to="/bus/check/getDeviceRepairStatistics">
-                    查看报修次数统计
-                  </router-link>
+                  <router-link to="/bus/check/getDeviceRepairStatistics">查看报修次数统计</router-link>
                 </li>
               </ul>
             </li>
+
             <li>
-              <router-link to="/bus/fix/getDeviceFixInfo">
-                设备修理情况
-              </router-link>
+              <router-link to="/bus/fix/getDeviceFixInfo">设备修理情况</router-link>
             </li>
+
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 质量分析&nbsp;<span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <router-link to="/bus/quality/getDeviceFixStatistics">
-                    查看修复情况
-                  </router-link>
+                  <router-link to="/bus/quality/getDeviceFixStatistics">查看修复情况</router-link>
                 </li>
                 <li>
-                  <router-link to="/bus/quality/getDeviceDStatistics">
-                    查看当日统计
-                  </router-link>
+                  <router-link to="/bus/quality/getDeviceDStatistics">查看当日统计</router-link>
                 </li>
                 <li>
-                  <router-link to="/bus/quality/getDeviceMStatistics">
-                    查看当月统计
-                  </router-link>
+                  <router-link to="/bus/quality/getDeviceMStatistics">查看当月统计</router-link>
                 </li>
               </ul>
             </li>
             <li>
-              <router-link to="/bus/report">
-                月度评估分析报告
-              </router-link>
+              <router-link to="/bus/report">月度评估分析报告</router-link>
             </li>
             <li>
-              <router-link to="/bus/sys/getSystemInfo">
-                &nbsp;系统管理&nbsp;
-              </router-link>
+              <router-link to="/bus/sys/getSystemInfo">&nbsp;系统管理&nbsp;</router-link>
             </li>
           </ul>
         </div>

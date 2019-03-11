@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <ElementHeader></ElementHeader>
     <div id="title">
       车载一体机基本信息
     </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import Header from '../Header'
+  import ElementHeader from '../ElementHeader'
   import GridManager from '../GridManager'
   import Modal from '../Modal'
 
@@ -224,7 +224,7 @@
       }
     },
     components: {
-      Header,
+      ElementHeader,
       GridManager,
       Modal
     },

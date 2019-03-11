@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Login from '@/components/Login'
-import ContractList from '@/components/ContractList'
+import Contract from '../components/contract/Contract'
 
 import DeviceCollectData from '@/components/DeviceCollectData'
 import DeviceBasicInfo from '@/components/DeviceBasicInfo'
@@ -40,6 +40,11 @@ import YcyjBasicInfo from '../components/ycyj/YcyjBasicInfo'
 import ZdtBasicInfo from '../components/zdt/ZdtBasicInfo'
 import FfcpBasicInfo from '../components/ffcp/FfcpBasicInfo'
 import ZgybpBasicInfo from '../components/zgybp/ZgybpBasicInfo'
+/* 测试组件 */
+import Test from '../components/test/Test'
+import EmpBasic from '../components/test/EmpBasic'
+import Rfid4gBasicInfoElement from '../components/test/Rfid4gBasicInfoElement'
+import CheckBox from '../components/test/CheckBox'
 Vue.use(Router)
 
 export default new Router({
@@ -49,6 +54,23 @@ export default new Router({
       path: '/',
       redirect: '/bus/login'
     },
+    // 测试路由Begin
+    {
+      path:'/rfid4g',
+      name:'Rfid4gBasicInfoElement',
+      component:Rfid4gBasicInfoElement
+    },
+    {
+      path:'/test',
+      name:'Test',
+      component:Test
+    },
+    {
+      path:'/check',
+      name:'CheckBox',
+      component:CheckBox
+    },
+    // 测试路由End
     {
       path: '/bus/login',
       name: 'Login',
@@ -60,8 +82,8 @@ export default new Router({
     },
     {
       path: '/bus/contract/getContract',
-      name: 'ContractList',
-      component: ContractList
+      name: 'Contract',
+      component: Contract
     },
     // 设备基本信息组件
     {

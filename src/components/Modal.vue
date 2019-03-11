@@ -2,7 +2,7 @@
   <!-- Modal -->
   <div class="modal fade" :id="modalId" tabindex="-1" role="dialog" aria-labelledby="model_title">
 
-    <div class="modal-dialog" role="document">
+    <div :class="modalSize" role="document">
       <div class="modal-content">
 
         <div class="modal-header">
@@ -30,6 +30,7 @@
   export default {
     name: "Modal",
     props: {
+      modalSize:String,
       modalId: String,
       modalTitle: String,
       modalBody: String,

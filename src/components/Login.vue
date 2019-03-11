@@ -41,7 +41,7 @@
       </div>
     </div>
     <!-- Modals -->
-    <Modal modal-id="modal_login" modal-title="警告：" :modal-body="info" footer-btn-left="取消"
+    <Modal modal-size="modal-dialog modal-md" modal-id="modal_login" modal-title="警告：" :modal-body="info" footer-btn-left="取消"
            btn-left-color="btn btn-default" @l_func="cancel" footer-btn-right="确定" btn-right-color="btn btn-danger"
            @r_func="ok"></Modal>
 
@@ -49,8 +49,7 @@
 </template>
 
 <script>
-  import Modal from "@/components/Modal";
-  import axios from 'axios'
+  import Modal from "@/components/Modal"
 
   export default {
     name: "Login",
@@ -74,7 +73,7 @@
           // 100001 lab607
           // 测试模式登录
           this.$router.push('/bus/contract/getContract')
-          axios.post('http://kathryn.cn:8080/bus/login', JSON.stringify(this.formData)).then(res => {
+          this.axios.post('http://kathryn.cn:8080/bus/login', JSON.stringify(this.formData)).then(res => {
             // console.log(JSON.stringify(this.formData))
             console.log('Login.vue 77')
             console.log(res)
