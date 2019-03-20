@@ -5,25 +5,14 @@ import Login from '@/components/Login'
 import Contract from '../components/contract/Contract'
 
 import DeviceCollectData from '@/components/DeviceCollectData'
-import DeviceBasicInfo from '@/components/DeviceBasicInfo'
-import DeviceComInfo from '@/components/DeviceComInfo'
-import DeviceLineInfo from '@/components/DeviceLineInfo'
 import DeviceInstallInfo from '@/components/DeviceInstallInfo'
 import DeviceType from '@/components/DeviceType'
 
-import DeviceMoveInfo from '@/components/DeviceMoveInfo'
 import EJDeviceMoveInfo from '@/components/EJDeviceMoveInfo'
 
-import DeviceStatusInfo from '@/components/DeviceStatusInfo'
 import YTJFaultReason from '@/components/YTJFaultReason'
 import DeviceFaultStatistics from '@/components/DeviceFaultStatistics'
-
-import DeviceInspect from '@/components/DeviceInspect'
-import DeviceRepair from '@/components/DeviceRepair'
 import DeviceRepairStatistics from '@/components/DeviceRepairStatistics'
-
-import DeviceFixInfo from '@/components/DeviceFixInfo'
-
 import DeviceFixStatistics from '@/components/DeviceFixStatistics'
 import DeviceDStatistics from '@/components/DeviceDStatistics'
 import DeviceMStatistics from '@/components/DeviceMStatistics'
@@ -32,6 +21,7 @@ import System from '@/components/System'
 
 /* 设备基本信息 */
 import Rfid4gBasicInfo from '../components/rfid4g/Rfid4gBasicInfo'
+// import Rfid4gBasicInfov_3_14 from '../components/rfid4g/Rfid4gBasicInfov_3_14.vue'
 import ClbqBasicInfo from '../components/clbq/ClbqBasicInfo'
 import Rfid4gczBasicInfo from '../components/rfid4gcz/Rfid4gczBasicInfo'
 import CzytjBasicInfo from '../components/czytj/CzytjBasicInfo'
@@ -40,11 +30,19 @@ import YcyjBasicInfo from '../components/ycyj/YcyjBasicInfo'
 import ZdtBasicInfo from '../components/zdt/ZdtBasicInfo'
 import FfcpBasicInfo from '../components/ffcp/FfcpBasicInfo'
 import ZgybpBasicInfo from '../components/zgybp/ZgybpBasicInfo'
+/* 设备工作状态 */
+import Rfid4gStatus from '../components/rfid4g/Rfid4gStatus'
+/* 设备变动情况 */
+import Rfid4gChangeInfo from '../components/rfid4g/Rfid4gChangeInfo'
+/* 设备修理情况 */
+import Rfid4gFixInfo from '../components/rfid4g/Rfid4gFixInfo'
+/* 设备巡检情况 */
+import Rfid4gCheckInfo from '../components/rfid4g/Rfid4gCheckInfo'
+/* 设备报修情况 */
+import Rfid4gReportInfo from '../components/rfid4g/Rfid4gReportInfo'
 /* 测试组件 */
 import Test from '../components/test/Test'
-import EmpBasic from '../components/test/EmpBasic'
-import Rfid4gBasicInfoElement from '../components/test/Rfid4gBasicInfoElement'
-import CheckBox from '../components/test/CheckBox'
+
 Vue.use(Router)
 
 export default new Router({
@@ -54,21 +52,10 @@ export default new Router({
       path: '/',
       redirect: '/bus/login'
     },
-    // 测试路由Begin
     {
-      path:'/rfid4g',
-      name:'Rfid4gBasicInfoElement',
-      component:Rfid4gBasicInfoElement
-    },
-    {
-      path:'/test',
-      name:'Test',
-      component:Test
-    },
-    {
-      path:'/check',
-      name:'CheckBox',
-      component:CheckBox
+      path: '/test',
+      name: 'Test',
+      component: Test
     },
     // 测试路由End
     {
@@ -87,70 +74,59 @@ export default new Router({
     },
     // 设备基本信息组件
     {
-      path:'/bus/basicdata/getRfid4gBasicInfo',
-      name:'Rfid4gBasicInfo',
-      component:Rfid4gBasicInfo
+      path: '/rfid4g/basic/jt1',
+      name: 'Rfid4gBasicInfo',
+      component: Rfid4gBasicInfo
+    },
+    // {
+    //   path: '/rfid4g/basic/jt2',
+    //   name: 'Rfid4gBasicInfov_3_14',
+    //   component: Rfid4gBasicInfov_3_14
+    // },
+    {
+      path: '/bus/basicdata/getClbqBasicInfo',
+      name: 'ClbqBasicInfo',
+      component: ClbqBasicInfo
     },
     {
-      path:'/bus/basicdata/getClbqBasicInfo',
-      name:'ClbqBasicInfo',
-      component:ClbqBasicInfo
+      path: '/bus/basicdata/getRfid4gczBasicInfo',
+      name: 'Rfid4gczBasicInfo',
+      component: Rfid4gczBasicInfo
     },
     {
-      path:'/bus/basicdata/getRfid4gczBasicInfo',
-      name:'Rfid4gczBasicInfo',
-      component:Rfid4gczBasicInfo
+      path: '/bus/basicdata/getCzytjBasicInfo',
+      name: 'CzytjBasicInfo',
+      component: CzytjBasicInfo
     },
     {
-      path:'/bus/basicdata/getCzytjBasicInfo',
-      name:'CzytjBasicInfo',
-      component:CzytjBasicInfo
+      path: '/bus/basicdata/getBdjBasicInfo',
+      name: 'BdjBasicInfo',
+      component: BdjBasicInfo
     },
     {
-      path:'/bus/basicdata/getBdjBasicInfo',
-      name:'BdjBasicInfo',
-      component:BdjBasicInfo
+      path: '/bus/basicdata/getYcyjBasicInfo',
+      name: 'YcyjBasicInfo',
+      component: YcyjBasicInfo
     },
     {
-      path:'/bus/basicdata/getYcyjBasicInfo',
-      name:'YcyjBasicInfo',
-      component:YcyjBasicInfo
+      path: '/bus/basicdata/getZdtBasicInfo',
+      name: 'ZdtBasicInfo',
+      component: ZdtBasicInfo
     },
     {
-      path:'/bus/basicdata/getZdtBasicInfo',
-      name:'ZdtBasicInfo',
-      component:ZdtBasicInfo
+      path: '/bus/basicdata/getFfcpBasicInfo',
+      name: 'FfcpBasicInfo',
+      component: FfcpBasicInfo
     },
     {
-      path:'/bus/basicdata/getFfcpBasicInfo',
-      name:'FfcpBasicInfo',
-      component:FfcpBasicInfo
+      path: '/bus/basicdata/getZgybpBasicInfo',
+      name: 'ZgybpBasicInfo',
+      component: ZgybpBasicInfo
     },
-    {
-      path:'/bus/basicdata/getZgybpBasicInfo',
-      name:'ZgybpBasicInfo',
-      component:ZgybpBasicInfo
-    },
-
     {
       path: '/bus/basicdata/getDeviceType',
       name: 'DeviceType',
       component: DeviceType
-    },
-    {
-      path: '/bus/basicdata/getDeviceBasicInfo',
-      name: 'DeviceBasicInfo',
-      component: DeviceBasicInfo
-    },
-    {
-      path:'/bus/basicdata/getDeviceComInfo',
-      name:'DeviceComInfo',
-      component:DeviceComInfo
-    },
-    {
-      path:'/bus/basicdata/getDeviceLineInfo',
-      name:'DeviceLineInfo',
-      component:DeviceLineInfo
     },
     {
       path: '/bus/basicdata/getDeviceInstallInfo',
@@ -162,94 +138,112 @@ export default new Router({
       name: 'DeviceCollectData',
       component: DeviceCollectData
     },
+    // 设备变动情况
     {
-      path:'/bus/changedata',
-      redirect:'/bus/changedata/getDeviceMoveInfo'
+      path: '/rfid4g/change/jt1',
+      name: 'Rfid4gChangeInfo',
+      component: Rfid4gChangeInfo
     },
     {
-      path:'/bus/changedata/getDeviceMoveInfo',
-      name:'DeviceMoveInfo',
-      component:DeviceMoveInfo
+      path: '/rfid4g/change/jt2',
+      name: 'Rfid4gChangeInfo',
+      component: Rfid4gChangeInfo
     },
     {
-      path:'/bus/changedata/getEJDeviceMoveInfo',
-      name:'EJDeviceMoveInfo',
-      component:EJDeviceMoveInfo
+      path: '/bus/changedata',
+      redirect: '/bus/changedata/getDeviceMoveInfo'
     },
     {
-      path:'/bus/status',
-      redirect:'/bus/status/getDeviceStatusInfo'
+      path: '/bus/changedata/getEJDeviceMoveInfo',
+      name: 'EJDeviceMoveInfo',
+      component: EJDeviceMoveInfo
+    },
+    // 设备工作状况
+    {
+      path: '/rfid4g/status/jt1',
+      name: 'Rfid4gStatus',
+      component: Rfid4gStatus
     },
     {
-      path:'/bus/status/getDeviceStatusInfo',
-      name:'DeviceStatusInfo',
-      component:DeviceStatusInfo
+      path: '/rfid4g/status/jt2',
+      name: 'Rfid4gStatus',
+      component: Rfid4gStatus
     },
     {
-      path:'/bus/status/getYTJFaultReason',
-      name:'YTJFaultReason',
-      component:YTJFaultReason
+      path: '/bus/status/getYTJFaultReason',
+      name: 'YTJFaultReason',
+      component: YTJFaultReason
     },
     {
-      path:'/bus/status/getDeviceFaultStatistics',
-      name:'DeviceFaultStatistics',
-      component:DeviceFaultStatistics
+      path: '/bus/status/getDeviceFaultStatistics',
+      name: 'DeviceFaultStatistics',
+      component: DeviceFaultStatistics
+    },
+    // 设备巡检情况
+    {
+      path: '/rfid4g/check/jt1',
+      name: 'Rfid4gCheckInfo',
+      component: Rfid4gCheckInfo
     },
     {
-      path:'/bus/check',
-      redirect:'/bus/check/getDeviceInspect'
+      path: '/rfid4g/check/jt2',
+      name: 'Rfid4gCheckInfo',
+      component: Rfid4gCheckInfo
+    },
+    // 设备报修情况
+    {
+      path:'/rfid4g/report/jt1',
+      name:'Rfid4gReportInfo',
+      component:Rfid4gReportInfo
     },
     {
-      path:'/bus/check/getDeviceInspect',
-      name:'DeviceInspect',
-      component:DeviceInspect
+      path:'/rfid4g/report/jt2',
+      name:'Rfid4gReportInfo',
+      component:Rfid4gReportInfo
     },
     {
-      path:'/bus/check/getDeviceRepair',
-      name:'DeviceRepair',
-      component:DeviceRepair
+      path: '/bus/check/getDeviceRepairStatistics',
+      name: 'DeviceRepairStatistics',
+      component: DeviceRepairStatistics
+    },
+    // 设备修理情况
+    {
+      path: '/rfid4g/fixInfo/jt1',
+      name: 'Rfid4gFixInfo',
+      component: Rfid4gFixInfo
     },
     {
-      path:'/bus/check/getDeviceRepairStatistics',
-      name:'DeviceRepairStatistics',
-      component:DeviceRepairStatistics
+      path: '/rfid4g/fixInfo/jt2',
+      name: 'Rfid4gFixInfo',
+      component: Rfid4gFixInfo
     },
     {
-      path:'/bus/fix',
-      redirect:'/bus/fix/getDeviceFixInfo'
+      path: '/bus/quality',
+      redirect: '/bus/fix/getDeviceFixStatistics'
     },
     {
-      path:'/bus/fix/getDeviceFixInfo',
-      name:'DeviceFixInfo',
-      component:DeviceFixInfo
+      path: '/bus/quality/getDeviceFixStatistics',
+      name: 'DeviceFixStatistics',
+      component: DeviceFixStatistics
     },
     {
-      path:'/bus/quality',
-      redirect:'/bus/fix/getDeviceFixStatistics'
+      path: '/bus/quality/getDeviceDStatistics',
+      name: 'DeviceDStatistics',
+      component: DeviceDStatistics
     },
     {
-      path:'/bus/quality/getDeviceFixStatistics',
-      name:'DeviceFixStatistics',
-      component:DeviceFixStatistics
+      path: '/bus/quality/getDeviceMStatistics',
+      name: 'DeviceMStatistics',
+      component: DeviceMStatistics
     },
     {
-      path:'/bus/quality/getDeviceDStatistics',
-      name:'DeviceDStatistics',
-      component:DeviceDStatistics
+      path: '/bus/sys',
+      redirect: '/bus/sys/getSystemInfo'
     },
     {
-      path:'/bus/quality/getDeviceMStatistics',
-      name:'DeviceMStatistics',
-      component:DeviceMStatistics
-    },
-    {
-      path:'/bus/sys',
-      redirect:'/bus/sys/getSystemInfo'
-    },
-    {
-      path:'/bus/sys/getSystemInfo',
-      name:'System',
-      component:System
+      path: '/bus/sys/getSystemInfo',
+      name: 'System',
+      component: System
     }
   ]
 })

@@ -4,8 +4,9 @@ import VueCookies from 'vue-cookies'
 
 Vue.use(Vuex, VueCookies)
 const state = {
-  sblb: ' ',
-  DEVICE_LIST: [{
+  date : new Date(),
+  DEVICE_LIST: [
+    {
     text: 'RFID4G',
     value: '1'
   }, {
@@ -32,14 +33,39 @@ const state = {
   }, {
     text: '站杆预报屏',
     value: '9'
+  }],
+  CONTRACT_TYPE: [
+    {
+    text: '主合同',
+    value: '1'
+  }, {
+    text: '分包合同',
+    value: '2'
+  }],
+  PAY_TYPE:[
+    {
+    text:'支付宝',
+    value:'1'
+  },{
+    text:'微信',
+    value:'2'
+  },{
+    text:'银行卡',
+    value:'3'
   }]
 }
 const getters = {
-  getSblb(state) {
+  getSblb(state){
     return state.sblb
   },
-  getAllDeviceTypes(){
+  getAllDeviceTypes() {
     return state.DEVICE_LIST
+  },
+  getAllContractTypes(){
+    return state.CONTRACT_TYPE
+  },
+  getAllPayTypes(){
+    return state.PAY_TYPE
   }
 }
 // 同步方法

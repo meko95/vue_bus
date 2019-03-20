@@ -8,45 +8,32 @@ import App from './App'
 import router from './router'
 import store from './store'
 
-
 import 'jquery'
-
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-
-import 'bootstrapvalidator'
-import '../static/css/bootstrapValidator.min.css'
-
-import '../static/js/bootstrap-datetimepicker'
-import '../static/css/bootstrap-datetimepicker.min.css'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
+import {getRequest} from "@/utils/api"
+import {postRequest} from "@/utils/api"
+import {deleteRequest} from "@/utils/api"
+import {putRequest} from "@/utils/api"
+import './utils/filter_utils'
+Vue.prototype.getRequest = getRequest
+Vue.prototype.postRequest = postRequest
+Vue.prototype.deleteRequest = deleteRequest
+Vue.prototype.putRequest = putRequest
+
 import axios from 'axios'
 Vue.prototype.axios = axios // 把axios加到 Vue原型中 其他组件中this.axios调用
-import VueCookies from 'vue-cookies'
-Vue.use(VueCookies)
-
-import GridManager from './components/GridManager'
-
 // axios.defaults.withCredentials = true
+import {VueCookies} from 'vue-cookies'
+// Vue.use(VueCookies)
+Vue.prototype.VueCookies = VueCookies
 
-// Vue install, Vue.use 会调用该方法
-// GridManagerVue.install = (Vue, opts = {}) => {
-//   Vue.prototype.$gridManager = window.GridManager;
-//   Vue.component('grid-manager', GridManagerVue);
-// }
-// 通过script标签引入Vue的环境
-if (typeof window !== 'undefined' && window.Vue) {
-  GridManager.install(window.Vue)
-}
-GridManager.version = process.env.VERSION
-// GridManager 的版本号。 需要注意的是: 这仅仅是vue环境的壳, 验证功能需要查看GridManager的版本号
 // 将构造函数挂载至Vue原型上，这样在Vue环境下可直接用 this.$gridManager调用
-// export default GridManager
-
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
