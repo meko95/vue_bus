@@ -18,7 +18,8 @@ import DeviceDStatistics from '@/components/DeviceDStatistics'
 import DeviceMStatistics from '@/components/DeviceMStatistics'
 
 import System from '@/components/System'
-
+/* 各类设备归属统计信息 */
+import AllSbStatistics from '../components/statistics/AllSbStatistics'
 /* 设备基本信息 */
 import Rfid4gBasicInfo from '../components/rfid4g/Rfid4gBasicInfo'
 // import Rfid4gBasicInfov_3_14 from '../components/rfid4g/Rfid4gBasicInfov_3_14.vue'
@@ -72,17 +73,18 @@ export default new Router({
       name: 'Contract',
       component: Contract
     },
-    // 设备基本信息组件
+    // 设备统计信息
+    {
+      path: '/Sbs/jt1',
+      name: 'AllSbStatistics',
+      component: AllSbStatistics
+    },
+    // 设备基本信息
     {
       path: '/rfid4g/basic/jt1',
       name: 'Rfid4gBasicInfo',
       component: Rfid4gBasicInfo
     },
-    // {
-    //   path: '/rfid4g/basic/jt2',
-    //   name: 'Rfid4gBasicInfov_3_14',
-    //   component: Rfid4gBasicInfov_3_14
-    // },
     {
       path: '/bus/basicdata/getClbqBasicInfo',
       name: 'ClbqBasicInfo',
@@ -192,14 +194,14 @@ export default new Router({
     },
     // 设备报修情况
     {
-      path:'/rfid4g/report/jt1',
-      name:'Rfid4gReportInfo',
-      component:Rfid4gReportInfo
+      path: '/rfid4g/report/jt1',
+      name: 'Rfid4gReportInfo',
+      component: Rfid4gReportInfo
     },
     {
-      path:'/rfid4g/report/jt2',
-      name:'Rfid4gReportInfo',
-      component:Rfid4gReportInfo
+      path: '/rfid4g/report/jt2',
+      name: 'Rfid4gReportInfo',
+      component: Rfid4gReportInfo
     },
     {
       path: '/bus/check/getDeviceRepairStatistics',

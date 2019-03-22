@@ -1,96 +1,39 @@
 <template>
   <div>
     <ElementHeader></ElementHeader>
-    <el-container style="height: 640px; border: 1px solid #eee">
+    <el-container style="height: 707px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu unique-opened default-active="/rfid4g/basic/jt1" router>
-          <el-submenu index="1">
-            <template slot="title"><i class="el-icon-info"></i>RFID4G</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <!-- 获取集团下公司数据所传参数 url?sblbdm=&sbgsjtdm= -->
-              <el-menu-item index="/rfid4g/basic/jt1" @click="loadRfid4gData">上海久事一集团</el-menu-item>
-              <el-menu-item index="/rfid4g/basic/jt2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title"><i class="el-icon-info"></i>RFID4G（场站）</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <el-menu-item index="2-1">上海久事一集团</el-menu-item>
-              <el-menu-item index="2-2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="3">
-            <template slot="title"><i class="el-icon-info"></i>车辆标签</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <el-menu-item index="3-1">上海久事一集团</el-menu-item>
-              <el-menu-item index="3-2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="4">
-            <template slot="title"><i class="el-icon-info"></i>车载一体机</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <el-menu-item index="4-1">上海久事一集团</el-menu-item>
-              <el-menu-item index="4-2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="5">
-            <template slot="title"><i class="el-icon-info"></i>报到机</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <el-menu-item index="5-1">上海久事一集团</el-menu-item>
-              <el-menu-item index="5-2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="6">
-            <template slot="title"><i class="el-icon-info"></i>一程一检</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <el-menu-item index="6-1">上海久事一集团</el-menu-item>
-              <el-menu-item index="6-2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="7">
-            <template slot="title"><i class="el-icon-info"></i>站点通</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <el-menu-item index="7-1">上海久事一集团</el-menu-item>
-              <el-menu-item index="7-2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="8">
-            <template slot="title"><i class="el-icon-info"></i>55寸屏</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <el-menu-item index="8-1">上海久事一集团</el-menu-item>
-              <el-menu-item index="8-2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="9">
-            <template slot="title"><i class="el-icon-info"></i>站杆预报屏</template>
-            <el-menu-item-group>
-              <template slot="title">归属集团</template>
-              <el-menu-item index="9-1">上海久事一集团</el-menu-item>
-              <el-menu-item index="9-2">上海久事二集团</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-        </el-menu>
+      <el-aside width="133px" style="background-color: rgb(238, 241, 246)">
+        <span style="text-align: center; font-size: 24px">RFID4G</span>
+        <el-tree :data="subsidiary" :props="defaultProps" accordion @node-click="handleNodeClick"
+                 highlight-current node-key="id" :default-expanded-keys="[1]"></el-tree>
       </el-aside>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
-        <el-header style="text-align: center; font-size: 24px">
-          <span>RFID4G基本信息</span>
+        <el-header>
           <div style="display: inline">
+            <el-card class="box-card" shadow="hover" :body-style="{padding: '2px'}">
+              <div class="text item title">{{'上海久事一集团'}}</div>
+              <div>
+                <div class="text item">{{'设备总数:' + 100 }}</div>
+                <div class="text item">{{'故障数:' + 2 }}</div>
+                <div class="text item">{{'暂停使用:' + 1 }}</div>
+                <div class="text item">{{'上线数:' + 97 }}</div>
+                <div class="text item">{{'上线率:' + '97%'}}</div>
+              </div>
+              <div>
+                <div class="text item">{{'报修数:' + 10 }}</div>
+                <div class="text item">{{'正在维修:' + 2 }}</div>
+                <div class="text item">{{'修复完成:' + 8 }}</div>
+                <div class="text item">{{'修复率:' + '80%'}}</div>
+              </div>
+            </el-card>
             <el-input
               placeholder="通过分片编号查询"
               clearable
               @change="keywordsChange"
-              style="width: 192px;margin-left: 300px;padding: 0;"
+              style="width: 192px;margin-left: 10px;padding: 0;"
               size="mini"
               :disabled="advanceSearchViewVisible"
               @keyup.enter.native="searchRfid4g"
@@ -237,82 +180,56 @@
             <el-table ref="multipleTable" :data="Sbs"
                       v-loading="tableLoading" border tooltip-effect="dark"
                       style="width: 100%;" @selection-change="handleSelectionChange" stripe size="small"
-                      highlight-current-row height="519"
+                      highlight-current-row height="585"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
-              <el-table-column prop="sbgsjtmc" label="集团" width="110" align="center" fixed="left"></el-table-column>
-              <el-table-column prop="sbgsgsmc" label="公司" width="100" align="center" fixed="left">
-                <template slot-scope="scope">
-                  <!--@click="viewCd"-->
-                  <el-button type="text" size="medium" @click="viewCd">{{scope.row.sbgsgsmc}}</el-button>
-                </template>
-              </el-table-column>
-              <el-table-column v-if="showCd" prop="sbgscdmc" label="车队" width="70" align="center" fixed="left">
-                <template slot-scope="scope">
-                  <!--@click="viewXl"-->
-                  <el-button type="text" size="medium" @click="viewXl">{{scope.row.sbgscdmc}}</el-button>
-                </template>
-              </el-table-column>
-              <el-table-column v-if="showXl" prop="sbgsxlmc" label="线路" width="70" align="center" fixed="left">
-                <template slot-scope="scope">
-                  <!--@click="viewInfo"-->
-                  <el-button type="text" size="medium" @click="viewInfo">{{scope.row.sbgsxlmc}}</el-button>
-                </template>
-              </el-table-column>
-              <!--v-if="!showInfo"-->
-              <el-table-column v-if="!showInfo" key="sum" prop="sum" label="设备总数" width="100"
-                               align="center"></el-table-column>
-              <el-table-column v-if="!showInfo" prop="online" label="上线总数" width="100" align="center"></el-table-column>
-              <el-table-column v-if="!showInfo" prop="offline" label="下线总数" width="100"
-                               align="center"></el-table-column>
-              <el-table-column v-if="!showInfo" prop="sxl" label="上线率" width="100" align="center"></el-table-column>
-              <el-table-column v-if="!showInfo" prop="gzcs" label="故障次数" width="100" align="center"></el-table-column>
-              <!--v-if="showInfo"-->
-              <el-table-column v-if="showInfo" prop="sbzbh" label="RFID4G编号" width="130" align="center"
+              <el-table-column prop="sbzbh" label="RFID4G编号" width="130" align="center"
                                fixed></el-table-column>
-              <el-table-column v-if="showInfo" prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
-              <el-table-column v-if="showInfo" prop="htbh" label="合同编号" width="90" align="center"></el-table-column>
-              <el-table-column v-if="showInfo" prop="gldj" label="管理等级" width="85" align="center"></el-table-column>
-              <el-table-column v-if="showInfo" prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
-              <el-table-column v-if="showInfo" prop="sbxh" label="型号" width="50" align="center"></el-table-column>
-              <el-table-column v-if="showInfo" prop="simkh" label="SIM卡号" width="110" align="center"></el-table-column>
-
-              <el-table-column v-if="showInfo" prop="sbqyrq" label="启用日期" width="115" align="center" sortable>
+              <el-table-column prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
+              <el-table-column prop="htbh" label="合同编号" width="90" align="center"></el-table-column>
+              <el-table-column prop="gldj" label="管理等级" width="85" align="center"></el-table-column>
+              <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
+              <el-table-column prop="sbxh" label="型号" width="50" align="center"></el-table-column>
+              <el-table-column prop="simkh" label="SIM卡号" width="110" align="center"></el-table-column>
+              <el-table-column prop="sbgsjtmc" label="集团" width="110" align="center"></el-table-column>
+              <el-table-column prop="sbgsgsmc" label="公司" width="100" align="center"></el-table-column>
+              <el-table-column prop="sbgscdmc" label="车队" width="70" align="center"></el-table-column>
+              <el-table-column prop="sbgsxlmc" label="线路" width="70" align="center"></el-table-column>
+              <el-table-column prop="sbqyrq" label="启用日期" width="115" align="center" sortable>
                 <template slot-scope="scope">{{ scope.row.sbqyrq | formatDate}}</template>
               </el-table-column>
-              <el-table-column v-if="showInfo" prop="sbgxrq" label="更新日期" width="115" align="center" sortable>
+              <el-table-column prop="sbgxrq" label="更新日期" width="115" align="center" sortable>
                 <template slot-scope="scope">{{ scope.row.sbgxrq | formatDate}}</template>
               </el-table-column>
-              <el-table-column v-if="showInfo" prop="sbbfrq" label="报废日期" width="115" align="center" sortable>
+              <el-table-column prop="sbbfrq" label="报废日期" width="115" align="center" sortable>
                 <template slot-scope="scope">{{ scope.row.sbbfrq | formatDate}}</template>
               </el-table-column>
 
-              <el-table-column v-if="showInfo" prop="gysmc" label="供应商" width="100" align="center"></el-table-column>
-              <el-table-column v-if="showInfo" prop="jcsmc" label="集成商" width="100" align="center"></el-table-column>
-              <el-table-column v-if="showInfo" prop="tmbh" label="条码编号" width="100" align="center"></el-table-column>
-              <el-table-column v-if="showInfo" prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
+              <el-table-column prop="gysmc" label="供应商" width="100" align="center"></el-table-column>
+              <el-table-column prop="jcsmc" label="集成商" width="100" align="center"></el-table-column>
+              <el-table-column prop="tmbh" label="条码编号" width="100" align="center"></el-table-column>
+              <el-table-column prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
 
               <el-table-column label="操作" width="150" align="center" fixed="right">
                 <template slot-scope="scope">
                   <!--:disabled="!showInfo"-->
                   <el-button @click="showEditRfid4gView(scope.row)"
                              style="padding: 5px 10px;margin: 6px"
-                             size="large" :disabled="!showInfo">编辑
+                             size="large">编辑
                   </el-button>
                   <!--:disabled="!showInfo"-->
                   <el-button type="danger" style="padding: 5px 10px;margin: 6px" size="large"
-                             @click="deleteRfid4g(scope.row)" :disabled="!showInfo">删除
+                             @click="deleteRfid4g(scope.row)">删除
                   </el-button>
                 </template>
               </el-table-column>
             </el-table>
             <!-- 批量删除Begin -->
             <div style="display: flex;justify-content: flex-end;margin: 4px">
-              <el-button type="danger" size="small" v-if="Sbs.length>0"
-                         :disabled="multipleSelection.length===0||!showInfo"
+              <el-button type="danger" size="small" v-if="Sbs.length>0" :disabled="multipleSelection.length===0"
                          @click="deleteManyRfid4gs">批量删除
               </el-button>
-              <el-button size="small" :disabled="multipleSelection.length===0"
+              <el-button size="small" v-if="Sbs.length>0" :disabled="multipleSelection.length===0"
                          @click="toggleSelection(multipleSelection)">
                 取消选择
               </el-button>
@@ -324,36 +241,6 @@
             </div>
             <!-- 批量删除End -->
           </div>
-          <!-- 级联表 -->
-          <!--<el-table-->
-          <!--:data="data"-->
-          <!--border-->
-          <!--stripe-->
-          <!--highlight-current-row-->
-          <!--empty-text="无数据，请检查是否联网"-->
-          <!--size="medium">-->
-          <!--<el-table-column label="公司" width="100" prop="sbgsgsmc" fixed v-if="JtExist">-->
-          <!--<template slot-scope="scope">-->
-          <!--&lt;!&ndash; 获取公司下车队数据所传参数 url?sblb=&sbgsjtdm=&sbgsgsdm= &ndash;&gt;-->
-          <!--<a @click.prevent="getCdinfo(scope.row)">{{scope.row.sbgsgsmc}}</a>-->
-          <!--</template>-->
-          <!--</el-table-column>-->
-          <!--<el-table-column label="车队" width="100" fixed v-if="GsExist">-->
-          <!--&lt;!&ndash; 获取车队下线路数据所传参数 url?sblb=&sbgsjtdm=&sbgsgsdm=&sbgscddm= &ndash;&gt;-->
-          <!--<a @click.prevent="getXlinfo(scope.row)">{{scope.row.sbgscdmc}}</a>-->
-          <!--</el-table-column>-->
-          <!--<el-table-column label="线路" width="100" fixed v-if="CdExist">-->
-          <!--&lt;!&ndash; 获取线路数据所传参数 url?sblb=&sbgsjtdm=&sbgsgsdm=&sbgscddm=&sbgsxldm= &ndash;&gt;-->
-          <!--<a @click.prevent="getDayinfo(scope.row)">{{scope.row.sbgsxlmc}}</a>-->
-          <!--</el-table-column>-->
-          <!--<el-table-column label="工作日期" width="100" prop="sbgzrq" fixed v-if="xlExist"></el-table-column>-->
-          <!--&lt;!&ndash; 多级表头,数据计算方式 &ndash;&gt;-->
-          <!--<el-table-column></el-table-column>-->
-          <!--<el-table-column></el-table-column>-->
-          <!--<el-table-column></el-table-column>-->
-          <!--<el-table-column></el-table-column>-->
-          <!--<el-table-column></el-table-column>-->
-          <!--</el-table>-->
         </el-main>
       </el-container>
       <el-form :model="rfid4g" :rules="rules" ref="addRfid4gForm" style="margin: 0px;padding: 0px;">
@@ -550,9 +437,248 @@
     name: "Rfid4gBasicInfo",
     data() {
       return {
-        // showCd: false,
-        // showXl: false,
-        // showInfo: false,
+        subsidiary: [
+          {
+            id: 1,
+            label: '上海久事一集团',
+            children: [
+              {
+                label: '巴士一公司',
+                children: [
+                  {
+                    label: '一车队',
+                    children: [
+                      {label: '55'},
+                      {label: '61'},
+                      {label: '99'},
+                      {label: '307'},
+                      {label: '325'},
+                      {label: '538'},
+                      {label: '1201'},
+                      {label: '1218'},
+                      {label: '1226'},
+                      {label: '1228'},
+                      {label: '1255'},
+                      {label: '1256'}
+                    ]
+                  },
+                  {
+                    label: '二车队',
+                    children: [
+                      {label: '47'},
+                      {label: '66'},
+                      {label: '66区间'},
+                      {label: '97'},
+                      {label: '140'},
+                      {label: '179'},
+                      {label: '306'},
+                      {label: '597'}
+                    ]
+                  },
+                  {
+                    label: '三车队',
+                    children: [
+                      {label: '70'},
+                      {label: '79'},
+                      {label: '80'},
+                      {label: '137'},
+                      {label: '222'},
+                      {label: '310'},
+                      {label: '559'},
+                      {label: '758'},
+                      {label: '875'},
+                      {label: '960'}
+                    ]
+                  },
+                  {
+                    label: '四车队',
+                    children: [
+                      {label: '60'},
+                      {label: '103'},
+                      {label: '142'},
+                      {label: '195'},
+                      {label: '220'},
+                      {label: '308'},
+                      {label: '329'},
+                      {label: '557'},
+                      {label: '723'},
+                      {label: '842'},
+                      {label: '874'}
+                    ]
+                  },
+                  {
+                    label: '五车队',
+                    children: [
+                      {label: '100'},
+                      {label: '115'},
+                      {label: '123'},
+                      {label: '819'},
+                      {label: '854'},
+                      {label: '942'},
+                      {label: '1258'}
+                    ]
+                  }
+                ]
+              },
+              {
+                label: '巴士二公司',
+                children: [{
+                  label: '一车队',
+                  children: [
+                    {label: '55'},
+                    {label: '61'},
+                    {label: '99'},
+                    {label: '307'},
+                    {label: '325'},
+                    {label: '538'},
+                    {label: '1201'},
+                    {label: '1218'},
+                    {label: '1226'},
+                    {label: '1228'},
+                    {label: '1255'},
+                    {label: '1256'}
+                  ]
+                },
+                  {
+                    label: '二车队',
+                    children: [
+                      {label: '47'},
+                      {label: '66'},
+                      {label: '66区间'},
+                      {label: '97'},
+                      {label: '140'},
+                      {label: '179'},
+                      {label: '306'},
+                      {label: '597'}
+                    ]
+                  },
+                  {
+                    label: '三车队',
+                    children: [
+                      {label: '70'},
+                      {label: '79'},
+                      {label: '80'},
+                      {label: '137'},
+                      {label: '222'},
+                      {label: '310'},
+                      {label: '559'},
+                      {label: '758'},
+                      {label: '875'},
+                      {label: '960'}
+                    ]
+                  },
+                  {
+                    label: '四车队',
+                    children: [
+                      {label: '60'},
+                      {label: '103'},
+                      {label: '142'},
+                      {label: '195'},
+                      {label: '220'},
+                      {label: '308'},
+                      {label: '329'},
+                      {label: '557'},
+                      {label: '723'},
+                      {label: '842'},
+                      {label: '874'}
+                    ]
+                  },
+                  {
+                    label: '五车队',
+                    children: [
+                      {label: '100'},
+                      {label: '115'},
+                      {label: '123'},
+                      {label: '819'},
+                      {label: '854'},
+                      {label: '942'},
+                      {label: '1258'}
+                    ]
+                  }]
+              },
+              {
+                label: '巴士三公司',
+                children: [{
+                  label: '一车队',
+                  children: [
+                    {label: '55'},
+                    {label: '61'},
+                    {label: '99'},
+                    {label: '307'},
+                    {label: '325'},
+                    {label: '538'},
+                    {label: '1201'},
+                    {label: '1218'},
+                    {label: '1226'},
+                    {label: '1228'},
+                    {label: '1255'},
+                    {label: '1256'}
+                  ]
+                },
+                  {
+                    label: '二车队',
+                    children: [
+                      {label: '47'},
+                      {label: '66'},
+                      {label: '66区间'},
+                      {label: '97'},
+                      {label: '140'},
+                      {label: '179'},
+                      {label: '306'},
+                      {label: '597'}
+                    ]
+                  },
+                  {
+                    label: '三车队',
+                    children: [
+                      {label: '70'},
+                      {label: '79'},
+                      {label: '80'},
+                      {label: '137'},
+                      {label: '222'},
+                      {label: '310'},
+                      {label: '559'},
+                      {label: '758'},
+                      {label: '875'},
+                      {label: '960'}
+                    ]
+                  },
+                  {
+                    label: '四车队',
+                    children: [
+                      {label: '60'},
+                      {label: '103'},
+                      {label: '142'},
+                      {label: '195'},
+                      {label: '220'},
+                      {label: '308'},
+                      {label: '329'},
+                      {label: '557'},
+                      {label: '723'},
+                      {label: '842'},
+                      {label: '874'}
+                    ]
+                  },
+                  {
+                    label: '五车队',
+                    children: [
+                      {label: '100'},
+                      {label: '115'},
+                      {label: '123'},
+                      {label: '819'},
+                      {label: '854'},
+                      {label: '942'},
+                      {label: '1258'}
+                    ]
+                  }]
+              }
+            ]
+          }
+        ],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        },
         sblbdm: '',
         sbgsjtdm: '',
         sbgsgsdm: '',
@@ -631,65 +757,8 @@
       ElementHeader
     },
     methods: {
-      viewCd() {
-        // 点公司显示车队列表
-        var _this = this
-        _this.tableLoading = true
-        // 若不显示
-        if (!_this.showCd) {
-          setTimeout(function () {
-            console.log('显示拥有车队一车队、二车队、三车队')
-            _this.tableLoading = false
-            _this.showCd = true
-          }, 500)
-          // 若已显示
-        } else {
-          setTimeout(function () {
-            console.log('若已显示车队，则刷新')
-            _this.tableLoading = false
-            _this.showXl = false
-            _this.showInfo = false
-          }, 500)
-        }
-      },
-      viewXl() {
-        // 点车队显示线路列表
-        var _this = this
-        _this.tableLoading = true
-        // 若不显示
-        if (!_this.showXl) {
-          setTimeout(function () {
-            console.log('显示拥有线路55、56、57')
-            _this.tableLoading = false
-            _this.showXl = true
-            _this.showInfo = false
-          }, 500)
-        } else {
-          setTimeout(function () {
-            console.log('若已显示线路，则刷新')
-            _this.tableLoading = false
-            _this.showInfo = false
-          }, 500)
-        }
-      },
-      viewInfo() {
-        // 点线路显示设备详细列表
-        var _this = this
-        _this.tableLoading = true
-        // 若不显示
-        if (!_this.showInfo) {
-          console.log('显示线路下所有设备1、设备2、设备3')
-          setTimeout(function () {
-            _this.tableLoading = false
-            _this.showInfo = true
-          }, 500)
-          // 若已显示
-        } else {
-          setTimeout(function () {
-            console.log('若已显示设备，则刷新')
-            _this.tableLoading = false
-          }, 500)
-        }
+      handleNodeClick(data) {
+        console.log(data)
       },
       initData() {
         var _this = this
@@ -1258,6 +1327,30 @@
   }
 </script>
 <style scoped>
+  .box-card {
+    float: left;
+    width: 550px;
+    margin: 5px 0;
+    height: 70px;
+  }
+
+  .text {
+    font-size: 14px;
+    line-height: 14px;
+    text-align: center;
+  }
+
+  .item {
+    float: left;
+    margin: 11px 2px 4px 6px;
+    width: 100px;
+    height: 14px;
+  }
+
+  .title {
+    color: #409eff;
+  }
+
   .el-header {
     background-color: white;
     color: black;
@@ -1266,15 +1359,6 @@
 
   .el-aside {
     color: #333;
-  }
-
-  #title {
-    height: 36px;
-    text-align: center;
-    background-color: white;
-    color: black;
-    font-size: 18px;
-    line-height: 36px;
   }
 
   .el-dialog__body {

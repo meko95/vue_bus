@@ -1,16 +1,28 @@
 <template>
   <div id="header">
-    <div id="com">
-      上海澳马设备运维管理系统
-      <el-button type="text" @click="sign_out">退出</el-button>
-    </div>
+    <!--<div id="com">-->
+      <!--上海澳马设备运维管理系统-->
+    <!--</div>-->
     <el-menu :default-active="$route.path" router class="el-menu" mode="horizontal"
              @select="handleSelect">
+      <el-menu-item style="background-color: #324157;color: white;font-size: 16px">上海澳马设备运维管理系统</el-menu-item>
       <el-menu-item index="/bus/contract/getContract">合同管理</el-menu-item>
       <el-submenu index="2">
         <template slot="title">设备基础数据管理</template>
+        <el-menu-item index="/Sbs/jt1">查看设备归属统计</el-menu-item>
+        <el-submenu index="2-2">
+          <template slot="title">查看基础信息</template>
+          <el-menu-item index="/rfid4g/basic/jt1">RFID4G</el-menu-item>
+          <el-menu-item index="2-2-2">RFID4G场站</el-menu-item>
+          <el-menu-item index="2-2-3">车辆标签</el-menu-item>
+          <el-menu-item index="2-2-4">车载一体机</el-menu-item>
+          <el-menu-item index="2-2-5">报到机</el-menu-item>
+          <el-menu-item index="2-2-6">一程一检</el-menu-item>
+          <el-menu-item index="2-2-7">站点通</el-menu-item>
+          <el-menu-item index="2-2-8">55寸屏</el-menu-item>
+          <el-menu-item index="2-2-9">站杆预报屏</el-menu-item>
+        </el-submenu>
         <el-menu-item index="/bus/basicdata/getDeviceCollectData">查看采集数据</el-menu-item>
-        <el-menu-item index="/rfid4g/basic/jt1">查看基础信息</el-menu-item>
         <el-badge value="10">
           <el-menu-item index="/bus/basicdata/getDeviceInstallInfo">查看安装信息</el-menu-item>
         </el-badge>
@@ -67,15 +79,13 @@
   export default {
     name: "ElementHeader",
     data() {
-      return {
-
-      }
+      return {}
     },
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath)
       },
-      sign_out(){
+      sign_out() {
         this.$router.push('/bus/login')
       }
     }
@@ -83,22 +93,12 @@
 </script>
 
 <style lang="less" scoped>
-  #com{
-    font-size: 25px;
-    line-height: 25px;
-    padding:10px 20px;
-    background-color: #324157;
-    color: white;
-  }
-  #com .el-button{
-    margin-left: 1000px;
-  }
-  .el-menu{
-    padding-left: 120px;
+  .el-menu {
     background-color: white;
     color: #6c737b;
   }
-  .el-menu-item:hover{
+
+  .el-menu-item:hover {
     color: #409EFF !important;
   }
 </style>
