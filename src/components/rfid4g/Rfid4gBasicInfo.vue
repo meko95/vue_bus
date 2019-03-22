@@ -1085,8 +1085,6 @@
                   console.log('没有执行到此')
                   this.loadRfid4gData()
                 }
-              }, err => {
-                console.log(err)
               })
             } else {
               // Add
@@ -1125,8 +1123,6 @@
             _this.emptyRfid4gData()
             _this.loadRfid4gData()
           }
-        }, err => {
-          console.log(err)
         })
       },
       deleteManyRfid4gs() {
@@ -1275,8 +1271,6 @@
             // totalPage会发生改变 currentPage、pageSize是向服务端发送的
             _this.totalPage = res.data.data.total
           }
-        }, err => {
-          console.log(err)
         })
       },
       loadSbBasicInfo(type, jtdm, gsdm, cddm, xldm) {
