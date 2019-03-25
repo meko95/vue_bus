@@ -88,14 +88,14 @@
                               placeholder="输入设备品牌"></el-input>
                   </el-col>
                   <el-col :span="5">
-                    型号:
+                    型号：
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.sbxh" size="small" style="width: 150px"
                               placeholder="输入设备型号"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="8">
-                    启动日期:
+                    启动日期：
                     <el-date-picker
                       v-model="beginDateScope"
                       unlink-panels
@@ -108,7 +108,7 @@
                     </el-date-picker>
                   </el-col>
                   <el-col :span="8">
-                    更新日期:
+                    更新日期：
                     <el-date-picker
                       v-model="updateDateScope"
                       unlink-panels
@@ -121,7 +121,7 @@
                     </el-date-picker>
                   </el-col>
                   <el-col :span="8">
-                    报废日期:
+                    报废日期：
                     <el-date-picker
                       v-model="endDateScope"
                       unlink-panels
@@ -136,14 +136,14 @@
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="4">
-                    供应商:
+                    供应商：
                     <el-select v-model="rfid4g.gysmc" style="width: 130px" size="small" placeholder="请选择供应商">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="4">
-                    集成商:
+                    集成商：
                     <el-select v-model="rfid4g.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
@@ -204,30 +204,19 @@
               <el-table-column prop="sbbfrq" label="报废日期" width="115" align="center" sortable>
                 <template slot-scope="scope">{{ scope.row.sbbfrq | formatDate}}</template>
               </el-table-column>
-
               <el-table-column prop="gysmc" label="供应商" width="100" align="center"></el-table-column>
               <el-table-column prop="jcsmc" label="集成商" width="100" align="center"></el-table-column>
               <el-table-column prop="tmbh" label="条码编号" width="100" align="center"></el-table-column>
               <el-table-column prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
-
-              <el-table-column label="操作" width="150" align="center" fixed="right">
-                <template slot-scope="scope">
-                  <!--:disabled="!showInfo"-->
-                  <el-button @click="showEditRfid4gView(scope.row)"
-                             style="padding: 5px 10px;margin: 6px"
-                             size="large">编辑
-                  </el-button>
-                  <!--:disabled="!showInfo"-->
-                  <el-button type="danger" style="padding: 5px 10px;margin: 6px" size="large"
-                             @click="deleteRfid4g(scope.row)">删除
-                  </el-button>
-                </template>
-              </el-table-column>
             </el-table>
             <!-- 批量删除Begin -->
             <div style="display: flex;justify-content: flex-end;margin: 4px">
+              <el-button size="small" v-if="Sbs.length>0"
+                         :disabled="multipleSelection.length===0||multipleSelection.length>1"
+                         @click="showEditRfid4gView(multipleSelection[0])">编辑
+              </el-button>
               <el-button type="danger" size="small" v-if="Sbs.length>0" :disabled="multipleSelection.length===0"
-                         @click="deleteManyRfid4gs">批量删除
+                         @click="deleteManyRfid4gs">删除
               </el-button>
               <el-button size="small" v-if="Sbs.length>0" :disabled="multipleSelection.length===0"
                          @click="toggleSelection(multipleSelection)">
@@ -239,7 +228,6 @@
                              layout="total, sizes, prev, pager, next, jumper">
               </el-pagination>
             </div>
-            <!-- 批量删除End -->
           </div>
         </el-main>
       </el-container>
@@ -437,244 +425,7 @@
     name: "Rfid4gBasicInfo",
     data() {
       return {
-        subsidiary: [
-          {
-            id: 1,
-            label: '上海久事一集团',
-            children: [
-              {
-                label: '巴士一公司',
-                children: [
-                  {
-                    label: '一车队',
-                    children: [
-                      {label: '55'},
-                      {label: '61'},
-                      {label: '99'},
-                      {label: '307'},
-                      {label: '325'},
-                      {label: '538'},
-                      {label: '1201'},
-                      {label: '1218'},
-                      {label: '1226'},
-                      {label: '1228'},
-                      {label: '1255'},
-                      {label: '1256'}
-                    ]
-                  },
-                  {
-                    label: '二车队',
-                    children: [
-                      {label: '47'},
-                      {label: '66'},
-                      {label: '66区间'},
-                      {label: '97'},
-                      {label: '140'},
-                      {label: '179'},
-                      {label: '306'},
-                      {label: '597'}
-                    ]
-                  },
-                  {
-                    label: '三车队',
-                    children: [
-                      {label: '70'},
-                      {label: '79'},
-                      {label: '80'},
-                      {label: '137'},
-                      {label: '222'},
-                      {label: '310'},
-                      {label: '559'},
-                      {label: '758'},
-                      {label: '875'},
-                      {label: '960'}
-                    ]
-                  },
-                  {
-                    label: '四车队',
-                    children: [
-                      {label: '60'},
-                      {label: '103'},
-                      {label: '142'},
-                      {label: '195'},
-                      {label: '220'},
-                      {label: '308'},
-                      {label: '329'},
-                      {label: '557'},
-                      {label: '723'},
-                      {label: '842'},
-                      {label: '874'}
-                    ]
-                  },
-                  {
-                    label: '五车队',
-                    children: [
-                      {label: '100'},
-                      {label: '115'},
-                      {label: '123'},
-                      {label: '819'},
-                      {label: '854'},
-                      {label: '942'},
-                      {label: '1258'}
-                    ]
-                  }
-                ]
-              },
-              {
-                label: '巴士二公司',
-                children: [{
-                  label: '一车队',
-                  children: [
-                    {label: '55'},
-                    {label: '61'},
-                    {label: '99'},
-                    {label: '307'},
-                    {label: '325'},
-                    {label: '538'},
-                    {label: '1201'},
-                    {label: '1218'},
-                    {label: '1226'},
-                    {label: '1228'},
-                    {label: '1255'},
-                    {label: '1256'}
-                  ]
-                },
-                  {
-                    label: '二车队',
-                    children: [
-                      {label: '47'},
-                      {label: '66'},
-                      {label: '66区间'},
-                      {label: '97'},
-                      {label: '140'},
-                      {label: '179'},
-                      {label: '306'},
-                      {label: '597'}
-                    ]
-                  },
-                  {
-                    label: '三车队',
-                    children: [
-                      {label: '70'},
-                      {label: '79'},
-                      {label: '80'},
-                      {label: '137'},
-                      {label: '222'},
-                      {label: '310'},
-                      {label: '559'},
-                      {label: '758'},
-                      {label: '875'},
-                      {label: '960'}
-                    ]
-                  },
-                  {
-                    label: '四车队',
-                    children: [
-                      {label: '60'},
-                      {label: '103'},
-                      {label: '142'},
-                      {label: '195'},
-                      {label: '220'},
-                      {label: '308'},
-                      {label: '329'},
-                      {label: '557'},
-                      {label: '723'},
-                      {label: '842'},
-                      {label: '874'}
-                    ]
-                  },
-                  {
-                    label: '五车队',
-                    children: [
-                      {label: '100'},
-                      {label: '115'},
-                      {label: '123'},
-                      {label: '819'},
-                      {label: '854'},
-                      {label: '942'},
-                      {label: '1258'}
-                    ]
-                  }]
-              },
-              {
-                label: '巴士三公司',
-                children: [{
-                  label: '一车队',
-                  children: [
-                    {label: '55'},
-                    {label: '61'},
-                    {label: '99'},
-                    {label: '307'},
-                    {label: '325'},
-                    {label: '538'},
-                    {label: '1201'},
-                    {label: '1218'},
-                    {label: '1226'},
-                    {label: '1228'},
-                    {label: '1255'},
-                    {label: '1256'}
-                  ]
-                },
-                  {
-                    label: '二车队',
-                    children: [
-                      {label: '47'},
-                      {label: '66'},
-                      {label: '66区间'},
-                      {label: '97'},
-                      {label: '140'},
-                      {label: '179'},
-                      {label: '306'},
-                      {label: '597'}
-                    ]
-                  },
-                  {
-                    label: '三车队',
-                    children: [
-                      {label: '70'},
-                      {label: '79'},
-                      {label: '80'},
-                      {label: '137'},
-                      {label: '222'},
-                      {label: '310'},
-                      {label: '559'},
-                      {label: '758'},
-                      {label: '875'},
-                      {label: '960'}
-                    ]
-                  },
-                  {
-                    label: '四车队',
-                    children: [
-                      {label: '60'},
-                      {label: '103'},
-                      {label: '142'},
-                      {label: '195'},
-                      {label: '220'},
-                      {label: '308'},
-                      {label: '329'},
-                      {label: '557'},
-                      {label: '723'},
-                      {label: '842'},
-                      {label: '874'}
-                    ]
-                  },
-                  {
-                    label: '五车队',
-                    children: [
-                      {label: '100'},
-                      {label: '115'},
-                      {label: '123'},
-                      {label: '819'},
-                      {label: '854'},
-                      {label: '942'},
-                      {label: '1258'}
-                    ]
-                  }]
-              }
-            ]
-          }
-        ],
+        subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
           label: 'label'
@@ -1263,12 +1014,9 @@
         // console.log(this.formatDate(params.beginDateScope[0])) // 2019-03-15
         this.getRequest('/api/sb/rfid4g', params).then(res => {
           _this.tableLoading = false
-          // _this.showCd = false
-          // _this.showXl = false
-          // _this.showInfo = false
           if (res && res.status === 200) {
             _this.Sbs = res.data.data.list
-            // totalPage会发生改变 currentPage、pageSize是向服务端发送的
+            // totalRow会发生改变 currentPage、pageSize是向服务端发送的
             _this.totalPage = res.data.data.total
           }
         })

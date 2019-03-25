@@ -23,6 +23,7 @@
     "got": "^9.6.0",
     "gridmanager-vue": "^1.0.15",
     "jquery": "^3.3.1",
+    "mockjs": "^1.0.1-beta3",
     "mysql": "^2.16.0",
     "popper.js": "^1.14.7",
     "vue": "^2.5.2",

@@ -86,14 +86,14 @@ export default new Router({
       component: Rfid4gBasicInfo
     },
     {
-      path: '/bus/basicdata/getClbqBasicInfo',
-      name: 'ClbqBasicInfo',
-      component: ClbqBasicInfo
-    },
-    {
-      path: '/bus/basicdata/getRfid4gczBasicInfo',
+      path: '/rfid4gcz/basic/jt1',
       name: 'Rfid4gczBasicInfo',
       component: Rfid4gczBasicInfo
+    },
+    {
+      path: '/clbq/basic/jt1',
+      name: 'ClbqBasicInfo',
+      component: ClbqBasicInfo
     },
     {
       path: '/bus/basicdata/getCzytjBasicInfo',

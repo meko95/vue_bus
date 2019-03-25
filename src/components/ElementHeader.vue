@@ -13,8 +13,8 @@
         <el-submenu index="2-2">
           <template slot="title">查看基础信息</template>
           <el-menu-item index="/rfid4g/basic/jt1">RFID4G</el-menu-item>
-          <el-menu-item index="2-2-2">RFID4G场站</el-menu-item>
-          <el-menu-item index="2-2-3">车辆标签</el-menu-item>
+          <el-menu-item index="/rfid4gcz/basic/jt1">RFID4G场站</el-menu-item>
+          <el-menu-item index="/clbq/basic/jt1">车辆标签</el-menu-item>
           <el-menu-item index="2-2-4">车载一体机</el-menu-item>
           <el-menu-item index="2-2-5">报到机</el-menu-item>
           <el-menu-item index="2-2-6">一程一检</el-menu-item>
