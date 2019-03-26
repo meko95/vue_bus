@@ -15,9 +15,9 @@
           <el-menu-item index="/rfid4g/basic/jt1">RFID4G</el-menu-item>
           <el-menu-item index="/rfid4gcz/basic/jt1">RFID4G场站</el-menu-item>
           <el-menu-item index="/clbq/basic/jt1">车辆标签</el-menu-item>
-          <el-menu-item index="2-2-4">车载一体机</el-menu-item>
-          <el-menu-item index="2-2-5">报到机</el-menu-item>
-          <el-menu-item index="2-2-6">一程一检</el-menu-item>
+          <el-menu-item index="/czytj/basic/jt1">车载一体机</el-menu-item>
+          <el-menu-item index="/bgj/basic/jt1">报到机</el-menu-item>
+          <el-menu-item index="/ycyj/basic/jt1">一程一检</el-menu-item>
           <el-menu-item index="2-2-7">站点通</el-menu-item>
           <el-menu-item index="2-2-8">55寸屏</el-menu-item>
           <el-menu-item index="2-2-9">站杆预报屏</el-menu-item>

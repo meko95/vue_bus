@@ -96,17 +96,17 @@ export default new Router({
       component: ClbqBasicInfo
     },
     {
-      path: '/bus/basicdata/getCzytjBasicInfo',
+      path: '/czytj/basic/jt1',
       name: 'CzytjBasicInfo',
       component: CzytjBasicInfo
     },
     {
-      path: '/bus/basicdata/getBdjBasicInfo',
+      path: '/bgj/basic/jt1',
       name: 'BdjBasicInfo',
       component: BdjBasicInfo
     },
     {
-      path: '/bus/basicdata/getYcyjBasicInfo',
+      path: '/ycyj/basic/jt1',
       name: 'YcyjBasicInfo',
       component: YcyjBasicInfo
     },

@@ -1,422 +1,430 @@
 <template>
   <div>
     <ElementHeader></ElementHeader>
-    <div id="title">
-      一程一检基本信息
-    </div>
-    <el-container>
-      <el-header style="padding: 0px;display:flex;justify-content:space-between;align-items: center">
-        <div style="display: inline">
-          <el-input
-            placeholder="通过分片编号查询"
-            clearable
-            @change="keywordsChange"
-            style="width: 300px;margin-left: 56px;padding: 0;"
-            size="mini"
-            :disabled="advanceSearchViewVisible"
-            @keyup.enter.native="searchYcyj"
-            prefix-icon="el-icon-search"
-            v-model="keywords">
-          </el-input>
-          <el-select v-model="ycyj.sblb" size="mini" style="width: 200px;margin-left: 20px;padding: 0;" clearable
-                     placeholder="通过设备类别查询">
-            <el-option
-              v-for="item in DEVICE_LIST"
-              :key="item.text"
-              :label="item.text"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchYcyj">
-            搜索
-          </el-button>
-          <el-button slot="reference" type="primary" size="mini" style="margin-left: 10px"
-                     @click="showAdvanceSearchView">
-            <i class="fa fa-lg" :class="[advanceSearchViewVisible ? faangledoubleup:faangledoubledown]"
-               style="margin-right: 5px">
-            </i>高级搜索
-          </el-button>
-        </div>
-
-        <div style="margin-left: 5px;margin-right: 20px;display: inline">
-          <el-button type="success" size="mini" @click="exportYcyjs">
-            <i class="fa fa-lg fa-level-down" style="margin-right: 10px"></i>导出数据
-          </el-button>
-          <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddYcyjView">添加一程一检
-          </el-button>
-        </div>
-
-      </el-header>
-      <el-main style="padding-left: 20px;padding-top: 0">
-        <div>
-          <!-- 高级搜索 -->
-          <transition name="slide-fade">
-            <div
-              style="margin-bottom: 10px;border: 1px solid #20a0ff;border-radius: 5px;padding: 20px 35px;box-sizing:border-box;"
-              v-show="advanceSearchViewVisible">
-              <el-row>
-                <el-col :span="5">
-                  一程一检编号：
-                  <el-input prefix-icon="el-icon-search" v-model="ycyj.sbzbh" size="small" style="width: 150px"
-                            placeholder="设备查询编号"></el-input>
-                </el-col>
-                <el-col :span="4">
-                  管理等级：
-                  <el-select v-model="ycyj.gldj" style="width: 100px" size="small" placeholder="管理等级">
-                    <el-option v-for="item in gldj" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-col>
-                <el-col :span="4">
-                  品牌：
-                  <el-select v-model="ycyj.sbpp" style="width: 130px" size="small" placeholder="请选择品牌">
-                    <el-option v-for="item in pp" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-col>
-                <el-col :span="5">
-                  型号:
-                  <el-select v-model="ycyj.sbxh" style="width: 130px" size="small" placeholder="请选择型号">
-                    <el-option v-for="item in xh" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-col>
-              </el-row>
-              <el-row style="margin-top: 18px">
-                <el-col :span="8">
-                  启动日期:
-                  <el-date-picker
-                    v-model="dateScope"
-                    unlink-panels
-                    size="small"
-                    type="daterange"
-                    value-format="yyyy-MM-dd"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期">
-                  </el-date-picker>
-                </el-col>
-                <el-col :span="8">
-                  更新日期:
-                  <el-date-picker
-                    v-model="dateScope"
-                    unlink-panels
-                    size="small"
-                    type="daterange"
-                    value-format="yyyy-MM-dd"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期">
-                  </el-date-picker>
-                </el-col>
-                <el-col :span="8">
-                  报废日期:
-                  <el-date-picker
-                    v-model="dateScope"
-                    unlink-panels
-                    size="small"
-                    type="daterange"
-                    value-format="yyyy-MM-dd"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期">
-                  </el-date-picker>
-                </el-col>
-              </el-row>
-              <el-row style="margin-top: 18px">
-                <el-col :span="4">
-                  供应商:
-                  <el-select v-model="ycyj.gysmc" style="width: 130px" size="small" placeholder="请选择供应商">
-                    <el-option
-                      v-for="item in gys"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id">
-                    </el-option>
-                  </el-select>
-                </el-col>
-                <el-col :span="4">
-                  集成商:
-                  <el-select v-model="ycyj.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商">
-                    <el-option
-                      v-for="item in jcs"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id">
-                    </el-option>
-                  </el-select>
-                </el-col>
-                <el-col :span="8">
-                  设备归属：
-                  <el-cascader
-                    size="small"
-                    placeholder="请选择设备归属"
-                    style="width:300px;"
-                    expand-trigger="hover"
-                    :options="ycyjGsOptions"
-                    v-model="ycyjGsOption"
-                    @change="handleChange"
-                    change-on-select
-                  >
-                  </el-cascader>
-                </el-col>
-                <el-col :span="6">
-                  线路：
-                  <el-input prefix-icon="el-icon-search" v-model="ycyj.sbgsxlmc" size="small" style="width: 250px"
-                            placeholder="输入设备线路，以中文逗号相间隔"></el-input>
-                </el-col>
-              </el-row>
-              <el-row style="margin-top: 18px">
-                <el-col :span="4" :offset="21">
-                  <el-button size="small" @click="cancelSearch">取消</el-button>
-                  <el-button icon="el-icon-search" type="primary" size="small" @click="searchYcyj">搜索</el-button>
-                </el-col>
-              </el-row>
-            </div>
-          </transition>
-          <!-- RFID基础信息Begin -->
-          <el-table ref="multipleTable" :data="ycyjs" v-loading="tableLoading" border tooltip-effect="dark"
-                    style="width: 100%;" @selection-change="handleSelectionChange" stripe size="small" height="490"
-                    :default-sort="{prop: 'sbqyrq', order: 'descending'}">
-            <el-table-column type="selection" width="36" align="center"></el-table-column>
-            <el-table-column prop="sbzbh" label="一程一检编号" width="130" align="center" fixed></el-table-column>
-            <el-table-column prop="qypbh" label="分片编号" width="85" align="center" ></el-table-column>
-            <el-table-column prop="htbh" label="合同编号" width="90" align="center"></el-table-column>
-            <el-table-column prop="gldj" label="管理等级" width="85" align="center"></el-table-column>
-            <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
-            <el-table-column prop="sbxh" label="型号" width="50" align="center"></el-table-column >
-            <el-table-column prop="simkh" label="SIM卡号" width="110" align="center"></el-table-column>
-            <el-table-column prop="sbgsjtmc" label="集团" width="100" align="center"></el-table-column>
-            <el-table-column prop="sbgsgsmc" label="公司" width="180" align="center"></el-table-column>
-            <el-table-column prop="sbgscdmc" label="车队" width="100" align="center"></el-table-column>
-            <el-table-column prop="sbgszdmc" label="站点" width="100" align="center"></el-table-column>
-            <el-table-column prop="sbgsxlmc" label="线路" width="220" align="center"></el-table-column>
-            <el-table-column prop="sbqyrq" label="启用日期" width="115" align="center" sortable>
-              <!--<template slot-scope="scope">{{ scope.row.sbqyrq | formatDate}}</template>-->
-            </el-table-column>
-            <el-table-column prop="sbgxrq" label="更新日期" width="115" align="center" sortable>
-              <!--<template slot-scope="scope">{{ scope.row.sbgxrq | formatDate}}</template>-->
-            </el-table-column>
-            <el-table-column prop="sbbfrq" label="报废日期" width="115" align="center" sortable>
-              <!--<template slot-scope="scope">{{ scope.row.sbbfrq | formatDate}}</template>-->
-            </el-table-column>
-            <el-table-column prop="gysmc" label="供应商" width="100" align="center">
-            </el-table-column>
-            <el-table-column prop="jcsmc" label="集成商" width="100" align="center">
-            </el-table-column>
-            <el-table-column prop="tmbh" label="条码编号" width="100" align="center"></el-table-column>
-            <el-table-column prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
-            <el-table-column fixed="right" label="操作" width="195" align="center">
-              <template slot-scope="scope">
-                <el-button @click="showEditYcyjView(scope.row)" style="padding: 5px 10px;margin: 6px"
-                           size="large">编辑
-                </el-button>
-                <el-button type="danger" style="padding: 5px 10px;margin: 6px" size="large"
-                           @click="deleteYcyj(scope.row)">删除
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <!-- RFID基础信息End -->
-          <!-- 批量删除及分页Begin -->
-          <div style="display: flex;justify-content: space-between;margin: 2px">
-            <el-button type="danger" size="small" v-if="ycyjs.length>0" :disabled="multipleSelection.length==0"
-                       @click="deleteManyYcyjs">批量删除
+    <el-container style="height: 707px; border: 1px solid #eee">
+      <!-- Side Begin -->
+      <el-aside width="133px" style="background-color: rgb(238, 241, 246)">
+        <span style="text-align: center; font-size: 24px">一程一检</span>
+        <el-tree :data="subsidiary" :props="defaultProps" accordion @node-click="handleNodeClick"
+                 highlight-current node-key="id" :default-expanded-keys="[1]"></el-tree>
+      </el-aside>
+      <!-- Container Begin -->
+      <el-container>
+        <el-header>
+          <div style="display: inline">
+            <el-card class="box-card" shadow="hover" :body-style="{padding: '2px'}">
+              <div class="text item title">{{'上海久事一集团'}}</div>
+              <div>
+                <div class="text item">{{'设备总数:' + 100 }}</div>
+                <div class="text item">{{'故障数:' + 2 }}</div>
+                <div class="text item">{{'暂停使用:' + 1 }}</div>
+                <div class="text item">{{'上线数:' + 97 }}</div>
+                <div class="text item">{{'上线率:' + '97%'}}</div>
+              </div>
+              <div>
+                <div class="text item">{{'报修数:' + 10 }}</div>
+                <div class="text item">{{'正在维修:' + 2 }}</div>
+                <div class="text item">{{'修复完成:' + 8 }}</div>
+                <div class="text item">{{'修复率:' + '80%'}}</div>
+              </div>
+            </el-card>
+            <el-input
+              placeholder="通过分片编号查询"
+              clearable
+              @change="keywordsChange"
+              style="width: 192px;margin-left: 10px;padding: 0;"
+              size="mini"
+              :disabled="advanceSearchViewVisible"
+              @keyup.enter.native="searchYcyj"
+              prefix-icon="el-icon-search"
+              v-model="keywords">
+            </el-input>
+            <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchYcyj">
+              搜索
             </el-button>
-            <el-button size="small" :disabled="multipleSelection.length==0" @click="toggleSelection(multipleSelection)">
-              取消选择
+            <el-button slot="reference" type="primary" size="mini" style="margin-left: 0px"
+                       @click="showAdvanceSearchView">
+              <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
+                 style="margin-right: 5px">
+              </i>高级搜索
             </el-button>
-            <el-pagination background :page-sizes="[10, 30, 50, 100]" :total="totalPage" :page-size="pageSize"
-                           :current-page="currentPage"
-                           @current-change="handleCurrentChange" @size-change="handleSizeChange"
-                           layout="total, sizes, prev, pager, next, jumper"></el-pagination>
           </div>
-          <!-- 批量删除及分页End-->
-        </div>
-      </el-main>
-    </el-container>
 
-    <!-- 添加RFID4G信息Begin -->
-    <el-form :model="ycyj" :rules="rules" ref="addYcyjForm" style="margin: 0px;padding: 0px;">
-      <div style="text-align: left">
-        <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                   :visible.sync="dialogVisible" width="77%">
-          <el-row style="padding-left: 100px">
-            <el-col :span="7">
-              <div>
-                <el-form-item label="一程一检编号:" prop="sbzbh">
-                  <el-input prefix-icon="el-icon-edit" v-model="ycyj.sbzbh" size="small" style="width: 150px"
-                            placeholder="请输入设备编号"></el-input>
-                </el-form-item>
+          <div style="margin-left: 5px;display: inline">
+            <el-button type="success" size="mini" @click="importYcyjs">
+              <i class="el-icon-upload2" style="margin-right: 3px"></i>导入数据
+            </el-button>
+            <el-button type="success" size="mini" @click="exportYcyjs">
+              <i class="el-icon-download" style="margin-right: 3px"></i>导出数据
+            </el-button>
+            <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddYcyjView">添加一程一检
+            </el-button>
+          </div>
+        </el-header>
+        <el-main>
+          <div>
+            <!-- 高级搜索 -->
+            <transition name="slide-fade">
+              <div
+                style="margin-bottom: 10px;border: 1px solid #20a0ff;border-radius: 5px;padding: 20px 35px;box-sizing:border-box;"
+                v-show="advanceSearchViewVisible">
+                <el-row>
+                  <el-col :span="5">
+                    一程一检编号：
+                    <el-input prefix-icon="el-icon-search" v-model="ycyj.sbzbh" size="small" style="width: 150px"
+                              placeholder="设备查询编号"></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    管理等级：
+                    <el-select v-model="ycyj.gldj" style="width: 100px" size="small" placeholder="管理等级">
+                      <el-option v-for="item in gldj" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    品牌：
+                    <el-select v-model="ycyj.sbpp" style="width: 130px" size="small" placeholder="请选择品牌">
+                      <el-option v-for="item in pp" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    型号:
+                    <el-select v-model="ycyj.sbxh" style="width: 130px" size="small" placeholder="请选择型号">
+                      <el-option v-for="item in xh" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
+                  <el-col :span="8">
+                    启动日期:
+                    <el-date-picker
+                      v-model="dateScope"
+                      unlink-panels
+                      size="small"
+                      type="daterange"
+                      value-format="yyyy-MM-dd"
+                      range-separator="至"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
+                    </el-date-picker>
+                  </el-col>
+                  <el-col :span="8">
+                    更新日期:
+                    <el-date-picker
+                      v-model="dateScope"
+                      unlink-panels
+                      size="small"
+                      type="daterange"
+                      value-format="yyyy-MM-dd"
+                      range-separator="至"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
+                    </el-date-picker>
+                  </el-col>
+                  <el-col :span="8">
+                    报废日期:
+                    <el-date-picker
+                      v-model="dateScope"
+                      unlink-panels
+                      size="small"
+                      type="daterange"
+                      value-format="yyyy-MM-dd"
+                      range-separator="至"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
+                    </el-date-picker>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
+                  <el-col :span="4">
+                    供应商:
+                    <el-select v-model="ycyj.gysmc" style="width: 130px" size="small" placeholder="请选择供应商">
+                      <el-option
+                        v-for="item in gys"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    集成商:
+                    <el-select v-model="ycyj.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商">
+                      <el-option
+                        v-for="item in jcs"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="8">
+                    设备归属：
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备归属"
+                      style="width:300px;"
+                      expand-trigger="hover"
+                      :options="ycyjGsOptions"
+                      v-model="ycyjGsOption"
+                      @change="handleChange"
+                      change-on-select
+                    >
+                    </el-cascader>
+                  </el-col>
+                  <el-col :span="6">
+                    线路：
+                    <el-input prefix-icon="el-icon-search" v-model="ycyj.sbgsxlmc" size="small" style="width: 250px"
+                              placeholder="输入设备线路，以中文逗号相间隔"></el-input>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
+                  <el-col :span="4" :offset="21">
+                    <el-button size="small" @click="cancelSearch">取消</el-button>
+                    <el-button icon="el-icon-search" type="primary" size="small" @click="searchYcyj">搜索</el-button>
+                  </el-col>
+                </el-row>
               </div>
-            </el-col>
-            <el-col :span="8">
-              <div>
-                <el-form-item label="一程一检分片编号:" prop="qypbh">
-                  <el-input prefix-icon="el-icon-edit" v-model="ycyj.qypbh" size="small" style="width: 150px"
-                            placeholder="请输入分片编号"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="7">
-              <div>
-                <el-form-item label="合同编号:" prop="htbh">
-                  <el-input prefix-icon="el-icon-edit" v-model="ycyj.htbh" size="small" style="width: 150px"
-                            placeholder="请输入设备合同编号"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row style="padding-left: 100px">
-            <el-col :span="4">
-              <div>
-                <el-form-item label="管理等级:" prop="gldj">
-                  <el-select v-model="ycyj.gldj" style="width: 60px" size="small" placeholder="管理等级">
-                    <el-option v-for="item in gldj" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="5">
-              <div>
-                <el-form-item label="设备品牌:" prop="sbpp">
-                  <el-select v-model="ycyj.sbpp" style="width: 100px" size="small" placeholder="设备品牌">
-                    <el-option v-for="item in pp" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div>
-                <el-form-item label="设备型号:" prop="sbxh">
-                  <el-select v-model="ycyj.sbxh" style="width: 140px" size="small" placeholder="设备型号">
-                    <el-option v-for="item in xh" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div>
-                <el-form-item label="SIM卡号:" prop="simkh">
-                  <el-input prefix-icon="el-icon-edit" v-model="ycyj.simkh" size="small" style="width: 150px"
-                            placeholder="请输入SIM卡号"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row style="padding-left: 100px">
-            <el-col :span="9">
-              <div>
-                <el-form-item label="设备归属:" prop="ycyjGsOption">
-                  <el-cascader
-                    size="small"
-                    placeholder="请选择设备归属"
-                    style="width:266px;"
-                    expand-trigger="hover"
-                    :options="ycyjGsOptions"
-                    v-model="ycyjGsOption"
-                    @change="handleChange"
-                    change-on-select>
-                  </el-cascader>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div>
-                <el-form-item label="归属线路:" prop="sbgsxlmc">
-                  <el-input prefix-icon="el-icon-edit" v-model="ycyj.sbgsxlmc" size="small" style="width: 150px"
-                            placeholder="请输入归属线路"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row style="padding-left: 100px">
-            <el-col :span="6">
-              <div>
-                <el-form-item label="启动日期:" prop="sbqyrq">
-                  <el-date-picker
-                    v-model="ycyj.sbqyrq"
-                    size="small"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    style="width: 150px"
-                    type="date"
-                    placeholder="启动日期">
-                  </el-date-picker>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div>
-                <el-form-item label="更新日期:" prop="sbgxrq">
-                  <el-date-picker
-                    v-model="ycyj.sbgxrq"
-                    size="small"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    style="width: 150px"
-                    type="date"
-                    placeholder="更新日期">
-                  </el-date-picker>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div>
-                <el-form-item label="报废日期:" prop="sbbfrq">
-                  <el-date-picker
-                    v-model="ycyj.sbbfrq"
-                    size="small"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    style="width: 150px"
-                    type="date"
-                    placeholder="报废日期">
-                  </el-date-picker>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row style="padding-left: 100px">
-            <el-col :span="6">
-              <div>
-                <el-form-item label="供应商:" prop="gysmc">
-                  <el-select v-model="ycyj.gysmc" style="width: 130px" size="small" placeholder="供应商">
-                    <el-option v-for="item in gys" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="5">
-              <div>
-                <el-form-item label="集成商:" prop="jcsmc">
-                  <el-select v-model="ycyj.jcsmc" style="width: 130px" size="small" placeholder="集成商">
-                    <el-option v-for="item in jcs" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <el-row style="padding-left: 100px">
-            <el-col :span="6">
-              <div>
-                <el-form-item label="条码编号:" prop="tmbh">
-                  <el-input prefix-icon="el-icon-edit" v-model="ycyj.tmbh" size="small" style="width: 150px"
-                            placeholder="请输入条码编号"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div>
-                <el-form-item label="二维码编号:" prop="ewmbh">
-                  <el-input prefix-icon="el-icon-edit" v-model="ycyj.ewmbh" size="small" style="width: 180px"
-                            placeholder="请输入设备二维码编号"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-          </el-row>
-          <span slot="footer" class="dialog-footer">
+            </transition>
+            <!-- RFID基础信息Begin -->
+            <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
+                      style="width: 100%;" @selection-change="handleSelectionChange" stripe size="small" height="585"
+                      :default-sort="{prop: 'sbqyrq', order: 'descending'}">
+              <el-table-column type="selection" width="36" align="center"></el-table-column>
+              <el-table-column prop="sbzbh" label="一程一检编号" width="130" align="center" fixed></el-table-column>
+              <el-table-column prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
+              <el-table-column prop="gldj" label="管理等级" width="85" align="center"></el-table-column>
+              <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
+              <el-table-column prop="sbxh" label="型号" width="80" align="center"></el-table-column>
+              <el-table-column prop="simkh" label="SIM卡号" width="160" align="center"></el-table-column>
+              <el-table-column prop="sbgsjtmc" label="集团" width="110" align="center"></el-table-column>
+              <el-table-column prop="sbgsgsmc" label="公司" width="100" align="center"></el-table-column>
+              <el-table-column prop="sbgscdmc" label="车队" width="70" align="center"></el-table-column>
+              <el-table-column prop="zdbh" label="站点编号" width="70" align="center"></el-table-column>
+              <el-table-column prop="sbgsxlmc" label="线路" width="70" align="center"></el-table-column>
+              <el-table-column prop="sbqyrq" label="启用日期" width="115" align="center" sortable>
+                <!--<template slot-scope="scope">{{ scope.row.sbqyrq | formatDate}}</template>-->
+              </el-table-column>
+              <el-table-column prop="sbgxrq" label="更新日期" width="115" align="center" sortable>
+                <!--<template slot-scope="scope">{{ scope.row.sbgxrq | formatDate}}</template>-->
+              </el-table-column>
+              <el-table-column prop="sbbfrq" label="报废日期" width="115" align="center" sortable>
+                <!--<template slot-scope="scope">{{ scope.row.sbbfrq | formatDate}}</template>-->
+              </el-table-column>
+              <el-table-column prop="gysmc" label="供应商" width="100" align="center">
+              </el-table-column>
+              <el-table-column prop="jcsmc" label="集成商" width="100" align="center">
+              </el-table-column>
+              <el-table-column prop="tmbh" label="条码编号" width="100" align="center"></el-table-column>
+              <el-table-column prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
+            </el-table>
+            <!-- RFID基础信息End -->
+            <!-- 批量删除及分页Begin -->
+            <div style="display: flex;justify-content: flex-end;margin: 2px">
+              <el-button size="small" v-if="Sbs.length>0"
+                         :disabled="multipleSelection.length===0||multipleSelection.length>1"
+                         @click="showEditYcyjView(multipleSelection[0])">编辑
+              </el-button>
+              <el-button type="danger" size="small" v-if="Sbs.length>0" :disabled="multipleSelection.length==0"
+                         @click="deleteManyYcyjs">删除
+              </el-button>
+              <el-button size="small" v-if="Sbs.length>0" :disabled="multipleSelection.length==0"
+                         @click="toggleSelection(multipleSelection)">
+                取消选择
+              </el-button>
+              <el-pagination background :page-sizes="[10, 30, 50, 100]" :total="totalPage" :page-size="pageSize"
+                             :current-page="currentPage"
+                             @current-change="handleCurrentChange" @size-change="handleSizeChange"
+                             layout="total, sizes, prev, pager, next, jumper"></el-pagination>
+            </div>
+            <!-- 批量删除及分页End-->
+          </div>
+        </el-main>
+      </el-container>
+      <!-- 添加一程一检信息Begin -->
+      <el-form :model="ycyj" :rules="rules" ref="addYcyjForm" style="margin: 0px;padding: 0px;">
+        <div style="text-align: left">
+          <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
+                     :visible.sync="dialogVisible" width="77%">
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="一程一检编号:" prop="sbzbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.sbzbh" size="small" style="width: 150px"
+                              placeholder="请输入设备编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="8">
+                <div>
+                  <el-form-item label="一程一检分片编号:" prop="qypbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.qypbh" size="small" style="width: 150px"
+                              placeholder="请输入分片编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="合同编号:" prop="htbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.htbh" size="small" style="width: 150px"
+                              placeholder="请输入设备合同编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="4">
+                <div>
+                  <el-form-item label="管理等级:" prop="gldj">
+                    <el-select v-model="ycyj.gldj" style="width: 60px" size="small" placeholder="管理等级">
+                      <el-option v-for="item in gldj" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="5">
+                <div>
+                  <el-form-item label="设备品牌:" prop="sbpp">
+                    <el-select v-model="ycyj.sbpp" style="width: 100px" size="small" placeholder="设备品牌">
+                      <el-option v-for="item in pp" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="设备型号:" prop="sbxh">
+                    <el-select v-model="ycyj.sbxh" style="width: 140px" size="small" placeholder="设备型号">
+                      <el-option v-for="item in xh" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="SIM卡号:" prop="simkh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.simkh" size="small" style="width: 150px"
+                              placeholder="请输入SIM卡号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="9">
+                <div>
+                  <el-form-item label="设备归属:" prop="ycyjGsOption">
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备归属"
+                      style="width:266px;"
+                      expand-trigger="hover"
+                      :options="ycyjGsOptions"
+                      v-model="ycyjGsOption"
+                      @change="handleChange"
+                      change-on-select>
+                    </el-cascader>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="8">
+                <div>
+                  <el-form-item label="归属线路:" prop="sbgsxlmc">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.sbgsxlmc" size="small" style="width: 150px"
+                              placeholder="请输入归属线路"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="启动日期:" prop="sbqyrq">
+                    <el-date-picker
+                      v-model="ycyj.sbqyrq"
+                      size="small"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      style="width: 150px"
+                      type="date"
+                      placeholder="启动日期">
+                    </el-date-picker>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="更新日期:" prop="sbgxrq">
+                    <el-date-picker
+                      v-model="ycyj.sbgxrq"
+                      size="small"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      style="width: 150px"
+                      type="date"
+                      placeholder="更新日期">
+                    </el-date-picker>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="报废日期:" prop="sbbfrq">
+                    <el-date-picker
+                      v-model="ycyj.sbbfrq"
+                      size="small"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      style="width: 150px"
+                      type="date"
+                      placeholder="报废日期">
+                    </el-date-picker>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="供应商:" prop="gysmc">
+                    <el-select v-model="ycyj.gysmc" style="width: 130px" size="small" placeholder="供应商">
+                      <el-option v-for="item in gys" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="5">
+                <div>
+                  <el-form-item label="集成商:" prop="jcsmc">
+                    <el-select v-model="ycyj.jcsmc" style="width: 130px" size="small" placeholder="集成商">
+                      <el-option v-for="item in jcs" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="条码编号:" prop="tmbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.tmbh" size="small" style="width: 150px"
+                              placeholder="请输入条码编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="8">
+                <div>
+                  <el-form-item label="二维码编号:" prop="ewmbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.ewmbh" size="small" style="width: 180px"
+                              placeholder="请输入设备二维码编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <span slot="footer" class="dialog-footer">
             <el-button size="large" @click="cancelEidt">取 消</el-button>
             <el-button size="large" type="primary" @click="addYcyj('addYcyjForm')">确 定</el-button>
           </span>
-        </el-dialog>
+          </el-dialog>
 
-      </div>
-    </el-form>
+        </div>
+      </el-form>
+    </el-container>
   </div>
 </template>
 
@@ -427,12 +435,17 @@
     name: "YcyjBasicInfo",
     data() {
       return {
-        totalPage: 100,
+        subsidiary: this.$store.getters.getAllSubsidiary,
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        },
+        totalPage: 0,
         pageSize: 10,
         currentPage: 1,
         DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
         advanceSearchViewVisible: false,
-        dialogVisible:false,
+        dialogVisible: false,
         tableLoading: false,
         keywords: '',
         dateScope: '',
@@ -449,7 +462,7 @@
           sbgsgsmc: '',
           sbgscdmc: '',
           sbgsxlmc: '',
-          sbgszdmc:'',
+          sbgszdmc: '',
           sbqyrq: '',
           sbgxrq: '',
           sbbfrq: '',
@@ -458,10 +471,10 @@
           tmbh: '',
           ewmbh: ''
         },
-        ycyjs: [],
+        Sbs: [],
         multipleSelection: [],
-        faangledoubleup: 'fa-angle-double-up',
-        faangledoubledown: 'fa-angle-double-down',
+        searchUp: 'el-icon-arrow-up',
+        searchDown: 'el-icon-arrow-down',
         ycyjGsOption: ['', '', ''],
         ycyjGsOptions: [],
         fileUploadBtnText: '导入数据',
@@ -499,6 +512,9 @@
       ElementHeader
     },
     methods: {
+      handleNodeClick(data){
+        console.log(data)
+      },
       initData() {
         this.gsxl = [
           {id: 1, name: '1001'},
@@ -807,7 +823,7 @@
         this.emptyRfid4gData()
         this.emptyRfid4gGs()
       },
-      addYcyj(formName){
+      addYcyj(formName) {
         var _this = this
         _this.dialogVisible = true
         this.$refs[formName].validate((valid) => {
@@ -953,17 +969,17 @@
         }
         console.log('1123 本次查询参数为')
         console.log(params)
-        this.axios.get('/api/sb/rfid4g', JSON.stringify(params)).then(res => {
+        this.getRequest('http://localhost:8888/api/ycyj/basic/jt1').then(res=>{
           _this.tableLoading = false
           if (res && res.status === 200) {
-            const data = res.data.data
-            _this.ycyjs = data.rfid4gList
+            _this.Sbs = res.data.YcyjList
             // totalPage会发生改变 currentPage、pageSize是向服务端发送的
-            _this.totalPage = data.totalPage
+            _this.totalPage = res.data.totalRow
           }
-        }, err => {
-          console.log(err)
         })
+      },
+      importYcyjs(){
+        window.open("/employee/basic/exportEmp", "_parent")
       },
       exportYcyjs() {
         window.open("/employee/basic/exportEmp", "_parent")
@@ -977,13 +993,38 @@
 </script>
 
 <style lang="less" scoped>
-  #title {
-    height: 36px;
+  .box-card {
+    float: left;
+    width: 550px;
+    margin: 5px 0;
+    height: 70px;
+  }
+
+  .text {
+    font-size: 14px;
+    line-height: 14px;
     text-align: center;
+  }
+
+  .item {
+    float: left;
+    margin: 11px 2px 4px 6px;
+    width: 100px;
+    height: 14px;
+  }
+
+  .title {
+    color: #409eff;
+  }
+
+  .el-header {
     background-color: white;
     color: black;
-    font-size: 18px;
-    line-height: 36px;
+    line-height: 60px;
+  }
+
+  .el-aside {
+    color: #333;
   }
 
   .el-dialog__body {

@@ -32,7 +32,7 @@
               placeholder="通过分片编号查询"
               clearable
               @change="keywordsChange"
-              style="width: 192px;margin-left: 56px;padding: 0;"
+              style="width: 192px;margin-left: 10px;padding: 0;"
               size="mini"
               :disabled="advanceSearchViewVisible"
               @keyup.enter.native="searchClbp"

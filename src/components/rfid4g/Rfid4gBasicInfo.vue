@@ -52,10 +52,10 @@
           </div>
           <div style="margin-left: 5px;margin-right: 20px;display: inline">
             <el-button type="success" size="mini" @click="importRfid4gs">
-              <i class="fa fa-lg fa-level-down" style="margin-right: 10px"></i>导入数据
+              <i class="el-icon-upload2" style="margin-right: 3px"></i>导入数据
             </el-button>
             <el-button type="success" size="mini" @click="exportRfid4gs">
-              <i class="fa fa-lg fa-level-down" style="margin-right: 10px"></i>导出数据
+              <i class="el-icon-download" style="margin-right: 3px"></i>导出数据
             </el-button>
             <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddRfid4gView">添加RFID4G
             </el-button>
@@ -186,11 +186,10 @@
               <el-table-column prop="sbzbh" label="RFID4G编号" width="130" align="center"
                                fixed></el-table-column>
               <el-table-column prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
-              <el-table-column prop="htbh" label="合同编号" width="90" align="center"></el-table-column>
               <el-table-column prop="gldj" label="管理等级" width="85" align="center"></el-table-column>
               <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
               <el-table-column prop="sbxh" label="型号" width="50" align="center"></el-table-column>
-              <el-table-column prop="simkh" label="SIM卡号" width="110" align="center"></el-table-column>
+              <el-table-column prop="simkh" label="SIM卡号" width="160" align="center"></el-table-column>
               <el-table-column prop="sbgsjtmc" label="集团" width="110" align="center"></el-table-column>
               <el-table-column prop="sbgsgsmc" label="公司" width="100" align="center"></el-table-column>
               <el-table-column prop="sbgscdmc" label="车队" width="70" align="center"></el-table-column>
