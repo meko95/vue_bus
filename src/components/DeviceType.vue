@@ -10,7 +10,7 @@
 <script>
   import Header from '@/components/Header'
   import GridManager from '@/components/GridManager'
-  import Modal from '@/components/Modal'
+  import Modal from '../components/Modal'
 
   const getContractList = function (params) {
     return new Promise((resolve, reject) => {

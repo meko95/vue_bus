@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Login from '@/components/Login'
-import Contract from '../components/contract/Contract'
+import Login from '@/views/login'
+import Contract from '../views/contract/Contract'
 
 import DeviceCollectData from '@/components/DeviceCollectData'
 import DeviceInstallInfo from '@/components/DeviceInstallInfo'
@@ -19,28 +19,28 @@ import DeviceMStatistics from '@/components/DeviceMStatistics'
 
 import System from '@/components/System'
 /* 各类设备归属统计信息 */
-import AllSbStatistics from '../components/statistics/AllSbStatistics'
+import AllSbStatistics from '../views/statistics/AllSbStatistics'
 /* 设备基本信息 */
-import Rfid4gBasicInfo from '../components/rfid4g/Rfid4gBasicInfo'
+import Rfid4gBasicInfo from '../views/rfid4g/Rfid4gBasicInfo'
 // import Rfid4gBasicInfov_3_14 from '../components/rfid4g/Rfid4gBasicInfov_3_14.vue'
-import ClbqBasicInfo from '../components/clbq/ClbqBasicInfo'
-import Rfid4gczBasicInfo from '../components/rfid4gcz/Rfid4gczBasicInfo'
-import CzytjBasicInfo from '../components/czytj/CzytjBasicInfo'
-import BdjBasicInfo from '../components/bdj/BdjBasicInfo'
-import YcyjBasicInfo from '../components/ycyj/YcyjBasicInfo'
-import ZdtBasicInfo from '../components/zdt/ZdtBasicInfo'
-import FfcpBasicInfo from '../components/ffcp/FfcpBasicInfo'
-import ZgybpBasicInfo from '../components/zgybp/ZgybpBasicInfo'
+import ClbqBasicInfo from '../views/clbq/ClbqBasicInfo'
+import Rfid4gczBasicInfo from '../views/rfid4gcz/Rfid4gczBasicInfo'
+import CzytjBasicInfo from '../views/czytj/CzytjBasicInfo'
+import BdjBasicInfo from '../views/bdj/BdjBasicInfo'
+import YcyjBasicInfo from '../views/ycyj/YcyjBasicInfo'
+import ZdtBasicInfo from '../views/zdt/ZdtBasicInfo'
+import FfcpBasicInfo from '../views/ffcp/FfcpBasicInfo'
+import ZgybpBasicInfo from '../views/zgybp/ZgybpBasicInfo'
 /* 设备工作状态 */
-import Rfid4gStatus from '../components/rfid4g/Rfid4gStatus'
+import Rfid4gStatus from '../views/rfid4g/Rfid4gStatus'
 /* 设备变动情况 */
-import Rfid4gChangeInfo from '../components/rfid4g/Rfid4gChangeInfo'
+import Rfid4gMoveInfo from '../views/rfid4g/Rfid4gMoveInfo'
 /* 设备修理情况 */
-import Rfid4gFixInfo from '../components/rfid4g/Rfid4gFixInfo'
+import Rfid4gFixInfo from '../views/rfid4g/Rfid4gFixInfo'
 /* 设备巡检情况 */
-import Rfid4gCheckInfo from '../components/rfid4g/Rfid4gCheckInfo'
+import Rfid4gCheckInfo from '../views/rfid4g/Rfid4gCheckInfo'
 /* 设备报修情况 */
-import Rfid4gReportInfo from '../components/rfid4g/Rfid4gReportInfo'
+import Rfid4gReportInfo from '../views/rfid4g/Rfid4gReportInfo'
 /* 测试组件 */
 import Test from '../components/test/Test'
 
@@ -111,17 +111,17 @@ export default new Router({
       component: YcyjBasicInfo
     },
     {
-      path: '/bus/basicdata/getZdtBasicInfo',
+      path: '/zdt/basic/jt1',
       name: 'ZdtBasicInfo',
       component: ZdtBasicInfo
     },
     {
-      path: '/bus/basicdata/getFfcpBasicInfo',
+      path: '/ffcp/basic/jt1',
       name: 'FfcpBasicInfo',
       component: FfcpBasicInfo
     },
     {
-      path: '/bus/basicdata/getZgybpBasicInfo',
+      path: '/zgybp/basic/jt1',
       name: 'ZgybpBasicInfo',
       component: ZgybpBasicInfo
     },
@@ -140,16 +140,11 @@ export default new Router({
       name: 'DeviceCollectData',
       component: DeviceCollectData
     },
-    // 设备变动情况
+    // 设备迁移情况
     {
-      path: '/rfid4g/change/jt1',
-      name: 'Rfid4gChangeInfo',
-      component: Rfid4gChangeInfo
-    },
-    {
-      path: '/rfid4g/change/jt2',
-      name: 'Rfid4gChangeInfo',
-      component: Rfid4gChangeInfo
+      path: '/rfid4g/move/jt1',
+      name: 'Rfid4gMoveInfo',
+      component: Rfid4gMoveInfo
     },
     {
       path: '/bus/changedata',
@@ -163,11 +158,6 @@ export default new Router({
     // 设备工作状况
     {
       path: '/rfid4g/status/jt1',
-      name: 'Rfid4gStatus',
-      component: Rfid4gStatus
-    },
-    {
-      path: '/rfid4g/status/jt2',
       name: 'Rfid4gStatus',
       component: Rfid4gStatus
     },
@@ -187,19 +177,9 @@ export default new Router({
       name: 'Rfid4gCheckInfo',
       component: Rfid4gCheckInfo
     },
-    {
-      path: '/rfid4g/check/jt2',
-      name: 'Rfid4gCheckInfo',
-      component: Rfid4gCheckInfo
-    },
     // 设备报修情况
     {
       path: '/rfid4g/report/jt1',
-      name: 'Rfid4gReportInfo',
-      component: Rfid4gReportInfo
-    },
-    {
-      path: '/rfid4g/report/jt2',
       name: 'Rfid4gReportInfo',
       component: Rfid4gReportInfo
     },
@@ -211,11 +191,6 @@ export default new Router({
     // 设备修理情况
     {
       path: '/rfid4g/fixInfo/jt1',
-      name: 'Rfid4gFixInfo',
-      component: Rfid4gFixInfo
-    },
-    {
-      path: '/rfid4g/fixInfo/jt2',
       name: 'Rfid4gFixInfo',
       component: Rfid4gFixInfo
     },

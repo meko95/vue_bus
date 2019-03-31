@@ -13,9 +13,9 @@ module.exports = {
       '/api/**': {
         // 目标接口域名
         target: 'http://localhost:8888',
-        crossOrigin:true,
-        pathRewrite:{
-          '^/api':'/'
+        crossOrigin: true,
+        pathRewrite: {
+          '^/api': '/'
         }
       }
     },

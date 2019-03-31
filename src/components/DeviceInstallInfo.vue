@@ -34,7 +34,7 @@
 <script>
   import GridManager from '@/components/GridManager'
   import Header from '@/components/Header'
-  import Modal from '@/components/Modal'
+  import Modal from '../components/Modal'
 
   const getDeviceInstallInfo = function (params) {
     return new Promise((resolve, reject) => {

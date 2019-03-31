@@ -7,7 +7,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-
 import 'jquery'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -21,6 +20,7 @@ import {postRequest} from "@/utils/api"
 import {deleteRequest} from "@/utils/api"
 import {putRequest} from "@/utils/api"
 import './utils/filter_utils'
+import './utils/mock.js' // !important
 Vue.prototype.getRequest = getRequest
 Vue.prototype.postRequest = postRequest
 Vue.prototype.deleteRequest = deleteRequest
@@ -33,7 +33,6 @@ import {VueCookies} from 'vue-cookies'
 // Vue.use(VueCookies)
 Vue.prototype.VueCookies = VueCookies
 
-// 将构造函数挂载至Vue原型上，这样在Vue环境下可直接用 this.$gridManager调用
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({

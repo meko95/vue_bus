@@ -32,7 +32,7 @@
 <script>
   import Header from '@/components/Header'
   import GridManager from '@/components/GridManager'
-  import Modal from '@/components/Modal'
+  import Modal from '../components/Modal'
   // 模拟的一个Promise请求
   const getDeviceCollectData = function (params) {
     return new Promise((resolve, reject) => {
