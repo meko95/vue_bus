@@ -22,7 +22,6 @@ import System from '@/components/System'
 import AllSbStatistics from '../views/statistics/AllSbStatistics'
 /* 设备基本信息 */
 import Rfid4gBasicInfo from '../views/rfid4g/Rfid4gBasicInfo'
-// import Rfid4gBasicInfov_3_14 from '../components/rfid4g/Rfid4gBasicInfov_3_14.vue'
 import ClbqBasicInfo from '../views/clbq/ClbqBasicInfo'
 import Rfid4gczBasicInfo from '../views/rfid4gcz/Rfid4gczBasicInfo'
 import CzytjBasicInfo from '../views/czytj/CzytjBasicInfo'
