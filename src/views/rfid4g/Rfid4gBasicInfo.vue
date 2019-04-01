@@ -3,13 +3,13 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="RFID4G"></SideBar>
+      <SideBar sb-type="RFID4G" v-on:listenToChildEvent="showDataFromChild"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
         <el-header>
           <div style="display: inline">
-            <StatisticsCard s-title="上海久事一集团"></StatisticsCard>
+            <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -430,8 +430,7 @@
     name: "Rfid4gBasicInfo",
     data() {
       return {
-        rowStyle: {'height': 0},
-        cellStyle: {'padding': 0},
+        cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -517,8 +516,26 @@
       StatisticsCard
     },
     methods: {
-      handleNodeClick(data) {
-        console.log(data.id)
+      showDataFromChild(data){
+        this.cardTitle = data.label
+        const sbGs = data.id
+        this.sbgsjtdm = sbGs.substr(0,2)
+        if(sbGs[2]){
+          this.sbgsgsdm = sbGs.substr(0,4)
+          if(sbGs[4]){
+            this.sbgscddm = sbGs.substr(0,6)
+            if(sbGs[6]){
+              this.sbgsxldm = sbGs.substr(0,8)
+            }else{
+              this.sbgsxldm = ''
+            }
+          }else{
+            this.sbgscddm = ''
+          }
+        }else{
+          this.sbgsgsdm = ''
+        }
+        console.log(this.sbgsjtdm,this.sbgsgsdm,this.sbgscddm,this.sbgsxldm)
       },
       initData() {
         var _this = this
@@ -724,7 +741,7 @@
         ]
       },
       keywordsChange(val) {
-        if (val == '') {
+        if (val === '') {
           this.loadRfid4gData()
         }
       },

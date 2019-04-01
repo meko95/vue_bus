@@ -1,6 +1,8 @@
 import Mock from 'mockjs'
 
 var random = Mock.Random
+// 获取合同信息
+
 // 获取设备基本信息
 // RFID4G
 Mock.mock('/api/rfid4g/basic/jt1', {

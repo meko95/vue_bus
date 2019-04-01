@@ -5,7 +5,7 @@
     <div id="title">
       合同列表
     </div>
-    <el-container>
+    <el-container style="height: 701px; border: 1px solid #eee">
       <el-header style="padding: 0px;display:flex;justify-content:space-between;align-items: center">
         <div style="display: inline">
           <el-input
@@ -42,7 +42,7 @@
           </el-button>
           <el-button slot="reference" type="primary" size="mini" style="margin-left: 10px"
                      @click="showAdvanceSearchView">
-            <i class="fa fa-lg" :class="[advanceSearchViewVisible ? faangledoubleup:faangledoubledown]"
+            <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
                style="margin-right: 5px">
             </i>高级搜索
           </el-button>
@@ -155,7 +155,7 @@
           </transition>
           <!-- 合同信息Begin -->
           <el-table ref="multipleTable" :data="contracts" v-loading="tableLoading" border tooltip-effect="dark"
-                    style="width: 100%;" @selection-change="handleSelectionChange" stripe size="small" height="490"
+                    style="width: 100%;" @selection-change="handleSelectionChange" stripe size="small" height="559"
                     :default-sort="{prop: 'htqdrq', order: 'descending'}">
             <el-table-column type="selection" width="36" align="center"></el-table-column>
             <el-table-column prop="htbh" label="合同编号" width="130" align="center" fixed></el-table-column>
@@ -170,27 +170,22 @@
             <el-table-column prop="sbsysm" label="设备使用寿命" width="100" align="center"></el-table-column>
             <el-table-column prop="sbzbk" label="设备质包款" width="220" align="center"></el-table-column>
             <el-table-column prop="sbzbq" label="设备质保期" width="115" align="center"></el-table-column>
-            <el-table-column fixed="right" label="操作" width="195" align="center">
-              <template slot-scope="scope">
-                <el-button @click="showEditContractView(scope.row)" style="padding: 5px 10px;margin: 6px"
-                           size="large">编辑
-                </el-button>
-                <el-button type="danger" style="padding: 5px 10px;margin: 6px" size="large"
-                           @click="deleteContract(scope.row)">删除
-                </el-button>
-              </template>
-            </el-table-column>
           </el-table>
           <!-- 合同信息End -->
           <!-- 批量删除及分页Begin -->
-          <div style="display: flex;justify-content: flex-end;margin: 4px">
+          <div style="display: flex;justify-content: flex-end;margin-top: 8px">
+            <el-button size="small" v-if="contracts.length>0"
+                       :disabled="multipleSelection.length===0||multipleSelection.length>1"
+                       @click="showEditContractView(multipleSelection[0])">编辑
+            </el-button>
             <el-button type="danger" size="small" v-if="contracts.length>0" :disabled="multipleSelection.length==0"
                        @click="deleteManyContracts">批量删除
             </el-button>
-            <el-button size="small" :disabled="multipleSelection.length==0" @click="toggleSelection(multipleSelection)">
+            <el-button size="small" v-if="contracts.length>0" :disabled="multipleSelection.length==0"
+                       @click="toggleSelection(multipleSelection)">
               取消选择
             </el-button>
-            <el-pagination background :page-sizes="[10, 30, 50, 100]" :total="totalPage" :page-size="pageSize"
+            <el-pagination background :page-sizes="[10, 30, 50, 100]" :total="totalRow" :page-size="pageSize"
                            :current-page="currentPage"
                            @current-change="handleCurrentChange" @size-change="handleSizeChange"
                            layout="total, sizes, prev, pager, next, jumper"></el-pagination>
@@ -336,7 +331,7 @@
     data() {
       return {
         sblb: '',
-        totalPage: 100,
+        totalRow: 0,
         pageSize: 10,
         currentPage: 1,
         DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
@@ -363,8 +358,8 @@
         },
         contracts: [],
         multipleSelection: [],
-        faangledoubleup: 'fa-angle-double-up',
-        faangledoubledown: 'fa-angle-double-down',
+        searchUp: 'el-icon-arrow-up',
+        searchDown: 'el-icon-arrow-down',
         contractGsOption: ['', '', ''],
         contractGsOptions: [],
         fileUploadBtnText: '导入数据',
@@ -571,8 +566,8 @@
             console.log(res)
             const data = res.data.data
             _this.contracts = data.list
-            // totalPage会发生改变 currentPage、pageSize是向服务端发送的
-            _this.totalPage = data.total
+            // totalRow会发生改变 currentPage、pageSize是向服务端发送的
+            _this.totalRow = data.total
           }
         }, err => {
           console.log(err)
