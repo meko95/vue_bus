@@ -1,14 +1,15 @@
 <template>
   <div>
     <ElementHeader></ElementHeader>
-    <el-container style="height: 707px; border: 1px solid #eee">
+    <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
       <SideBar sb-type="报到机"></SideBar>
       <!-- Container Begin -->
       <el-container>
+        <!-- Header Begin -->
         <el-header>
           <div style="display: inline">
-            <StatisticsCard></StatisticsCard>
+            <StatisticsCard s-title="上海久事一集团"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -20,19 +21,19 @@
               prefix-icon="el-icon-search"
               v-model="keywords">
             </el-input>
+            <div style="display: inline">
+              <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchBdj">
+                搜索
+              </el-button>
+              <el-button slot="reference" type="primary" size="mini" style="margin-left: 0"
+                         @click="showAdvanceSearchView">
+                <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
+                   style="margin-right: 5px">
+                </i>高级搜索
+              </el-button>
+            </div>
           </div>
           <div style="display: inline">
-            <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchBdj">
-              搜索
-            </el-button>
-            <el-button slot="reference" type="primary" size="mini" style="margin-left: 0"
-                       @click="showAdvanceSearchView">
-              <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
-                 style="margin-right: 5px">
-              </i>高级搜索
-            </el-button>
-          </div>
-          <div style="margin-left: 5px;display: inline">
             <el-button type="success" size="mini" @click="importBdjs">
               <i class="el-icon-upload2" style="margin-right: 3px"></i>导入数据
             </el-button>
@@ -40,7 +41,7 @@
               <i class="el-icon-download" style="margin-right: 3px"></i>导出数据
             </el-button>
           </div>
-          <div style="display: inline;margin-left: 7px">
+          <div style="margin-left: 7px;display: inline">
             <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddBdjView">添加报到机</el-button>
           </div>
         </el-header>
@@ -171,11 +172,12 @@
             <!-- 报到机基础信息Begin -->
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
                       style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
-                      @selection-change="handleSelectionChange" stripe size="small" height="585"
+                      @selection-change="handleSelectionChange" stripe size="small"
+                      highlight-current-row height="559"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
-              <el-table-column prop="sbzbh" label="报到机编号" width="130" align="center" fixed></el-table-column>
-              <el-table-column prop="htbh" label="合同编号" width="85" align="center"></el-table-column>
+              <el-table-column prop="sbzbh" label="报到机编号" width="120" align="center" fixed></el-table-column>
+              <el-table-column prop="htbh" label="合同编号" width="95" align="center"></el-table-column>
               <el-table-column prop="sbgzzt" label="工作状态" width="80" align="center"></el-table-column>
               <el-table-column prop="azwz" label="安装位置" width="80" align="center">
                 <template slot-scope="scope">
@@ -223,7 +225,7 @@
               <el-table-column prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
             </el-table>
             <!-- 批量删除及分页Begin -->
-            <div style="display: flex;justify-content: flex-end;margin: 2px">
+            <div style="display: flex;justify-content: flex-end;margin-top: 8px">
               <el-button size="small" v-if="Sbs.length>0"
                          :disabled="multipleSelection.length===0||multipleSelection.length>1"
                          @click="showEditBdjView(multipleSelection[0])">编辑
@@ -245,7 +247,7 @@
         </el-main>
       </el-container>
       <!-- 添加RFID4G信息Begin -->
-      <el-form :model="bdj" :rules="rules" ref="addBdjForm" style="margin: 0px;padding: 0px;">
+      <el-form :model="bdj" :rules="rules" ref="addBdjForm" style="margin: 0;padding: 0;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
                      :visible.sync="dialogVisible" width="77%">
@@ -436,10 +438,13 @@
   import ElementHeader from '../../components/Header'
   import SideBar from '../../components/SideBar'
   import StatisticsCard from '../../components/StatisticsCard'
+
   export default {
     name: "BdjBasicInfo",
     data() {
       return {
+        rowStyle: {'height': 0},
+        cellStyle: {'padding': 0},
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -997,8 +1002,7 @@
     }
   }
 </script>
-
-<style lang="less" scoped>
+<style scoped>
   .box-card {
     float: left;
     width: 550px;
@@ -1039,7 +1043,7 @@
   }
 
   .slide-fade-enter-active {
-    transition: all .6s ease;
+    transition: all .8s ease;
   }
 
   .slide-fade-leave-active {

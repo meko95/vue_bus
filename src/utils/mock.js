@@ -1,4 +1,5 @@
 import Mock from 'mockjs'
+
 var random = Mock.Random
 // 获取设备基本信息
 // RFID4G
@@ -83,8 +84,8 @@ Mock.mock('/api/rfid4g_location/basic', {
 })
 // 车辆标签
 Mock.mock('/api/clbq/basic/jt1', {
-  'totalRow': 10,
-  'ClbqList|10': [
+  'totalRow': 20,
+  'ClbqList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
@@ -118,8 +119,8 @@ Mock.mock('/api/clbq/basic/jt1', {
 })
 // 车载一体机
 Mock.mock('/api/czytj/basic/jt1', {
-  'totalRow': 10,
-  'CzytjList|10': [
+  'totalRow': 20,
+  'CzytjList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
@@ -152,8 +153,8 @@ Mock.mock('/api/czytj/basic/jt1', {
 })
 // 报到机
 Mock.mock('/api/bdj/basic/jt1', {
-  'totalRow': 10,
-  'BdjList|10': [
+  'totalRow': 20,
+  'BdjList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
@@ -182,8 +183,8 @@ Mock.mock('/api/bdj/basic/jt1', {
 })
 // 一程一检
 Mock.mock('/api/ycyj/basic/jt1', {
-  'totalRow': 10,
-  'YcyjList|10': [
+  'totalRow': 20,
+  'YcyjList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
@@ -213,8 +214,8 @@ Mock.mock('/api/ycyj/basic/jt1', {
 })
 // 站点通
 Mock.mock('/api/zdt/basic/jt1', {
-  'totalRow': 10,
-  'ZdtList|10': [
+  'totalRow': 20,
+  'ZdtList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
@@ -246,8 +247,8 @@ Mock.mock('/api/zdt/basic/jt1', {
 })
 // 55寸屏
 Mock.mock('/api/ffcp/basic/jt1', {
-  'totalRow': 10,
-  'FfcpList|10': [
+  'totalRow': 20,
+  'FfcpList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
@@ -288,8 +289,8 @@ Mock.mock('/api/ffcp/basic/jt1', {
 })
 // 站杆预报屏
 Mock.mock('/api/zgybp/basic/jt1', {
-  'totalRow': 10,
-  'ZgybpList|10': [
+  'totalRow': 20,
+  'ZgybpList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
@@ -342,6 +343,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -361,6 +363,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -380,6 +383,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -399,6 +403,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -418,6 +423,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -437,6 +443,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -456,6 +463,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -475,6 +483,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -494,6 +503,7 @@ Mock.mock('/api/Sbs/statistics/jt1', {
       'gz_sum|0-20': 6,
       'sb_check|0-20': 6,
       'sb_report|0-10': 6,
+      'fix_sum|0-20': 6,
       'today|0-10': 6,
       'nextday|0-10': 6,
       'threeday|0-10': 6,
@@ -506,19 +516,103 @@ Mock.mock('/api/Sbs/statistics/jt1', {
 // 获取设备迁移信息
 // RFID4G
 Mock.mock('/api/rfid4g/move/jt1', {
-  'totalRow': 20,
-  'Rfid4gMoveList|20': [
+  'totalRow': 30,
+  'Rfid4gMoveList|30': [
     {
       'sbqybh': random.date(),
-      'qydh|12':/[0-9]/,
-      'sbbh|12':/[0-9]/,
-      'sbysdz|1':['原始地址A','原始地址B','原始地址C'],
-      'sbqymbdz|1':['目标地址A','目标地址B','目标地址C'],
-      'sbqyczrygh|5':/[0-9]/,
-      'sbqyczryxm|1':['操作员A','操作员B','操作员C'],
-      'sbqysprygh|5':/[0-9]/,
-      'sbqyspryxm|1':['审批员A','审批员B','审批员C'],
-      'sbqybz':'查看备注'
+      'qydh|12': /[0-9]/,
+      'sbbh|12': /[0-9]/,
+      'sbgsjtmc|1': ['上海久事一集团', '上海久事二集团'],
+      'sbgsgsmc|1': ['巴士一公司', '巴士二公司', '巴士三公司', '巴士四公司', '巴士五公司'],
+      'sbgscdmc|1': ['一车队', '二车队', '三车队', '四车队', '五车队', '六车队', '七车队', '八车队', '九车队',],
+      'sbgsxlmc|1': ['56', '57', '101', '1002', '1111', '66'],
+      'sbysdz|1': ['原始地址A', '原始地址B', '原始地址C'],
+      'sbqymbdz|1': ['目标地址A', '目标地址B', '目标地址C'],
+      'sbqyczrygh|5': /[0-9]/,
+      'sbqyczryxm|1': ['操作员A', '操作员B', '操作员C'],
+      'sbqysprygh|5': /[0-9]/,
+      'sbqyspryxm|1': ['审批员A', '审批员B', '审批员C'],
+      'sbqybz': '查看备注'
+    }
+  ]
+})
+// 获取设备修理信息
+// RFID4G
+Mock.mock('/api/rfid4g/fix/jt1', {
+  'totalRow': 30,
+  'Rfid4gFixList|30': [
+    {
+      'wxsj': random.date(),
+      'wxdh|12': /[0-9]/,
+      'ybxdh|12': /[0-9]/,
+      'bxsbbh|12': /[0-9]/,
+      'sbgsjtmc|1': ['上海久事一集团', '上海久事二集团'],
+      'sbgsgsmc|1': ['巴士一公司', '巴士二公司', '巴士三公司', '巴士四公司', '巴士五公司'],
+      'sbgscdmc|1': ['一车队', '二车队', '三车队', '四车队', '五车队', '六车队', '七车队', '八车队', '九车队',],
+      'sbgsxlmc|1': ['56', '57', '101', '1002', '1111', '66'],
+      'xlgs': /[0-9]/,
+      'xfzt|1': ['正在修复', '已修复', '不能修复', '暂停使用'],
+      'xffs|1': ['现场修理', '回厂修理', '远程修理'],
+      'xfnr': '查看修复内容',
+      'xfrdm|5': /[0-9]/,
+      'xfrmc|1': ['修复人A', '修复人B', '修复人C'],
+      'bmzgmc|1': ['部门主管A', '部门主管B', '部门主管C'],
+      'gysmc|1': ['澳马', '中安', '秀派', '公用所'],
+      'jcsmc|1': ['澳马', '中安', '秀派', '公用所']
+    }
+  ]
+})
+// 获取设备巡检信息
+// RFID4G
+Mock.mock('/api/rfid4g/check/jt1',{
+  'totalRow': 30,
+  'Rfid4gCheckList|30': [
+    {
+      'xjsj': random.date(),
+      'xjdh|12': /[0-9]/,
+      'xjsbbh|12': /[0-9]/,
+      'sbzt|1': ['工作正常', '工作异常', '待核实', '暂停使用'],
+      'sbgsjtmc|1': ['上海久事一集团', '上海久事二集团'],
+      'sbgsgsmc|1': ['巴士一公司', '巴士二公司', '巴士三公司', '巴士四公司', '巴士五公司'],
+      'sbgscdmc|1': ['一车队', '二车队', '三车队', '四车队', '五车队', '六车队', '七车队', '八车队', '九车队',],
+      'sbgsxlmc|1': ['56', '57', '101', '1002', '1111', '66'],
+      'xjbz': '查看巡检备注',
+      'xjydm|5': /[0-9]/,
+      'xjygmc|1': ['巡检人A', '巡检人B', '巡检人C'],
+      'bmzgmc|1': ['部门主管A', '部门主管B', '部门主管C'],
+      'gysmc|1': ['澳马', '中安', '秀派', '公用所'],
+      'jcsmc|1': ['澳马', '中安', '秀派', '公用所'],
+      'sbtxm|10': /[0-9]/,
+      'sbewm|10': /[0-9]/
+    }
+  ]
+})
+// 获取设备报修信息
+// RFID4G
+Mock.mock('/api/rfid4g/report/jt1',{
+  'totalRow': 30,
+  'Rfid4gReportList|30': [
+    {
+      'bxsj': random.date(),
+      'bxdh|12': /[0-9]/,
+      'bxsbbh|12': /[0-9]/,
+      'sbgsjtmc|1': ['上海久事一集团', '上海久事二集团'],
+      'sbgsgsmc|1': ['巴士一公司', '巴士二公司', '巴士三公司', '巴士四公司', '巴士五公司'],
+      'sbgscdmc|1': ['一车队', '二车队', '三车队', '四车队', '五车队', '六车队', '七车队', '八车队', '九车队',],
+      'sbgsxlmc|1': ['56', '57', '101', '1002', '1111', '66'],
+      'bxnr': '查看报修备注',
+      'bxlx|1': ['系统自检','人工报修'],
+      'bxfs|1': ['系统预警报修','平台报修','微信报修','QQ报修','电话报修'],
+      'bxgzmc|1': ['主机故障','4G无线路由器故障','IP通话故障','其他故障'],
+      'xjydm|5': /[0-9]/,
+      'xjygmc|1': ['巡检员A', '巡检员B', '巡检员C'],
+      'bmzgmc|1': ['部门主管A', '部门主管B', '部门主管C'],
+      'bxrydm|5': /[0-9]/,
+      'bxrymc|1': ['报修员A', '报修员B', '报修员C'],
+      'gysmc|1': ['澳马', '中安', '秀派', '公用所'],
+      'jcsmc|1': ['澳马', '中安', '秀派', '公用所'],
+      'sbtxm|10': /[0-9]/,
+      'sbewm|10': /[0-9]/
     }
   ]
 })

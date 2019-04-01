@@ -1,14 +1,14 @@
 <template>
   <div>
     <ElementHeader></ElementHeader>
-    <el-container style="height: 707px; border: 1px solid #eee">
+    <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
       <SideBar sb-type="车辆标签"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <el-header>
           <div style="display: inline">
-            <StatisticsCard></StatisticsCard>
+            <StatisticsCard s-title="上海久事一集团"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -25,7 +25,7 @@
             <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchClbp">
               搜索
             </el-button>
-            <el-button slot="reference" type="primary" size="mini" style="margin-left: 1px"
+            <el-button slot="reference" type="primary" size="mini" style="margin-left: 0px"
                        @click="showAdvanceSearchView">
               <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
                  style="margin-right: 5px">
@@ -172,12 +172,13 @@
             </transition>
             <!-- 车辆标签基础信息Begin -->
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
-                      style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
-                      @selection-change="handleSelectionChange" stripe size="small" height="585"
+                      style="width: 100%;" :row-style="rowStyle" :cell-style="cellStyle"
+                      @selection-change="handleSelectionChange" stripe size="small"
+                      highlight-current-row height="559"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
-              <el-table-column prop="sbzbh" label="车辆标签编号" width="110" align="center" fixed></el-table-column>
-              <el-table-column prop="htbh" label="合同编号" width="85" align="center"></el-table-column>
+              <el-table-column prop="sbzbh" label="车辆标签编号" width="120" align="center" fixed></el-table-column>
+              <el-table-column prop="htbh" label="合同编号" width="95" align="center"></el-table-column>
               <el-table-column prop="sbgzzt" label="工作状态" width="80" align="center"></el-table-column>
               <el-table-column prop="azzp" label="安装照片" width="80" align="center">
                 <template slot-scope="scope">
@@ -197,7 +198,7 @@
               <el-table-column prop="qypmc" label="分片名称" width="80" align="center"></el-table-column>
               <el-table-column label="安装车辆信息" align="center">
                 <el-table-column prop="ancph" label="车牌号" width="100" align="center"></el-table-column>
-                <el-table-column prop="azclbh" label="车辆编号" width="85" align="center"></el-table-column>
+                <el-table-column prop="azclbh" label="车辆编号" width="95" align="center"></el-table-column>
                 <el-table-column prop="azcldllbdm" label="动力类别" width="80" align="center"></el-table-column>
                 <el-table-column prop="ancldyxlj" label="线路集合" width="80" align="center"></el-table-column>
               </el-table-column>
@@ -228,7 +229,7 @@
               <el-table-column prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
             </el-table>
             <!-- 批量删除及分页Begin -->
-            <div style="display: flex;justify-content: flex-end;margin: 4px">
+            <div style="display: flex;justify-content: flex-end;margin-top: 8px">
               <el-button size="small" v-if="Sbs.length>0"
                          :disabled="multipleSelection.length===0||multipleSelection.length>1"
                          @click="showEditClbqView(multipleSelection[0])">编辑
@@ -437,6 +438,8 @@
     name: "ClbqBasicInfo",
     data() {
       return {
+        rowStyle: {'height': 0},
+        cellStyle: {'padding': 0},
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -1035,7 +1038,7 @@
   }
 
   .slide-fade-enter-active {
-    transition: all .6s ease;
+    transition: all .8s ease;
   }
 
   .slide-fade-leave-active {

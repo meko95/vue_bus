@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElementHeader></ElementHeader>
-    <el-container style="height: 707px; border: 1px solid #eee">
+    <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
       <SideBar sb-type="RFID4G"></SideBar>
       <!-- Container Begin -->
@@ -22,11 +22,10 @@
               v-model="keywords">
             </el-input>
             <div style="display: inline">
-              <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search"
-                         @click="searchRfid4g">
+              <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchRfid4g">
                 搜索
               </el-button>
-              <el-button slot="reference" type="primary" size="mini" style="margin-left: 0px"
+              <el-button slot="reference" type="primary" size="mini" style="margin-left: 0"
                          @click="showAdvanceSearchView">
                 <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
                    style="margin-right: 5px">
@@ -38,7 +37,7 @@
             <el-button type="success" size="mini" @click="importRfid4gs">
               <i class="el-icon-upload2" style="margin-right: 3px"></i>导入数据
             </el-button>
-            <el-button type="success" size="mini" @click="exportRfid4gs" style="margin-left: 0px">
+            <el-button type="success" size="mini" @click="exportRfid4gs">
               <i class="el-icon-download" style="margin-right: 3px"></i>导出数据
             </el-button>
           </div>
@@ -162,16 +161,14 @@
               </div>
             </transition>
             <!-- RFID4G基础信息Begin -->
-            <el-table ref="multipleTable" :data="Sbs"
-                      v-loading="tableLoading" border tooltip-effect="dark"
+            <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
                       style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                       @selection-change="handleSelectionChange" stripe size="small"
-                      highlight-current-row height="585"
+                      highlight-current-row height="559"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
-              <el-table-column prop="sbzbh" label="RFID4G编号" width="100" align="center"
-                               fixed></el-table-column>
-              <el-table-column prop="htbh" label="合同编号" width="85" align="center"></el-table-column>
+              <el-table-column prop="sbzbh" label="RFID4G编号" width="120" align="center" fixed></el-table-column>
+              <el-table-column prop="htbh" label="合同编号" width="95" align="center"></el-table-column>
               <el-table-column prop="sbgzzt" label="工作状态" width="80" align="center"></el-table-column>
               <el-table-column prop="azzp" label="安装照片" width="80" align="center">
                 <template slot-scope="scope">
@@ -209,13 +206,13 @@
               <el-table-column prop="gysmc" label="供应商" width="75" align="center"></el-table-column>
               <el-table-column prop="jcsmc" label="集成商" width="75" align="center"></el-table-column>
               <el-table-column prop="zdbh" label="站点编号" width="70" align="center"></el-table-column>
-              <el-table-column prop="jzbh" label="基站编号" width="85" align="center"></el-table-column>
+              <el-table-column prop="jzbh" label="基站编号" width="90" align="center"></el-table-column>
               <el-table-column prop="simkh" label="SIM卡号" width="160" align="center"></el-table-column>
               <el-table-column prop="tmbh" label="条码编号" width="100" align="center"></el-table-column>
               <el-table-column prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
             </el-table>
             <!-- 批量删除Begin -->
-            <div style="display: flex;justify-content: flex-end;margin: 4px">
+            <div style="display: flex;justify-content: flex-end;margin-top: 8px">
               <el-button size="small" v-if="Sbs.length>0"
                          :disabled="multipleSelection.length===0||multipleSelection.length>1"
                          @click="showEditRfid4gView(multipleSelection[0])">编辑
@@ -237,7 +234,7 @@
         </el-main>
       </el-container>
       <!-- Form Begin -->
-      <el-form :model="rfid4g" :rules="rules" ref="addRfid4gForm" style="margin: 0px;padding: 0px;">
+      <el-form :model="rfid4g" :rules="rules" ref="addRfid4gForm" style="margin: 0;padding: 0;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
                      :visible.sync="dialogVisible" width="77%" @close="cancel_add">
@@ -433,6 +430,8 @@
     name: "Rfid4gBasicInfo",
     data() {
       return {
+        rowStyle: {'height': 0},
+        cellStyle: {'padding': 0},
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -996,13 +995,13 @@
         //     _this.totalPage = res.data.data.total
         //   }
         // })
-        this.getRequest('/api/rfid4g/basic/jt1').then(res=>{
+        this.getRequest('/api/rfid4g/basic/jt1').then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
-              _this.Sbs = res.data.Rfid4gList
-              // totalRow会发生改变 currentPage、pageSize是向服务端发送的
-              _this.totalPage = res.data.totalRow
-            }
+            _this.Sbs = res.data.Rfid4gList
+            // totalRow会发生改变 currentPage、pageSize是向服务端发送的
+            _this.totalPage = res.data.totalRow
+          }
         })
       },
       loadSbBasicInfo(type, jtdm, gsdm, cddm, xldm) {

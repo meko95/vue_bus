@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElementHeader></ElementHeader>
-    <el-container style="height: 707px; border: 1px solid #eee">
+    <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
       <SideBar sb-type="站杆预报屏"></SideBar>
       <!-- Container Begin -->
@@ -172,11 +172,11 @@
             <!-- 站杆预报屏基础信息Begin -->
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
                       style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
-                      @selection-change="handleSelectionChange" stripe size="small" height="585"
+                      @selection-change="handleSelectionChange" stripe size="small" height="559"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
-              <el-table-column prop="sbzbh" label="站杆预报屏编号" width="130" align="center" fixed></el-table-column>
-              <el-table-column prop="htbh" label="合同编号" width="85" align="center"></el-table-column>
+              <el-table-column prop="sbzbh" label="站杆预报屏编号" width="110" align="center" fixed></el-table-column>
+              <el-table-column prop="htbh" label="合同编号" width="95" align="center"></el-table-column>
               <el-table-column prop="sbgzzt" label="工作状态" width="80" align="center"></el-table-column>
               <el-table-column prop="azzp" label="安装全景照片" width="95" align="center">
                 <template slot-scope="scope">

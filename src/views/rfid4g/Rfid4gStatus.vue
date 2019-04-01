@@ -85,7 +85,9 @@
         <!-- Header Begin -->
         <el-header style="text-align: center; font-size: 24px">
           <!-- 标题 Begin -->
-          <span>RFID4G工作状态</span>
+          <div id="title">
+            <span>RFID4G工作状态</span>
+          </div>
           <!-- 搜索框及高级搜索 Begin -->
           <!-- 导入、导出、添加 Begin -->
         </el-header>
@@ -159,5 +161,11 @@
 </script>
 
 <style scoped>
-
+  #title {
+    background-color: #eef1f6;
+    text-align: center;
+    font-size: 26px;
+    height: 60px;
+    line-height: 60px;
+  }
 </style>

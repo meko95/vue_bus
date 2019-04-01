@@ -190,7 +190,7 @@ export default new Router({
     },
     // 设备修理情况
     {
-      path: '/rfid4g/fixInfo/jt1',
+      path: '/rfid4g/fix/jt1',
       name: 'Rfid4gFixInfo',
       component: Rfid4gFixInfo
     },

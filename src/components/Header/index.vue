@@ -20,9 +20,7 @@
           <el-menu-item index="/zgybp/basic/jt1">站杆预报屏</el-menu-item>
         </el-submenu>
         <el-menu-item index="/bus/basicdata/getDeviceCollectData">查看采集数据</el-menu-item>
-        <el-badge value="10">
-          <el-menu-item index="/bus/basicdata/getDeviceInstallInfo">查看安装信息</el-menu-item>
-        </el-badge>
+        <el-menu-item index="/bus/basicdata/getDeviceInstallInfo">查看安装信息</el-menu-item>
         <el-menu-item index="/bus/basicdata/getDeviceType">管理设备类型</el-menu-item>
       </el-submenu>
 
@@ -42,28 +40,50 @@
       <el-submenu index="4">
         <template slot="title">设备工作情况</template>
         <el-menu-item index="/rfid4g/status/jt1">查看设备工作情况</el-menu-item>
-        <el-badge value="5">
-          <el-menu-item index="/bus/status/getDeviceFaultStatistics">设备故障情况统计</el-menu-item>
-        </el-badge>
+        <el-menu-item index="/bus/status/getDeviceFaultStatistics">设备故障情况统计</el-menu-item>
       </el-submenu>
       <el-submenu index="5">
         <template slot="title">设备巡检报修</template>
-        <el-badge :value="2">
-          <el-menu-item index="/rfid4g/check/jt1">查看巡检设备</el-menu-item>
-        </el-badge>
+        <el-submenu index="/rfid4g/check/jt1">
+          <template slot="title">查看巡检设备</template>
+          <el-menu-item index="/rfid4g/check/jt1">RFID4G</el-menu-item>
+          <el-menu-item index="2-2">RFID4G（场站）</el-menu-item>
+          <el-menu-item index="2-3">车辆标签</el-menu-item>
+          <el-menu-item index="2-1">车载一体机</el-menu-item>
+          <el-menu-item index="2-2">报到机</el-menu-item>
+          <el-menu-item index="2-3">一程一检</el-menu-item>
+          <el-menu-item index="2-1">站点通</el-menu-item>
+          <el-menu-item index="2-2">55寸屏</el-menu-item>
+          <el-menu-item index="2-3">站杆预报屏</el-menu-item>
+        </el-submenu>
         <div></div>
-        <el-badge :value="2">
-          <el-menu-item index="/rfid4g/report/jt1">查看报修设备</el-menu-item>
-        </el-badge>
-        <div></div>
-        <el-badge :value="2">
-          <el-menu-item index="/bus/check/getDeviceRepairStatistics">查看报修次数统计</el-menu-item>
-        </el-badge>
+        <el-submenu index="/rfid4g/report/jt1">
+          <template slot="title">查看报修设备</template>
+          <el-menu-item index="/rfid4g/report/jt1">RFID4G</el-menu-item>
+          <el-menu-item index="2-2">RFID4G（场站）</el-menu-item>
+          <el-menu-item index="2-3">车辆标签</el-menu-item>
+          <el-menu-item index="2-1">车载一体机</el-menu-item>
+          <el-menu-item index="2-2">报到机</el-menu-item>
+          <el-menu-item index="2-3">一程一检</el-menu-item>
+          <el-menu-item index="2-1">站点通</el-menu-item>
+          <el-menu-item index="2-2">55寸屏</el-menu-item>
+          <el-menu-item index="2-3">站杆预报屏</el-menu-item>
+        </el-submenu>
+        <el-menu-item index="/bus/check/getDeviceRepairStatistics">查看报修次数统计</el-menu-item>
+
       </el-submenu>
-      <el-menu-item index="/rfid4g/fixInfo/jt1">
-        设备修理情况
-        <el-badge :value="2" style="margin-left: 4px"></el-badge>
-      </el-menu-item>
+      <el-submenu index="/rfid4g/fix/jt1">
+        <template slot="title">设备修理情况</template>
+        <el-menu-item index="/rfid4g/fix/jt1">RFID4G</el-menu-item>
+        <el-menu-item index="2-2">RFID4G（场站）</el-menu-item>
+        <el-menu-item index="2-3">车辆标签</el-menu-item>
+        <el-menu-item index="2-1">车载一体机</el-menu-item>
+        <el-menu-item index="2-2">报到机</el-menu-item>
+        <el-menu-item index="2-3">一程一检</el-menu-item>
+        <el-menu-item index="2-1">站点通</el-menu-item>
+        <el-menu-item index="2-2">55寸屏</el-menu-item>
+        <el-menu-item index="2-3">站杆预报屏</el-menu-item>
+      </el-submenu>
       <el-submenu index="7">
         <template slot="title">质量分析</template>
         <el-menu-item index="/bus/quality/getDeviceFixStatistics">查看修复情况</el-menu-item>
