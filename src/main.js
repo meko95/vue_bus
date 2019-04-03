@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
 })
 // 全局函数 获取当前选择归属信息
 Vue.prototype.getSbGsInfo = function (data, jtdm, gsdm, cddm, xldm) {
-  const sbGs = data.id
+  const sbGs = data.value
   jtdm = sbGs.substr(0,2)
   if(sbGs[2]){
     gsdm = sbGs.substr(0,4)

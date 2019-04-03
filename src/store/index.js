@@ -7,33 +7,33 @@ const state = {
   date: new Date(),
   subsidiary: [
     {
-      id: '01',
+      value: '01',
       label: '上海久事一集团',
       children: [
         {
-          id: '0101',
+          value: '0101',
           label: '巴士一公司',
           children: [
             {
-              id: '010101',
+              value: '010101',
               label: '一车队',
               children: [
-                {id: '01010101', label: '55'},
-                {id: '01010102', label: '61'},
-                {id: '01010103', label: '99'},
-                {id: '01010104', label: '307'},
-                {id: '01010105', label: '325'},
-                {id: '01010106', label: '538'},
-                {id: '01010107', label: '1201'},
-                {id: '01010108', label: '1218'},
-                {id: '01010109', label: '1226'},
-                {id: '01010110', label: '1228'},
-                {id: '01010111', label: '1255'},
-                {id: '01010112', label: '1256'}
+                {value: '01010101', label: '55'},
+                {value: '01010102', label: '61'},
+                {value: '01010103', label: '99'},
+                {value: '01010104', label: '307'},
+                {value: '01010105', label: '325'},
+                {value: '01010106', label: '538'},
+                {value: '01010107', label: '1201'},
+                {value: '01010108', label: '1218'},
+                {value: '01010109', label: '1226'},
+                {value: '01010110', label: '1228'},
+                {value: '01010111', label: '1255'},
+                {value: '01010112', label: '1256'}
               ]
             },
             {
-              id: '010102',
+              value: '010102',
               label: '二车队',
               children: [
                 {label: '47'},
@@ -47,7 +47,7 @@ const state = {
               ]
             },
             {
-              id: '010103',
+              value: '010103',
               label: '三车队',
               children: [
                 {label: '70'},
@@ -63,7 +63,7 @@ const state = {
               ]
             },
             {
-              id: '010104',
+              value: '010104',
               label: '四车队',
               children: [
                 {label: '60'},
@@ -80,7 +80,7 @@ const state = {
               ]
             },
             {
-              id: '010105',
+              value: '010105',
               label: '五车队',
               children: [
                 {label: '100'},
@@ -95,10 +95,10 @@ const state = {
           ]
         },
         {
-          id: '0102',
+          value: '0102',
           label: '巴士二公司',
           children: [{
-            id: '010201',
+            value: '010201',
             label: '一车队',
             children: [
               {label: '55'},
@@ -116,7 +116,7 @@ const state = {
             ]
           },
             {
-              id: '010202',
+              value: '010202',
               label: '二车队',
               children: [
                 {label: '47'},
@@ -130,7 +130,7 @@ const state = {
               ]
             },
             {
-              id: '010203',
+              value: '010203',
               label: '三车队',
               children: [
                 {label: '70'},
@@ -146,7 +146,7 @@ const state = {
               ]
             },
             {
-              id: '010204',
+              value: '010204',
               label: '四车队',
               children: [
                 {label: '60'},
@@ -163,7 +163,7 @@ const state = {
               ]
             },
             {
-              id: '010205',
+              value: '010205',
               label: '五车队',
               children: [
                 {label: '100'},
@@ -177,10 +177,10 @@ const state = {
             }]
         },
         {
-          id: '0103',
+          value: '0103',
           label: '巴士三公司',
           children: [{
-            id: '010301',
+            value: '010301',
             label: '一车队',
             children: [
               {label: '55'},
@@ -198,7 +198,7 @@ const state = {
             ]
           },
             {
-              id: '010302',
+              value: '010302',
               label: '二车队',
               children: [
                 {label: '47'},
@@ -212,7 +212,7 @@ const state = {
               ]
             },
             {
-              id: '010303',
+              value: '010303',
               label: '三车队',
               children: [
                 {label: '70'},
@@ -228,33 +228,33 @@ const state = {
               ]
             },
             {
-              id: '010304',
+              value: '010304',
               label: '四车队',
               children: [
-                {id: '01030401', label: '60'},
-                {id: '01030402', label: '103'},
-                {id: '01030403', label: '142'},
-                {id: '01030404', label: '195'},
-                {id: '01030405', label: '220'},
-                {id: '01030406', label: '308'},
-                {id: '01030407', label: '329'},
-                {id: '01030408', label: '557'},
-                {id: '01030409', label: '723'},
-                {id: '01030410', label: '842'},
-                {id: '01030411', label: '874'}
+                {value: '01030401', label: '60'},
+                {value: '01030402', label: '103'},
+                {value: '01030403', label: '142'},
+                {value: '01030404', label: '195'},
+                {value: '01030405', label: '220'},
+                {value: '01030406', label: '308'},
+                {value: '01030407', label: '329'},
+                {value: '01030408', label: '557'},
+                {value: '01030409', label: '723'},
+                {value: '01030410', label: '842'},
+                {value: '01030411', label: '874'}
               ]
             },
             {
-              id: '010305',
+              value: '010305',
               label: '五车队',
               children: [
-                {id: '01030501', label: '100'},
-                {id: '01030502', label: '115'},
-                {id: '01030503', label: '123'},
-                {id: '01030504', label: '819'},
-                {id: '01030505', label: '854'},
-                {id: '01030506', label: '942'},
-                {id: '01030507', label: '1258'}
+                {value: '01030501', label: '100'},
+                {value: '01030502', label: '115'},
+                {value: '01030503', label: '123'},
+                {value: '01030504', label: '819'},
+                {value: '01030505', label: '854'},
+                {value: '01030506', label: '942'},
+                {value: '01030507', label: '1258'}
               ]
             }]
         }

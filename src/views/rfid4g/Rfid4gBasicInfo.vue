@@ -13,16 +13,17 @@
             <el-input
               placeholder="通过分片编号查询"
               clearable
-              @change="keywordsChange"
+              @change="qypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
               size="mini"
               :disabled="advanceSearchViewVisible"
               @keyup.enter.native="searchRfid4g"
               prefix-icon="el-icon-search"
-              v-model="keywords">
+              v-model="rfid4g.qypbh">
             </el-input>
             <div style="display: inline">
-              <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchRfid4g">
+              <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search"
+                         @click="searchRfid4g">
                 搜索
               </el-button>
               <el-button slot="reference" type="primary" size="mini" style="margin-left: 0"
@@ -307,7 +308,7 @@
                     <el-cascader
                       size="small"
                       placeholder="请选择设备归属"
-                      style="width:266px;"
+                      style="width:288px;"
                       expand-trigger="hover"
                       :options="rfid4gGsOptions"
                       v-model="rfid4gGsOption"
@@ -432,10 +433,6 @@
       return {
         cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
         sblbdm: '',
         totalPage: 0,
         pageSize: 10,
@@ -513,9 +510,9 @@
       StatisticsCard
     },
     methods: {
-      getGsSelected(data){
+      getGsSelected(data) {
         this.cardTitle = data.label
-        this.getSbGsInfo(data,this.rfid4g.sbgsjtdm,this.rfid4g.sbgsgsdm,this.rfid4g.sbgscddm,this.rfid4g.sbgsxldm)
+        this.getSbGsInfo(data, this.rfid4g.sbgsjtdm, this.rfid4g.sbgsgsdm, this.rfid4g.sbgscddm, this.rfid4g.sbgsxldm)
       },
       initData() {
         var _this = this
@@ -537,195 +534,272 @@
             _this.gs = res.data.data.list
           }
         })
-        this.rfid4gGsOptions = [
-          {
-            value: '01',
-            label: '上海久事一集团',
-            children: [
-              {
-                value: '0101',
-                label: '巴士一公司',
-                children: [
-                  {
-                    value: '010101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '010102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '010103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '0102',
-                label: '巴士二公司',
-                children: [
-                  {
-                    value: '010201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '010202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '010203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '0103',
-                label: '巴士三公司',
-                children: [
-                  {
-                    value: '010301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '010302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '010303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            value: '02',
-            label: '上海久事二集团',
-            children: [
-              {
-                value: '0201',
-                label: '巴士1公司',
-                children: [
-                  {
-                    value: '020101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '020102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '020103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '0202',
-                label: '巴士2公司',
-                children: [
-                  {
-                    value: '020201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '020202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '020203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '0203',
-                label: '巴士3公司',
-                children: [
-                  {
-                    value: '020301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '020302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '020303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            value: '03',
-            label: '上海久事三集团',
-            children: [
-              {
-                value: '0301',
-                label: '巴士壹公司',
-                children: [
-                  {
-                    value: '030101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '030102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '030103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '0302',
-                label: '巴士贰公司',
-                children: [
-                  {
-                    value: '030201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '030202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '030203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '0303',
-                label: '巴士叁公司',
-                children: [
-                  {
-                    value: '030301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '030302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '030303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        // this.rfid4gGsOptions = [
+        //   {
+        //     value: '01',
+        //     label: '上海久事一集团',
+        //     children: [
+        //       {
+        //         value: '0101',
+        //         label: '巴士一公司',
+        //         children: [
+        //           {
+        //             value: '010101',
+        //             label: '一车队',
+        //             children: [
+        //               {value: '01010101', label: '55'},
+        //               {value: '01010102', label: '61'},
+        //               {value: '01010103', label: '99'},
+        //               {value: '01010104', label: '307'},
+        //               {value: '01010105', label: '325'},
+        //               {value: '01010106', label: '538'},
+        //               {value: '01010107', label: '1201'},
+        //               {value: '01010108', label: '1218'},
+        //               {value: '01010109', label: '1226'},
+        //               {value: '01010110', label: '1228'},
+        //               {value: '01010111', label: '1255'},
+        //               {value: '01010112', label: '1256'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010102',
+        //             label: '二车队',
+        //             children: [
+        //               {label: '47'},
+        //               {label: '66'},
+        //               {label: '66区间'},
+        //               {label: '97'},
+        //               {label: '140'},
+        //               {label: '179'},
+        //               {label: '306'},
+        //               {label: '597'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010103',
+        //             label: '三车队',
+        //             children: [
+        //               {label: '70'},
+        //               {label: '79'},
+        //               {label: '80'},
+        //               {label: '137'},
+        //               {label: '222'},
+        //               {label: '310'},
+        //               {label: '559'},
+        //               {label: '758'},
+        //               {label: '875'},
+        //               {label: '960'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010104',
+        //             label: '四车队',
+        //             children: [
+        //               {label: '60'},
+        //               {label: '103'},
+        //               {label: '142'},
+        //               {label: '195'},
+        //               {label: '220'},
+        //               {label: '308'},
+        //               {label: '329'},
+        //               {label: '557'},
+        //               {label: '723'},
+        //               {label: '842'},
+        //               {label: '874'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010105',
+        //             label: '五车队',
+        //             children: [
+        //               {label: '100'},
+        //               {label: '115'},
+        //               {label: '123'},
+        //               {label: '819'},
+        //               {label: '854'},
+        //               {label: '942'},
+        //               {label: '1258'}
+        //             ]
+        //           }
+        //         ]
+        //       },
+        //       {
+        //         value: '0102',
+        //         label: '巴士二公司',
+        //         children: [{
+        //           value: '010201',
+        //           label: '一车队',
+        //           children: [
+        //             {label: '55'},
+        //             {label: '61'},
+        //             {label: '99'},
+        //             {label: '307'},
+        //             {label: '325'},
+        //             {label: '538'},
+        //             {label: '1201'},
+        //             {label: '1218'},
+        //             {label: '1226'},
+        //             {label: '1228'},
+        //             {label: '1255'},
+        //             {label: '1256'}
+        //           ]
+        //         },
+        //           {
+        //             value: '010202',
+        //             label: '二车队',
+        //             children: [
+        //               {label: '47'},
+        //               {label: '66'},
+        //               {label: '66区间'},
+        //               {label: '97'},
+        //               {label: '140'},
+        //               {label: '179'},
+        //               {label: '306'},
+        //               {label: '597'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010203',
+        //             label: '三车队',
+        //             children: [
+        //               {label: '70'},
+        //               {label: '79'},
+        //               {label: '80'},
+        //               {label: '137'},
+        //               {label: '222'},
+        //               {label: '310'},
+        //               {label: '559'},
+        //               {label: '758'},
+        //               {label: '875'},
+        //               {label: '960'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010204',
+        //             label: '四车队',
+        //             children: [
+        //               {label: '60'},
+        //               {label: '103'},
+        //               {label: '142'},
+        //               {label: '195'},
+        //               {label: '220'},
+        //               {label: '308'},
+        //               {label: '329'},
+        //               {label: '557'},
+        //               {label: '723'},
+        //               {label: '842'},
+        //               {label: '874'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010205',
+        //             label: '五车队',
+        //             children: [
+        //               {label: '100'},
+        //               {label: '115'},
+        //               {label: '123'},
+        //               {label: '819'},
+        //               {label: '854'},
+        //               {label: '942'},
+        //               {label: '1258'}
+        //             ]
+        //           }]
+        //       },
+        //       {
+        //         value: '0103',
+        //         label: '巴士三公司',
+        //         children: [{
+        //           value: '010301',
+        //           label: '一车队',
+        //           children: [
+        //             {label: '55'},
+        //             {label: '61'},
+        //             {label: '99'},
+        //             {label: '307'},
+        //             {label: '325'},
+        //             {label: '538'},
+        //             {label: '1201'},
+        //             {label: '1218'},
+        //             {label: '1226'},
+        //             {label: '1228'},
+        //             {label: '1255'},
+        //             {label: '1256'}
+        //           ]
+        //         },
+        //           {
+        //             value: '010302',
+        //             label: '二车队',
+        //             children: [
+        //               {label: '47'},
+        //               {label: '66'},
+        //               {label: '66区间'},
+        //               {label: '97'},
+        //               {label: '140'},
+        //               {label: '179'},
+        //               {label: '306'},
+        //               {label: '597'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010303',
+        //             label: '三车队',
+        //             children: [
+        //               {label: '70'},
+        //               {label: '79'},
+        //               {label: '80'},
+        //               {label: '137'},
+        //               {label: '222'},
+        //               {label: '310'},
+        //               {label: '559'},
+        //               {label: '758'},
+        //               {label: '875'},
+        //               {label: '960'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010304',
+        //             label: '四车队',
+        //             children: [
+        //               {value: '01030401', label: '60'},
+        //               {value: '01030402', label: '103'},
+        //               {value: '01030403', label: '142'},
+        //               {value: '01030404', label: '195'},
+        //               {value: '01030405', label: '220'},
+        //               {value: '01030406', label: '308'},
+        //               {value: '01030407', label: '329'},
+        //               {value: '01030408', label: '557'},
+        //               {value: '01030409', label: '723'},
+        //               {value: '01030410', label: '842'},
+        //               {value: '01030411', label: '874'}
+        //             ]
+        //           },
+        //           {
+        //             value: '010305',
+        //             label: '五车队',
+        //             children: [
+        //               {value: '01030501', label: '100'},
+        //               {value: '01030502', label: '115'},
+        //               {value: '01030503', label: '123'},
+        //               {value: '01030504', label: '819'},
+        //               {value: '01030505', label: '854'},
+        //               {value: '01030506', label: '942'},
+        //               {value: '01030507', label: '1258'}
+        //             ]
+        //           }]
+        //       }
+        //     ]
+        //   }
+        // ]
+        this.rfid4gGsOptions = this.$store.getters.getAllSubsidiary
       },
-      keywordsChange(val) {
+      qypbhChange(val) {
+        // 点击输入框叉号触发if条件语句的执行
         if (val === '') {
           this.loadRfid4gData()
         }
       },
       searchRfid4g() {
+        // enter触发
         this.loadRfid4gData()
       },
       cancelSearch() {
@@ -815,7 +889,7 @@
               this.postRequest('/api/sb/rfid4g', this.rfid4g).then(res => {
                 _this.tableLoading = false
                 _this.dialogVisible = false
-                if (res && res.status == 200) {
+                if (res && res.status === 200) {
                   this.loadRfid4gData()
                 }
               })

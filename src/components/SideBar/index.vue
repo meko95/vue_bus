@@ -2,7 +2,7 @@
   <el-aside width="140px" style="background-color: rgb(238, 241, 246)">
     <span style="display: block; text-align: center; font-size: 24px">{{sbType}}</span>
     <el-tree :data="subsidiary" :props="defaultProps" accordion @node-click="handleNodeClick"
-             highlight-current node-key="id" :default-expanded-keys="['01']"></el-tree>
+             highlight-current node-key="value" :default-expanded-keys="['01']"></el-tree>
   </el-aside>
 </template>
 
