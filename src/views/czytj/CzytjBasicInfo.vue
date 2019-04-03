@@ -3,12 +3,12 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="车载一体机"></SideBar>
+      <SideBar sb-type="车载一体机" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <el-header>
           <div style="display: inline">
-            <StatisticsCard></StatisticsCard>
+            <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -170,7 +170,7 @@
             </transition>
             <!-- 车载一体机基础信息Begin -->
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
-                      style="width: 100%;" :row-style="rowStyle" :cell-style="cellStyle"
+                      style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                       @selection-change="handleSelectionChange" stripe size="small" height="559"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
@@ -459,8 +459,7 @@
     name: "CzytjBasicInfo",
     data() {
       return {
-        rowStyle: {'height': 0},
-        cellStyle: {'padding': 0},
+        cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -489,9 +488,13 @@
           cnsxts: '',
           cwsxts: '',
           simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
@@ -549,8 +552,9 @@
       StatisticsCard
     },
     methods: {
-      handleNodeClick(data) {
-        console.log(data)
+      getGsSelected(data){
+        this.cardTitle = data.label
+        this.getSbGsInfo(data,this.czytj.sbgsjtdm,this.czytj.sbgsgsdm,this.czytj.sbgscddm,this.czytj.sbgsxldm)
       },
       initData() {
         this.gsxl = [

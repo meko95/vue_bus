@@ -3,13 +3,13 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="站杆预报屏"></SideBar>
+      <SideBar sb-type="站杆预报屏" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <!-- 设备材质、设备供电 -->
       <el-container>
         <el-header>
           <div style="display: inline">
-            <StatisticsCard></StatisticsCard>
+            <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -471,6 +471,7 @@
     name: "ZgybpBasicInfo",
     data() {
       return {
+        cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -499,10 +500,13 @@
           gztj: '',
           ytjcw: '',
           simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
-          sbgszdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
@@ -558,8 +562,9 @@
       StatisticsCard
     },
     methods: {
-      handleNodeClick(data) {
-        console.log(data)
+      getGsSelected(data){
+        this.cardTitle = data.label
+        this.getSbGsInfo(data,this.zgybp.sbgsjtdm,this.zgybp.sbgsgsdm,this.zgybp.sbgscddm,this.zgybp.sbgsxldm)
       },
       initData() {
         this.gsxl = [

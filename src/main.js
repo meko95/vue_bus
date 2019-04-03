@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+
 Vue.use(ElementUI)
 
 import {getRequest} from "@/utils/api"
@@ -27,6 +28,7 @@ Vue.prototype.deleteRequest = deleteRequest
 Vue.prototype.putRequest = putRequest
 
 import axios from 'axios'
+
 Vue.prototype.axios = axios // 把axios加到 Vue原型中 其他组件中this.axios调用
 // axios.defaults.withCredentials = true
 import {VueCookies} from 'vue-cookies'
@@ -69,3 +71,24 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+// 全局函数 获取当前选择归属信息
+Vue.prototype.getSbGsInfo = function (data, jtdm, gsdm, cddm, xldm) {
+  const sbGs = data.id
+  jtdm = sbGs.substr(0,2)
+  if(sbGs[2]){
+    gsdm = sbGs.substr(0,4)
+    if(sbGs[4]){
+      cddm = sbGs.substr(0,6)
+      if(sbGs[6]){
+        xldm = sbGs.substr(0,8)
+      }else{
+        xldm = ''
+      }
+    }else{
+      cddm = ''
+    }
+  }else{
+    gsdm = ''
+  }
+  console.log(jtdm,gsdm,cddm,xldm)
+}

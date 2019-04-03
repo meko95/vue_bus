@@ -3,11 +3,12 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <el-aside width="146px" style="background-color: rgb(238, 241, 246)">
-        <span style="text-align: center; font-size: 24px">设备归属</span>
-        <el-tree :data="subsidiary" :props="defaultProps" accordion @node-click="handleNodeClick"
-                 highlight-current node-key="id" :default-expanded-keys="[1]"></el-tree>
-      </el-aside>
+      <!--<el-aside width="146px" style="background-color: rgb(238, 241, 246)">-->
+        <!--<span style="text-align: center; font-size: 24px">设备归属</span>-->
+        <!--<el-tree :data="subsidiary" :props="defaultProps" accordion @node-click="handleNodeClick"-->
+                 <!--highlight-current node-key="id" :default-expanded-keys="[1]"></el-tree>-->
+      <!--</el-aside>-->
+      <SideBar sb-type="设备归属" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
@@ -73,251 +74,21 @@
 
 <script>
   import ElementHeader from '../../components/Header'
-
+  import SideBar from '../../components/SideBar'
   export default {
     name: "AllSbStatistics",
     data() {
       return {
         tableLoading: false,
         sbStatistics: [],
-        subsidiary: [
-          {
-            id: 1,
-            label: '上海久事一集团',
-            children: [
-              {
-                label: '巴士一公司',
-                children: [
-                  {
-                    label: '一车队',
-                    children: [
-                      {label: '55'},
-                      {label: '61'},
-                      {label: '99'},
-                      {label: '307'},
-                      {label: '325'},
-                      {label: '538'},
-                      {label: '1201'},
-                      {label: '1218'},
-                      {label: '1226'},
-                      {label: '1228'},
-                      {label: '1255'},
-                      {label: '1256'}
-                    ]
-                  },
-                  {
-                    label: '二车队',
-                    children: [
-                      {label: '47'},
-                      {label: '66'},
-                      {label: '66区间'},
-                      {label: '97'},
-                      {label: '140'},
-                      {label: '179'},
-                      {label: '306'},
-                      {label: '597'}
-                    ]
-                  },
-                  {
-                    label: '三车队',
-                    children: [
-                      {label: '70'},
-                      {label: '79'},
-                      {label: '80'},
-                      {label: '137'},
-                      {label: '222'},
-                      {label: '310'},
-                      {label: '559'},
-                      {label: '758'},
-                      {label: '875'},
-                      {label: '960'}
-                    ]
-                  },
-                  {
-                    label: '四车队',
-                    children: [
-                      {label: '60'},
-                      {label: '103'},
-                      {label: '142'},
-                      {label: '195'},
-                      {label: '220'},
-                      {label: '308'},
-                      {label: '329'},
-                      {label: '557'},
-                      {label: '723'},
-                      {label: '842'},
-                      {label: '874'}
-                    ]
-                  },
-                  {
-                    label: '五车队',
-                    children: [
-                      {label: '100'},
-                      {label: '115'},
-                      {label: '123'},
-                      {label: '819'},
-                      {label: '854'},
-                      {label: '942'},
-                      {label: '1258'}
-                    ]
-                  }
-                ]
-              },
-              {
-                label: '巴士二公司',
-                children: [{
-                  label: '一车队',
-                  children: [
-                    {label: '55'},
-                    {label: '61'},
-                    {label: '99'},
-                    {label: '307'},
-                    {label: '325'},
-                    {label: '538'},
-                    {label: '1201'},
-                    {label: '1218'},
-                    {label: '1226'},
-                    {label: '1228'},
-                    {label: '1255'},
-                    {label: '1256'}
-                  ]
-                },
-                  {
-                    label: '二车队',
-                    children: [
-                      {label: '47'},
-                      {label: '66'},
-                      {label: '66区间'},
-                      {label: '97'},
-                      {label: '140'},
-                      {label: '179'},
-                      {label: '306'},
-                      {label: '597'}
-                    ]
-                  },
-                  {
-                    label: '三车队',
-                    children: [
-                      {label: '70'},
-                      {label: '79'},
-                      {label: '80'},
-                      {label: '137'},
-                      {label: '222'},
-                      {label: '310'},
-                      {label: '559'},
-                      {label: '758'},
-                      {label: '875'},
-                      {label: '960'}
-                    ]
-                  },
-                  {
-                    label: '四车队',
-                    children: [
-                      {label: '60'},
-                      {label: '103'},
-                      {label: '142'},
-                      {label: '195'},
-                      {label: '220'},
-                      {label: '308'},
-                      {label: '329'},
-                      {label: '557'},
-                      {label: '723'},
-                      {label: '842'},
-                      {label: '874'}
-                    ]
-                  },
-                  {
-                    label: '五车队',
-                    children: [
-                      {label: '100'},
-                      {label: '115'},
-                      {label: '123'},
-                      {label: '819'},
-                      {label: '854'},
-                      {label: '942'},
-                      {label: '1258'}
-                    ]
-                  }]
-              },
-              {
-                label: '巴士三公司',
-                children: [{
-                  label: '一车队',
-                  children: [
-                    {label: '55'},
-                    {label: '61'},
-                    {label: '99'},
-                    {label: '307'},
-                    {label: '325'},
-                    {label: '538'},
-                    {label: '1201'},
-                    {label: '1218'},
-                    {label: '1226'},
-                    {label: '1228'},
-                    {label: '1255'},
-                    {label: '1256'}
-                  ]
-                },
-                  {
-                    label: '二车队',
-                    children: [
-                      {label: '47'},
-                      {label: '66'},
-                      {label: '66区间'},
-                      {label: '97'},
-                      {label: '140'},
-                      {label: '179'},
-                      {label: '306'},
-                      {label: '597'}
-                    ]
-                  },
-                  {
-                    label: '三车队',
-                    children: [
-                      {label: '70'},
-                      {label: '79'},
-                      {label: '80'},
-                      {label: '137'},
-                      {label: '222'},
-                      {label: '310'},
-                      {label: '559'},
-                      {label: '758'},
-                      {label: '875'},
-                      {label: '960'}
-                    ]
-                  },
-                  {
-                    label: '四车队',
-                    children: [
-                      {label: '60'},
-                      {label: '103'},
-                      {label: '142'},
-                      {label: '195'},
-                      {label: '220'},
-                      {label: '308'},
-                      {label: '329'},
-                      {label: '557'},
-                      {label: '723'},
-                      {label: '842'},
-                      {label: '874'}
-                    ]
-                  },
-                  {
-                    label: '五车队',
-                    children: [
-                      {label: '100'},
-                      {label: '115'},
-                      {label: '123'},
-                      {label: '819'},
-                      {label: '854'},
-                      {label: '942'},
-                      {label: '1258'}
-                    ]
-                  }]
-              }
-            ]
-          }
-        ],
+        sb: {
+          sblb: '',
+          sbgsjtdm: '',
+          sbgsgsdm: '',
+          sbgscddm: '',
+          sbgsxldm: '',
+        },
+        subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
           label: 'label'
@@ -325,11 +96,12 @@
       }
     },
     components: {
-      ElementHeader
+      ElementHeader,
+      SideBar
     },
     methods: {
-      handleNodeClick(data) {
-        console.log(data)
+      getGsSelected(data){
+        this.getSbGsInfo(data,this.sb.sbgsjtdm,this.sb.sbgsgsdm,this.sb.sbgscddm,this.sb.sbgsxldm)
       },
       goSbBasic(scope) {
         switch (scope.row.sblb) {

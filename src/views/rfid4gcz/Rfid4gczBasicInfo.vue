@@ -3,14 +3,14 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="RFID4G场站"></SideBar>
+      <SideBar sb-type="RFID4G场站" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
         <el-header>
           <!-- 功能按钮:搜索、高级搜索、导入、导出数据、添加 -->
           <div style="display: inline">
-            <StatisticsCard></StatisticsCard>
+            <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -174,7 +174,7 @@
             </transition>
             <!-- RFID场站基础信息Begin -->
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
-                      style="width: 100%;" :row-style="rowStyle" :cell-style="cellStyle"
+                      style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                       @selection-change="handleSelectionChange" stripe size="small" height="559"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
@@ -461,8 +461,7 @@
     name: "Rfid4gczBasicInfo",
     data() {
       return {
-        rowStyle: {'height': 0},
-        cellStyle: {'padding': 0},
+        cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -492,6 +491,7 @@
           sbgsgsmc: '',
           sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
@@ -545,8 +545,9 @@
       StatisticsCard
     },
     methods: {
-      handleNodeClick(data) {
-        console.log(data)
+      getGsSelected(data){
+        this.cardTitle = data.label
+        this.getSbGsInfo(data,this.rfid4gcz.sbgsjtdm,this.rfid4gcz.sbgsgsdm,this.rfid4gcz.sbgscddm,this.rfid4gcz.sbgsxldm)
       },
       initData() {
         this.gsxl = [

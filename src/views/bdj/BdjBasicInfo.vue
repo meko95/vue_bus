@@ -3,13 +3,13 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="报到机"></SideBar>
+      <SideBar sb-type="报到机" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
         <el-header>
           <div style="display: inline">
-            <StatisticsCard s-title="上海久事一集团"></StatisticsCard>
+            <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -151,8 +151,7 @@
                       :options="bdjGsOptions"
                       v-model="bdjGsOption"
                       @change="handleChange"
-                      change-on-select
-                    >
+                      change-on-select>
                     </el-cascader>
                   </el-col>
                   <el-col :span="6">
@@ -443,8 +442,7 @@
     name: "BdjBasicInfo",
     data() {
       return {
-        rowStyle: {'height': 0},
-        cellStyle: {'padding': 0},
+        cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -468,9 +466,13 @@
           sbpp: '',
           sbxh: '',
           simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
@@ -523,8 +525,10 @@
       StatisticsCard
     },
     methods: {
-      handleNodeClick(data) {
+      getGsSelected(data){
+        this.cardTitle = data.label
         console.log(data)
+        this.getSbGsInfo(data,this.bdj.sbgsjtdm,this.bdj.sbgsgsdm,this.bdj.sbgscddm,this.bdj.sbgsxldm)
       },
       initData() {
         this.gsxl = [
@@ -964,13 +968,16 @@
           sbpp: this.bdj.sbpp,
           simkh: '',
           gldj: this.bdj.gldj,
-          sbgsjtdm: this.bdjGsOption[0],
+          // this.bdjGsOption[0]
+          sbgsjtdm: '',
           sbgsjtmc: '',
-          sbgsgsdm: this.bdjGsOption[1],
+          sbgsgsdm: '',
+          // this.bdjGsOption[1]
           sbgsgsmc: '',
-          sbgscddm: this.bdjGsOption[2],
+          // this.bdjGsOption[2]
+          sbgscddm: '',
           sbgscdmc: '',
-          sbgsxldm: this.bdj.sbgsxlmc,
+          sbgsxldm: '',
           sbgsxlmc: '',
           gysdm: '',
           gysmc: this.bdj.gysmc,

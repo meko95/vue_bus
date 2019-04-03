@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="RFID4G" v-on:listenToChildEvent="showDataFromChild"></SideBar>
+      <SideBar sb-type="RFID4G" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
@@ -437,10 +437,6 @@
           label: 'label'
         },
         sblbdm: '',
-        sbgsjtdm: '',
-        sbgsgsdm: '',
-        sbgscddm: '',
-        sbgsxldm: '',
         totalPage: 0,
         pageSize: 10,
         currentPage: 1,
@@ -468,6 +464,7 @@
           sbgsgsmc: '',
           sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
@@ -516,26 +513,9 @@
       StatisticsCard
     },
     methods: {
-      showDataFromChild(data){
+      getGsSelected(data){
         this.cardTitle = data.label
-        const sbGs = data.id
-        this.sbgsjtdm = sbGs.substr(0,2)
-        if(sbGs[2]){
-          this.sbgsgsdm = sbGs.substr(0,4)
-          if(sbGs[4]){
-            this.sbgscddm = sbGs.substr(0,6)
-            if(sbGs[6]){
-              this.sbgsxldm = sbGs.substr(0,8)
-            }else{
-              this.sbgsxldm = ''
-            }
-          }else{
-            this.sbgscddm = ''
-          }
-        }else{
-          this.sbgsgsdm = ''
-        }
-        console.log(this.sbgsjtdm,this.sbgsgsdm,this.sbgscddm,this.sbgsxldm)
+        this.getSbGsInfo(data,this.rfid4g.sbgsjtdm,this.rfid4g.sbgsgsdm,this.rfid4g.sbgscddm,this.rfid4g.sbgsxldm)
       },
       initData() {
         var _this = this

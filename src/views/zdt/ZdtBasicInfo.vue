@@ -3,12 +3,12 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="站点通"></SideBar>
+      <SideBar sb-type="站点通" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <el-header>
           <div style="display: inline">
-            <StatisticsCard></StatisticsCard>
+            <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -170,7 +170,7 @@
             </transition>
             <!-- 站点通基础信息Begin -->
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
-                      style="width: 100%;" :row-style="rowStyle" :cell-style="cellStyle"
+                      style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                       @selection-change="handleSelectionChange" stripe size="small" height="559"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
@@ -429,8 +429,7 @@
     name: "ZdtBasicInfo",
     data() {
       return {
-        rowStyle: {'height': 0},
-        cellStyle: {'padding': 0},
+        cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -457,11 +456,15 @@
           ytjcn: '',
           ytjcw: '',
           simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
-          sbgszdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
+          sbgszdmc: '',
           sbqyrq: '',
           sbgxrq: '',
           sbbfrq: '',
@@ -513,8 +516,9 @@
       StatisticsCard
     },
     methods: {
-      handleNodeClick(data) {
-        console.log(data)
+      getGsSelected(data){
+        this.cardTitle = data.label
+        this.getSbGsInfo(data,this.zdt.sbgsjtdm,this.zdt.sbgsgsdm,this.zdt.sbgscddm,this.zdt.sbgsxldm)
       },
       initData() {
         this.gsxl = [

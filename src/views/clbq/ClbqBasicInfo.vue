@@ -3,12 +3,12 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="车辆标签"></SideBar>
+      <SideBar sb-type="车辆标签" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <el-header>
           <div style="display: inline">
-            <StatisticsCard s-title="上海久事一集团"></StatisticsCard>
+            <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
               placeholder="通过分片编号查询"
               clearable
@@ -172,7 +172,7 @@
             </transition>
             <!-- 车辆标签基础信息Begin -->
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
-                      style="width: 100%;" :row-style="rowStyle" :cell-style="cellStyle"
+                      style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                       @selection-change="handleSelectionChange" stripe size="small"
                       highlight-current-row height="559"
                       :default-sort="{prop: 'sbqyrq', order: 'descending'}">
@@ -438,8 +438,7 @@
     name: "ClbqBasicInfo",
     data() {
       return {
-        rowStyle: {'height': 0},
-        cellStyle: {'padding': 0},
+        cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
         defaultProps: {
           children: 'children',
@@ -463,9 +462,13 @@
           sbpp: '',
           sbxh: '',
           simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
@@ -518,8 +521,9 @@
       StatisticsCard
     },
     methods: {
-      handleNodeClick(data) {
-        console.log(data)
+      getGsSelected(data){
+        this.cardTitle = data.label
+        this.getSbGsInfo(data,this.clbq.sbgsjtdm,this.clbq.sbgsgsdm,this.clbq.sbgscddm,this.clbq.sbgsxldm)
       },
       initData() {
         this.gsxl = [
