@@ -56,31 +56,57 @@
                 v-show="advanceSearchViewVisible">
                 <el-row>
                   <el-col :span="5">
-                    RFID4G编号：
+                    RFID4G编号:
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.sbzbh" size="small" style="width: 150px"
                               placeholder="设备查询编号"></el-input>
                   </el-col>
+                  <el-col :span="5">
+                    合同编号:
+                    <el-input prefix-icon="el-icon-search" v-model="rfid4g.htbh" size="small" style="width: 150px"
+                              placeholder="设备合同编号"></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    站点编号:
+                    <el-input prefix-icon="el-icon-search" v-model="rfid4g.zdbh" size="small" style="width: 150px"
+                              placeholder="设备站点编号"></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    基站编号:
+                    <el-input prefix-icon="el-icon-search" v-model="rfid4g.jzbh" size="small" style="width: 150px"
+                              placeholder="设备基站编号"></el-input>
+                  </el-col>
                   <el-col :span="4">
-                    管理等级：
-                    <el-select v-model="rfid4g.gldj" style="width: 120px" size="small" placeholder="管理等级">
+                    分片区域:
+                    <el-select v-model="rfid4g.qypmc" style="width: 120px" clearable size="small" placeholder="请选择">
+                      <el-option v-for="item in qypmc" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
+                  <el-col :span="4">
+                    管理等级:
+                    <el-select v-model="rfid4g.gldj" style="width: 110px" clearable size="small" placeholder="管理等级">
                       <el-option v-for="item in gldj" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
-                  <el-col :span="4">
-                    品牌：
-                    <el-input prefix-icon="el-icon-search" v-model="rfid4g.sbpp" size="small" style="width: 150px"
-                              placeholder="输入设备品牌"></el-input>
-                  </el-col>
                   <el-col :span="5">
-                    型号：
-                    <el-input prefix-icon="el-icon-search" v-model="rfid4g.sbxh" size="small" style="width: 150px"
-                              placeholder="输入设备型号"></el-input>
+                    品牌型号:
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备品牌型号"
+                      style="width: 170px;"
+                      expand-trigger="hover"
+                      clearable
+                      :options="sbppxh"
+                      v-model="rfid4gPpxhOption"
+                      @change="handlePpxhChange"
+                      change-on-select>
+                    </el-cascader>
                   </el-col>
-                </el-row>
-                <el-row style="margin-top: 18px">
-                  <el-col :span="8">
-                    启动日期：
+                  <el-col :span="9">
+                    启动日期:
                     <el-date-picker
                       v-model="beginDateScope"
                       unlink-panels
@@ -92,8 +118,10 @@
                       end-placeholder="结束日期">
                     </el-date-picker>
                   </el-col>
-                  <el-col :span="8">
-                    更新日期：
+                </el-row>
+                <el-row style="margin-top: 18px">
+                  <el-col :span="9">
+                    更新日期:
                     <el-date-picker
                       v-model="updateDateScope"
                       unlink-panels
@@ -105,8 +133,8 @@
                       end-placeholder="结束日期">
                     </el-date-picker>
                   </el-col>
-                  <el-col :span="8">
-                    报废日期：
+                  <el-col :span="9">
+                    报废日期:
                     <el-date-picker
                       v-model="endDateScope"
                       unlink-panels
@@ -117,43 +145,37 @@
                       start-placeholder="开始日期"
                       end-placeholder="结束日期">
                     </el-date-picker>
-                  </el-col>
-                </el-row>
-                <el-row style="margin-top: 18px">
+                  </el-col>想·
                   <el-col :span="4">
-                    供应商：
-                    <el-select v-model="rfid4g.gysmc" style="width: 130px" size="small" placeholder="请选择供应商">
+                    供应商:
+                    <el-select v-model="rfid4g.gysmc" style="width: 130px" clearable size="small" placeholder="请选择供应商">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
                   <el-col :span="4">
-                    集成商：
-                    <el-select v-model="rfid4g.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商">
+                    集成商:
+                    <el-select v-model="rfid4g.jcsmc" style="width: 130px" clearable size="small" placeholder="请选择集成商">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="8">
-                    设备归属：
+                    设备归属:
                     <el-cascader
                       size="small"
                       placeholder="请选择设备归属"
                       style="width:300px;"
                       expand-trigger="hover"
+                      clearable
                       :options="rfid4gGsOptions"
                       v-model="rfid4gGsOption"
-                      @change="handleChange"
+                      @change="handleGsChange"
                       change-on-select>
                     </el-cascader>
                   </el-col>
-                  <el-col :span="6">
-                    线路：
-                    <el-input prefix-icon="el-icon-search" v-model="rfid4g.sbgsxlmc" size="small" style="width: 250px"
-                              placeholder="输入设备线路，以中文逗号相间隔"></el-input>
-                  </el-col>
-                </el-row>
-                <el-row style="margin-top: 18px">
                   <el-col :span="4" :offset="21">
                     <el-button size="small" @click="cancelSearch">取消</el-button>
                     <el-button icon="el-icon-search" type="primary" size="small" @click="searchRfid4g">搜索</el-button>
@@ -238,21 +260,13 @@
       <el-form :model="rfid4g" :rules="rules" ref="addRfid4gForm" style="margin: 0;padding: 0;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                     :visible.sync="dialogVisible" width="77%" @close="cancel_add">
+                     :visible.sync="dialogVisible" width="77%" @close="cancel_add('addRfid4gForm')">
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="RFID4G编号:" prop="sbzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbzbh" size="small" style="width: 150px"
                               placeholder="请输入设备编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="RFID4G分片编号:" prop="qypbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.qypbh" size="small" style="width: 150px"
-                              placeholder="请输入分片编号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -264,9 +278,49 @@
                   </el-form-item>
                 </div>
               </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="分片编号:" prop="qypbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.qypbh" size="small" style="width: 150px"
+                              placeholder="请输入分片编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="5">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="分片区域:" prop="qypmc">
+                    <el-select v-model="rfid4g.qypmc" style="width: 120px" size="small" placeholder="请选择">
+                      <el-option v-for="item in qypmc" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="行政区域:" prop="ssxzqy">
+                    <el-select v-model="rfid4g.ssxzqy" style="width: 120px" size="small" placeholder="请选择">
+                      <el-option v-for="item in ssxzqys" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="工作状态:" prop="sbgzzt">
+                    <el-select v-model="rfid4g.sbgzzt" style="width: 120px" size="small" placeholder="请选择">
+                      <el-option v-for="item in sbgzzt" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="管理等级:" prop="gldj">
                     <el-select v-model="rfid4g.gldj" style="width: 120px" size="small" placeholder="管理等级">
@@ -276,33 +330,51 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="6">
+              <!--<el-col :span="6">-->
+              <!--<div>-->
+              <!--<el-form-item label="设备品牌:" prop="sbpp">-->
+              <!--<el-select v-model="rfid4g.sbpp" style="width: 120px" size="small" placeholder="请选择">-->
+              <!--<el-option v-for="item in sbpp" :key="item.id" :label="item.descriptionZh"-->
+              <!--:value="item.descriptionZh"></el-option>-->
+              <!--</el-select>-->
+              <!--</el-form-item>-->
+              <!--</div>-->
+              <!--</el-col>-->
+              <!--<el-col :span="6">-->
+              <!--<div>-->
+              <!--<el-form-item label="设备型号:" prop="sbxh">-->
+              <!--<el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbxh" size="small" style="width: 150px"-->
+              <!--placeholder="请输入设备型号"></el-input>-->
+              <!--</el-form-item>-->
+              <!--</div>-->
+              <!--</el-col>-->
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="设备品牌:" prop="sbpp">
-                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbpp" size="small" style="width: 150px"
-                              placeholder="请输入设备品牌"></el-input>
+                  <el-form-item label="品牌型号:" prop="rfid4gPpxhOption">
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备品牌型号"
+                      style="width:162px;"
+                      expand-trigger="hover"
+                      :options="sbppxh"
+                      v-model="rfid4gPpxhOption"
+                      @change="handlePpxhChange"
+                      change-on-select>
+                    </el-cascader>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="6">
-                <div>
-                  <el-form-item label="设备型号:" prop="sbxh">
-                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbxh" size="small" style="width: 150px"
-                              placeholder="请输入设备型号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="SIM卡号:" prop="simkh">
-                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.simkh" size="small" style="width: 150px"
+                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.simkh" size="small" style="width: 190px"
                               placeholder="请输入SIM卡号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="9">
+              <el-col :span="11">
                 <div>
                   <el-form-item label="设备归属:" prop="rfid4gGsOption">
                     <el-cascader
@@ -312,23 +384,24 @@
                       expand-trigger="hover"
                       :options="rfid4gGsOptions"
                       v-model="rfid4gGsOption"
-                      @change="handleChange"
+                      @change="handleGsChange"
                       change-on-select>
                     </el-cascader>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="归属线路:" prop="sbgsxlmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbgsxlmc" size="small" style="width: 150px"
-                              placeholder="请输入归属线路"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
+              <!-- 设备归属线路如果不只属于一条线路，想多选则把归属线路信息与集团、公司、车队独立出来，根据前三位代码动态加载线路可选项并且设置选择框为multiple -->
+              <!--<el-col :span="8">-->
+              <!--<div>-->
+              <!--<el-form-item label="归属线路:" prop="sbgsxlmc">-->
+              <!--<el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbgsxlmc" size="small" style="width: 150px"-->
+              <!--placeholder="请输入归属线路"></el-input>-->
+              <!--</el-form-item>-->
+              <!--</div>-->
+              <!--</el-col>-->
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="启动日期:" prop="sbqyrq">
                     <el-date-picker
@@ -342,7 +415,7 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="更新日期:" prop="sbgxrq">
                     <el-date-picker
@@ -356,7 +429,7 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="报废日期:" prop="sbbfrq">
                     <el-date-picker
@@ -372,7 +445,7 @@
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="供应商:" prop="gysmc">
                     <el-select v-model="rfid4g.gysmc" style="width: 130px" size="small" placeholder="供应商">
@@ -382,7 +455,7 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="集成商:" prop="jcsmc">
                     <el-select v-model="rfid4g.jcsmc" style="width: 130px" size="small" placeholder="集成商">
@@ -392,9 +465,25 @@
                   </el-form-item>
                 </div>
               </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="站点编号:" prop="zdbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.zdbh" size="small" style="width: 150px"
+                              placeholder="请输入站点编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="6">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="基站编号:" prop="jzbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.jzbh" size="small" style="width: 150px"
+                              placeholder="请输入基站编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
                 <div>
                   <el-form-item label="条码编号:" prop="tmbh">
                     <el-input prefix-icon="el-icon-edit" v-model="rfid4g.tmbh" size="small" style="width: 150px"
@@ -412,9 +501,9 @@
               </el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
-            <el-button size="large" @click="cancelEidt">取 消</el-button>
-            <el-button size="large" type="primary" @click="addRfid4g('addRfid4gForm')">确 定</el-button>
-          </span>
+              <el-button size="large" @click="cancelEidt('addRfid4gForm')">取 消</el-button>
+              <el-button size="large" type="primary" @click="addRfid4g('addRfid4gForm')">确 定</el-button>
+            </span>
           </el-dialog>
         </div>
       </el-form>
@@ -441,16 +530,19 @@
         advanceSearchViewVisible: false,
         dialogVisible: false,
         tableLoading: false,
-        keywords: '',
         beginDateScope: '',
         updateDateScope: '',
         endDateScope: '',
         rfid4g: {
+          sblb: '', // 估计没什么用
           sbjyh: '',
-          sblb: '',
           sbzbh: '',
-          qypbh: '',
           htbh: '',
+          sbgzzt: '',
+          azzp: '',
+          qypbh: '',
+          qypmc: '',
+          ssxzqy: '',
           gldj: '',
           sbpp: '',
           sbxh: '',
@@ -468,37 +560,49 @@
           sbbfrq: '',
           gysmc: '',
           jcsmc: '',
-          tmbh: '',
-          ewmbh: ''
+          jzbh: '',
+          ewmbh: '',
+          tmbh: ''
         },
         Sbs: [],
         multipleSelection: [],
         searchUp: 'el-icon-arrow-up',
         searchDown: 'el-icon-arrow-down',
-        rfid4gGsOption: ['', '', ''],
         rfid4gGsOptions: [],
+        rfid4gGsOption: ['', '', '', ''],
+        sbppxh: [],
+        rfid4gPpxhOption: ['', ''],
         fileUploadBtnText: '导入数据',
         dialogTitle: '',
         gs: [],
-        gsxl: [],
         gldj: [],
+        sbgzzt: [],
+        qypmc: [],
+        ssxzqys: [],
         rules: {
-          sbzbh: [{required: true, message: '必填:编号', trigger: 'blur'}],
-          qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
+          sbzbh: [{required: true, message: '必填:自编号', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
+          sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
+          qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
+          qypmc: [{required: true, message: '必填:分片名称', trigger: 'blur'}],
+          ssxzqy: [{required: true, message: '必填:行政区域', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'change'}],
-          sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
-          sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
+          rfid4gPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
+          // sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
+          // sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
           simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
-          sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'change'}],
-          sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'change'}],
-          sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'change'}],
-          sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
+          rfid4gGsOption: [{required: false, message: '必填:设备归属', trigger: 'blur'}],
+          // sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'change'}],
+          // sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'change'}],
+          // sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'change'}],
+          // sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
           sbqyrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
           sbgxrq: [{required: false, message: '必填:更新日期', trigger: 'blur'}],
           sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'change'}],
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
+          zdbh: [{required: true, message: '必填:站点编号', trigger: 'blur'}],
+          jzbh: [{required: true, message: '必填:基站编号', trigger: 'blur'}],
           tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
           ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
         }
@@ -516,281 +620,55 @@
       },
       initData() {
         var _this = this
-        this.gsxl = [
-          {id: 1, name: '1001'},
-          {id: 2, name: 'B支4'},
-          {id: 3, name: '上南路西'}
-        ]
         // 获取管理等级字典
-        this.getRequest('/api/dictionary?pCode=6').then(res => {
+        // this.getRequest('/api/dictionary?pCode=6').then(res => {
+        //   if (res && res.status === 200) {
+        //     console.log(res.data.data.list)
+        //     _this.gldj = res.data.data.list
+        //   }
+        // })
+        this.getRequest('/api/Sbs/gldj').then(res => {
           if (res && res.status === 200) {
-            console.log(res.data.data.list)
-            _this.gldj = res.data.data.list
+            _this.gldj = res.data.GldjList
           }
         })
         // 获取公司字典
-        this.getRequest('/api/dictionary?pCode=2').then(res => {
+        // this.getRequest('/api/dictionary?pCode=2').then(res => {
+        //   if (res && res.status === 200) {
+        //     _this.gs = res.data.data.list
+        //   }
+        // })
+        this.getRequest('/api/Sbs/gs').then(res => {
           if (res && res.status === 200) {
-            _this.gs = res.data.data.list
+            _this.gs = res.data.GsList
           }
         })
-        // this.rfid4gGsOptions = [
-        //   {
-        //     value: '01',
-        //     label: '上海久事一集团',
-        //     children: [
-        //       {
-        //         value: '0101',
-        //         label: '巴士一公司',
-        //         children: [
-        //           {
-        //             value: '010101',
-        //             label: '一车队',
-        //             children: [
-        //               {value: '01010101', label: '55'},
-        //               {value: '01010102', label: '61'},
-        //               {value: '01010103', label: '99'},
-        //               {value: '01010104', label: '307'},
-        //               {value: '01010105', label: '325'},
-        //               {value: '01010106', label: '538'},
-        //               {value: '01010107', label: '1201'},
-        //               {value: '01010108', label: '1218'},
-        //               {value: '01010109', label: '1226'},
-        //               {value: '01010110', label: '1228'},
-        //               {value: '01010111', label: '1255'},
-        //               {value: '01010112', label: '1256'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010102',
-        //             label: '二车队',
-        //             children: [
-        //               {label: '47'},
-        //               {label: '66'},
-        //               {label: '66区间'},
-        //               {label: '97'},
-        //               {label: '140'},
-        //               {label: '179'},
-        //               {label: '306'},
-        //               {label: '597'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010103',
-        //             label: '三车队',
-        //             children: [
-        //               {label: '70'},
-        //               {label: '79'},
-        //               {label: '80'},
-        //               {label: '137'},
-        //               {label: '222'},
-        //               {label: '310'},
-        //               {label: '559'},
-        //               {label: '758'},
-        //               {label: '875'},
-        //               {label: '960'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010104',
-        //             label: '四车队',
-        //             children: [
-        //               {label: '60'},
-        //               {label: '103'},
-        //               {label: '142'},
-        //               {label: '195'},
-        //               {label: '220'},
-        //               {label: '308'},
-        //               {label: '329'},
-        //               {label: '557'},
-        //               {label: '723'},
-        //               {label: '842'},
-        //               {label: '874'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010105',
-        //             label: '五车队',
-        //             children: [
-        //               {label: '100'},
-        //               {label: '115'},
-        //               {label: '123'},
-        //               {label: '819'},
-        //               {label: '854'},
-        //               {label: '942'},
-        //               {label: '1258'}
-        //             ]
-        //           }
-        //         ]
-        //       },
-        //       {
-        //         value: '0102',
-        //         label: '巴士二公司',
-        //         children: [{
-        //           value: '010201',
-        //           label: '一车队',
-        //           children: [
-        //             {label: '55'},
-        //             {label: '61'},
-        //             {label: '99'},
-        //             {label: '307'},
-        //             {label: '325'},
-        //             {label: '538'},
-        //             {label: '1201'},
-        //             {label: '1218'},
-        //             {label: '1226'},
-        //             {label: '1228'},
-        //             {label: '1255'},
-        //             {label: '1256'}
-        //           ]
-        //         },
-        //           {
-        //             value: '010202',
-        //             label: '二车队',
-        //             children: [
-        //               {label: '47'},
-        //               {label: '66'},
-        //               {label: '66区间'},
-        //               {label: '97'},
-        //               {label: '140'},
-        //               {label: '179'},
-        //               {label: '306'},
-        //               {label: '597'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010203',
-        //             label: '三车队',
-        //             children: [
-        //               {label: '70'},
-        //               {label: '79'},
-        //               {label: '80'},
-        //               {label: '137'},
-        //               {label: '222'},
-        //               {label: '310'},
-        //               {label: '559'},
-        //               {label: '758'},
-        //               {label: '875'},
-        //               {label: '960'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010204',
-        //             label: '四车队',
-        //             children: [
-        //               {label: '60'},
-        //               {label: '103'},
-        //               {label: '142'},
-        //               {label: '195'},
-        //               {label: '220'},
-        //               {label: '308'},
-        //               {label: '329'},
-        //               {label: '557'},
-        //               {label: '723'},
-        //               {label: '842'},
-        //               {label: '874'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010205',
-        //             label: '五车队',
-        //             children: [
-        //               {label: '100'},
-        //               {label: '115'},
-        //               {label: '123'},
-        //               {label: '819'},
-        //               {label: '854'},
-        //               {label: '942'},
-        //               {label: '1258'}
-        //             ]
-        //           }]
-        //       },
-        //       {
-        //         value: '0103',
-        //         label: '巴士三公司',
-        //         children: [{
-        //           value: '010301',
-        //           label: '一车队',
-        //           children: [
-        //             {label: '55'},
-        //             {label: '61'},
-        //             {label: '99'},
-        //             {label: '307'},
-        //             {label: '325'},
-        //             {label: '538'},
-        //             {label: '1201'},
-        //             {label: '1218'},
-        //             {label: '1226'},
-        //             {label: '1228'},
-        //             {label: '1255'},
-        //             {label: '1256'}
-        //           ]
-        //         },
-        //           {
-        //             value: '010302',
-        //             label: '二车队',
-        //             children: [
-        //               {label: '47'},
-        //               {label: '66'},
-        //               {label: '66区间'},
-        //               {label: '97'},
-        //               {label: '140'},
-        //               {label: '179'},
-        //               {label: '306'},
-        //               {label: '597'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010303',
-        //             label: '三车队',
-        //             children: [
-        //               {label: '70'},
-        //               {label: '79'},
-        //               {label: '80'},
-        //               {label: '137'},
-        //               {label: '222'},
-        //               {label: '310'},
-        //               {label: '559'},
-        //               {label: '758'},
-        //               {label: '875'},
-        //               {label: '960'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010304',
-        //             label: '四车队',
-        //             children: [
-        //               {value: '01030401', label: '60'},
-        //               {value: '01030402', label: '103'},
-        //               {value: '01030403', label: '142'},
-        //               {value: '01030404', label: '195'},
-        //               {value: '01030405', label: '220'},
-        //               {value: '01030406', label: '308'},
-        //               {value: '01030407', label: '329'},
-        //               {value: '01030408', label: '557'},
-        //               {value: '01030409', label: '723'},
-        //               {value: '01030410', label: '842'},
-        //               {value: '01030411', label: '874'}
-        //             ]
-        //           },
-        //           {
-        //             value: '010305',
-        //             label: '五车队',
-        //             children: [
-        //               {value: '01030501', label: '100'},
-        //               {value: '01030502', label: '115'},
-        //               {value: '01030503', label: '123'},
-        //               {value: '01030504', label: '819'},
-        //               {value: '01030505', label: '854'},
-        //               {value: '01030506', label: '942'},
-        //               {value: '01030507', label: '1258'}
-        //             ]
-        //           }]
-        //       }
-        //     ]
-        //   }
-        // ]
+        // 获取设备归属信息以后要写为接口调用形式
         this.rfid4gGsOptions = this.$store.getters.getAllSubsidiary
+        // 获取工作状态
+        this.getRequest('/api/Sbs/gzzt').then(res => {
+          if (res && res.status === 200) {
+            _this.sbgzzt = res.data.GzztList
+          }
+        })
+        // 获取启用片区域名称
+        this.getRequest('/api/Sbs/qypmc').then(res => {
+          if (res && res.status === 200) {
+            _this.qypmc = res.data.QypmcList
+          }
+        })
+        // 获取品牌型号信息
+        this.getRequest('/api/Sbs/ppxh').then(res => {
+          if (res && res.status === 200) {
+            _this.sbppxh = res.data.PpxhList
+          }
+        })
+        // 获取设备所属行政区域信息
+        this.getRequest('/api/Sbs/ssxzqy').then(res => {
+          if (res && res.status === 200) {
+            _this.ssxzqys = res.data.SsxzqyList
+          }
+        })
       },
       qypbhChange(val) {
         // 点击输入框叉号触发if条件语句的执行
@@ -802,6 +680,7 @@
         // enter触发
         this.loadRfid4gData()
       },
+      // 高级搜索的取消
       cancelSearch() {
         this.advanceSearchViewVisible = false
         this.emptyRfid4gData()
@@ -810,17 +689,19 @@
         this.endDateScope = ''
         this.loadRfid4gData()
       },
-      cancel_add() {
+      cancel_add(formName) {
+        this.$refs[formName].resetFields()
         this.emptyRfid4gData()
       },
       handleSelectionChange(val) {
         this.multipleSelection = val
         console.log('选中项', val)
       },
-      // 高级搜索的取消
       showAdvanceSearchView() {
+        // 显示高级搜索框
         this.advanceSearchViewVisible = !this.advanceSearchViewVisible
-        this.keywords = ''
+        this.rfid4g.qypbh = ''
+        // 再次点击高级搜索advanceSearchViewVisible由true=>false，以下if语句执行
         if (!this.advanceSearchViewVisible) {
           this.emptyRfid4gData()
           this.beginDateScope = ''
@@ -843,11 +724,14 @@
         this.rfid4g.qypbh = row.qypbh
         this.rfid4g.htbh = row.htbh
         this.rfid4g.gldj = row.gldj
+        this.rfid4g.sbppdm = row.sbppdm
         this.rfid4g.sbpp = row.sbpp
+        this.rfid4g.sbxhdm = row.sbxhdm
         this.rfid4g.sbxh = row.sbxh
         this.rfid4g.simkh = row.simkh
         // 显示时名称，查询时代码
-        this.rfid4gGsOption = [row.sbgsjtdm, row.sbgsgsdm, row.sbgscddm]
+        this.rfid4gGsOption = [row.sbgsjtdm, row.sbgsgsdm, row.sbgscddm, row.sbgsxldm]
+        this.rfid4gPpxhOption = [row.sbppdm, row.sbxhdm]
         this.rfid4g.sbgsjtmc = row.sbgsjtmc
         this.rfid4g.sbgsgsmc = row.sbgsgsmc
         this.rfid4g.sbgscdmc = row.sbgscdmc
@@ -860,8 +744,8 @@
         this.rfid4g.tmbh = row.tmbh
         this.rfid4g.ewmbh = row.ewmbh
       },
-      // 添加员工信息的取消按钮
-      cancelEidt() {
+      // 添加RFID4G的取消按钮
+      cancelEidt(formName) {
         this.dialogVisible = false
         this.emptyRfid4gData()
       },
@@ -955,35 +839,62 @@
         this.pageSize = val
         this.loadRfid4gData()
       },
-      handleChange(value) {
-        // 设置代码
-        console.log(value)
+      handlePpxhChange(value) {
+        this.rfid4gPpxhOption = value
+        // 设置代码=>dm
+        this.rfid4g.sbppdm = value[0]
+        this.rfid4g.sbxhdm = value[1]
+        // 设置名称=>mc
+        var pp = parseInt(value[0])
+        var xh = parseInt(value[1])
+        if (pp && xh) {
+          xh = parseInt((value[1]).substring(2, 4))
+          this.rfid4g.sbpp = this.sbppxh[pp - 1].label
+          this.rfid4g.sbxh = this.sbppxh[pp - 1].children[xh - 1].label
+        }
+        console.log(this.rfid4g)
+      },
+      handleGsChange(value) {
+        this.rfid4gGsOption = value
+        // 设置代码=>dm
         this.rfid4g.sbgsjtdm = value[0]
         this.rfid4g.sbgsgsdm = value[1]
         this.rfid4g.sbgscddm = value[2]
-        // 设置名称
+        this.rfid4g.sbgsxldm = value[3]
+        // 设置名称=>mc
         var jt = parseInt(value[0])
         var gs = parseInt(value[1])
         var cd = parseInt(value[2])
+        var xl = parseInt(value[3])
         if (jt && gs) {
-          console.log('集团', jt)
+          // console.log('集团', jt)
           gs = parseInt((value[1]).substring(2, 4))
-          console.log('公司', gs)
+          // console.log('公司', gs)
           if (cd) {
             cd = parseInt((value[2]).substring(4, 6))
-            console.log('车队', cd)
-            this.rfid4g.sbgsjtmc = this.rfid4gGsOptions[jt - 1].label
-            this.rfid4g.sbgsgsmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].label
-            this.rfid4g.sbgscdmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
+            // console.log('车队', cd)
+            if (xl) {
+              xl = parseInt((value[3]).substring(6, 8))
+              // console.log('线路', xl)
+              this.rfid4g.sbgsjtmc = this.rfid4gGsOptions[jt - 1].label
+              this.rfid4g.sbgsgsmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].label
+              this.rfid4g.sbgscdmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
+              this.rfid4g.sbgsxlmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
+              console.log(this.rfid4g)
+            }
           }
         }
       },
       emptyRfid4gGs() {
-        this.rfid4gGsOption = ['', '', '']
+        this.rfid4gGsOption = ['', '', '', '']
+      },
+      emptyRfid4gPpxh() {
+        this.rfid4gPpxhOption = ['', '']
       },
       // 清空rfid4g表单填写信息
       emptyRfid4gData() {
         this.emptyRfid4gGs()
+        this.emptyRfid4gPpxh()
         this.rfid4g = {
           // 设备基因号固定不可修改
           sbjyh: '',
@@ -992,12 +903,18 @@
           qypbh: '',
           htbh: '',
           gldj: '',
+          sbppdm: '',
           sbpp: '',
+          sbxhdm: '',
           sbxh: '',
           simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
@@ -1043,6 +960,7 @@
           sbgscddm: this.rfid4gGsOption[2],
           sbgscdmc: this.rfid4g.sbgscdmc,
           // sbgsxldm: '',
+          sbgsxldm: this.rfid4gGsOption[3],
           sbgsxlmc: this.rfid4g.sbgsxlmc,
           // gysdm: '',
           gysmc: this.rfid4g.gysmc,

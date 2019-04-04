@@ -1,6 +1,178 @@
 import Mock from 'mockjs'
 
 var random = Mock.Random
+// 管理等级
+Mock.mock('/api/Sbs/gldj',{
+  'GldjList':[
+    {
+      id: '0',
+      descriptionZh: '管理等级A'
+    },
+    {
+      id: '1',
+      descriptionZh: '管理等级B'
+    },
+    {
+      id: '2',
+      descriptionZh: '管理等级C'
+    },
+    {
+      id: '3',
+      descriptionZh: '管理等级D'
+    }
+  ]
+})
+// 公司信息
+Mock.mock('/api/Sbs/gs',{
+  'GsList':[
+    {
+      id: '00',
+      descriptionZh: '澳马'
+    },
+    {
+      id: '01',
+      descriptionZh: '中安'
+    },
+    {
+      id: '02',
+      descriptionZh: '公用所'
+    },
+    {
+      id: '03',
+      descriptionZh: '博协'
+    },
+    {
+      id: '04',
+      descriptionZh: '忠程'
+    },
+    {
+      id: '05',
+      descriptionZh: '多伦斯'
+    },
+    {
+      id: '06',
+      descriptionZh: '新新媒体'
+    },
+    {
+      id: '07',
+      descriptionZh: '祺壹'
+    },
+    {
+      id: '08',
+      descriptionZh: '福阔'
+    }
+  ]
+})
+// 工作状态
+Mock.mock('/api/Sbs/gzzt',{
+  'GzztList': [
+    {
+      id: '01',
+      descriptionZh: '正常工作'
+    },
+    {
+      id: '02',
+      descriptionZh: '暂停使用'
+    },
+    {
+      id: '03',
+      descriptionZh: '正在维修'
+    },
+    {
+      id: '04',
+      descriptionZh: '正在迁移'
+    }
+  ]
+})
+// 获取启用片名称信息
+Mock.mock('/api/Sbs/qypmc',{
+  'QypmcList': [
+    {
+      id: '01',
+      descriptionZh: '分片区域1'
+    },
+    {
+      id: '02',
+      descriptionZh: '分片区域2'
+    },
+    {
+      id: '03',
+      descriptionZh: '分片区域3'
+    },
+    {
+      id: '04',
+      descriptionZh: '分片区域4'
+    }
+  ]
+})
+// 获取品牌型号信息
+Mock.mock('/api/Sbs/ppxh',{
+  'PpxhList': [
+    {
+      value: '01',
+      label: '三星',
+      children: [
+        {
+          value: '0101',
+          label: 'A-4463'
+        },
+        {
+          value: '0102',
+          label: 'B-1024'
+        }
+      ]
+    },
+    {
+      value: '02',
+      label: '华为',
+      children: [
+        {
+          value: '0201',
+          label: 'C-4463'
+        },
+        {
+          value: '0202',
+          label: 'D-1024'
+        }
+      ]
+    },
+    {
+      value: '03',
+      label: '索尼',
+      children: [
+        {
+          value: '0301',
+          label: 'E-4463'
+        },
+        {
+          value: '0302',
+          label: 'F-1024'
+        }
+      ]
+    }
+  ]
+})
+// 行政区域信息
+Mock.mock('/api/Sbs/ssxzqy',{
+  'SsxzqyList': [
+    {
+      id: '01',
+      descriptionZh: '静安区'
+    },
+    {
+      id: '02',
+      descriptionZh: '杨浦区'
+    },
+    {
+      id: '03',
+      descriptionZh: '徐家汇'
+    },
+    {
+      id: '04',
+      descriptionZh: '普陀区'
+    }
+  ]
+})
 // 获取合同信息
 
 // 获取设备基本信息
@@ -17,12 +189,18 @@ Mock.mock('/api/rfid4g/basic/jt1', {
       'qypmc|1': ['分片区域1', '分片区域2', '分片区域3'],
       'ssxzqy|1': ['杨浦区', '徐家汇', '静安区', '普陀区'],
       'gldj|1': /[A-D]/,
+      'sbppdm|1': ['01','02','03'],
       'sbpp|1': ['索尼', '三星', '华为'],
+      'sbxhdm|1': ['0101','0102','0201'],
       'sbxh|1': /[A-Z]-\d{4}/,
       'simkh|20': /[0-9]/,
+      'sbgsjtdm|1': ['01', '02'],
       'sbgsjtmc|1': ['上海久事一集团', '上海久事二集团'],
+      'sbgsgsdm|1': ['0101', '0102', '0103', '0104', '0105'],
       'sbgsgsmc|1': ['巴士一公司', '巴士二公司', '巴士三公司', '巴士四公司', '巴士五公司'],
+      'sbgscddm|1': ['010101', '010102', '010103', '010104', '010105'],
       'sbgscdmc|1': ['一车队', '二车队', '三车队', '四车队', '五车队', '六车队', '七车队', '八车队', '九车队',],
+      'sbgsxldm|1': ['01010101', '01010102', '01010103', '01010104', '01010105'],
       'sbgsxlmc|1': ['56', '57', '101', '1002', '1111', '66'],
       'sbqyrq': random.date(),
       'sbgxrq': random.date(),
