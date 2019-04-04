@@ -10,6 +10,11 @@
 > Bootstrap
 
 > echarts
+
+> store
+
+> Vue全局函数
+
 ## Build Setup
 
 ``` bash
