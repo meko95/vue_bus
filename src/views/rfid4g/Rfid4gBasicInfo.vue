@@ -87,7 +87,7 @@
                   <el-col :span="4">
                     管理等级:
                     <el-select v-model="rfid4g.gldj" style="width: 110px" clearable size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldj" :key="item.id" :label="item.descriptionZh"
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
@@ -145,7 +145,7 @@
                       start-placeholder="开始日期"
                       end-placeholder="结束日期">
                     </el-date-picker>
-                  </el-col>想·
+                  </el-col>
                   <el-col :span="4">
                     供应商:
                     <el-select v-model="rfid4g.gysmc" style="width: 130px" clearable size="small" placeholder="请选择供应商">
@@ -257,10 +257,10 @@
         </el-main>
       </el-container>
       <!-- Form Begin -->
-      <el-form :model="rfid4g" :rules="rules" ref="addRfid4gForm" style="margin: 0;padding: 0;">
+      <el-form :model="rfid4g" :rules="rules" ref="rfid4g" style="margin: 0;padding: 0;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                     :visible.sync="dialogVisible" width="77%" @close="cancel_add('addRfid4gForm')">
+                     :visible.sync="dialogVisible" width="77%" @close="cancel_add('rfid4g')">
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
@@ -312,7 +312,7 @@
                 <div>
                   <el-form-item label="工作状态:" prop="sbgzzt">
                     <el-select v-model="rfid4g.sbgzzt" style="width: 120px" size="small" placeholder="请选择">
-                      <el-option v-for="item in sbgzzt" :key="item.id" :label="item.descriptionZh"
+                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
@@ -324,30 +324,12 @@
                 <div>
                   <el-form-item label="管理等级:" prop="gldj">
                     <el-select v-model="rfid4g.gldj" style="width: 120px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldj" :key="item.id" :label="item.descriptionZh"
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-              <!--<el-col :span="6">-->
-              <!--<div>-->
-              <!--<el-form-item label="设备品牌:" prop="sbpp">-->
-              <!--<el-select v-model="rfid4g.sbpp" style="width: 120px" size="small" placeholder="请选择">-->
-              <!--<el-option v-for="item in sbpp" :key="item.id" :label="item.descriptionZh"-->
-              <!--:value="item.descriptionZh"></el-option>-->
-              <!--</el-select>-->
-              <!--</el-form-item>-->
-              <!--</div>-->
-              <!--</el-col>-->
-              <!--<el-col :span="6">-->
-              <!--<div>-->
-              <!--<el-form-item label="设备型号:" prop="sbxh">-->
-              <!--<el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbxh" size="small" style="width: 150px"-->
-              <!--placeholder="请输入设备型号"></el-input>-->
-              <!--</el-form-item>-->
-              <!--</div>-->
-              <!--</el-col>-->
               <el-col :span="7">
                 <div>
                   <el-form-item label="品牌型号:" prop="rfid4gPpxhOption">
@@ -391,14 +373,6 @@
                 </div>
               </el-col>
               <!-- 设备归属线路如果不只属于一条线路，想多选则把归属线路信息与集团、公司、车队独立出来，根据前三位代码动态加载线路可选项并且设置选择框为multiple -->
-              <!--<el-col :span="8">-->
-              <!--<div>-->
-              <!--<el-form-item label="归属线路:" prop="sbgsxlmc">-->
-              <!--<el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbgsxlmc" size="small" style="width: 150px"-->
-              <!--placeholder="请输入归属线路"></el-input>-->
-              <!--</el-form-item>-->
-              <!--</div>-->
-              <!--</el-col>-->
             </el-row>
             <el-row style="padding-left: 100px">
               <el-col :span="7">
@@ -501,8 +475,10 @@
               </el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
-              <el-button size="large" @click="cancelEidt('addRfid4gForm')">取 消</el-button>
-              <el-button size="large" type="primary" @click="addRfid4g('addRfid4gForm')">确 定</el-button>
+              <el-form-item>
+               <el-button size="large" @click="cancelEidt('rfid4g')">取 消</el-button>
+               <el-button size="large" type="primary" @click="addRfid4g('rfid4g')">确 定</el-button>
+              </el-form-item>
             </span>
           </el-dialog>
         </div>
@@ -520,19 +496,6 @@
     name: "Rfid4gBasicInfo",
     data() {
       return {
-        cardTitle: '上海久事一集团',
-        subsidiary: this.$store.getters.getAllSubsidiary,
-        sblbdm: '',
-        totalPage: 0,
-        pageSize: 10,
-        currentPage: 1,
-        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
-        advanceSearchViewVisible: false,
-        dialogVisible: false,
-        tableLoading: false,
-        beginDateScope: '',
-        updateDateScope: '',
-        endDateScope: '',
         rfid4g: {
           sblb: '', // 估计没什么用
           sbjyh: '',
@@ -560,25 +523,11 @@
           sbbfrq: '',
           gysmc: '',
           jcsmc: '',
+          zdbh: '',
           jzbh: '',
-          ewmbh: '',
-          tmbh: ''
+          tmbh: '',
+          ewmbh: ''
         },
-        Sbs: [],
-        multipleSelection: [],
-        searchUp: 'el-icon-arrow-up',
-        searchDown: 'el-icon-arrow-down',
-        rfid4gGsOptions: [],
-        rfid4gGsOption: ['', '', '', ''],
-        sbppxh: [],
-        rfid4gPpxhOption: ['', ''],
-        fileUploadBtnText: '导入数据',
-        dialogTitle: '',
-        gs: [],
-        gldj: [],
-        sbgzzt: [],
-        qypmc: [],
-        ssxzqys: [],
         rules: {
           sbzbh: [{required: true, message: '必填:自编号', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
@@ -590,7 +539,7 @@
           rfid4gPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
           // sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
           // sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
-          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
+          // simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           rfid4gGsOption: [{required: false, message: '必填:设备归属', trigger: 'blur'}],
           // sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'change'}],
           // sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'change'}],
@@ -605,7 +554,34 @@
           jzbh: [{required: true, message: '必填:基站编号', trigger: 'blur'}],
           tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
           ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
-        }
+        },
+        cardTitle: '上海久事一集团',
+        subsidiary: this.$store.getters.getAllSubsidiary,
+        totalPage: 0,
+        pageSize: 10,
+        currentPage: 1,
+        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
+        advanceSearchViewVisible: false,
+        dialogVisible: false,
+        tableLoading: false,
+        beginDateScope: '',
+        updateDateScope: '',
+        endDateScope: '',
+        Sbs: [],
+        multipleSelection: [],
+        searchUp: 'el-icon-arrow-up',
+        searchDown: 'el-icon-arrow-down',
+        rfid4gGsOptions: [],
+        rfid4gGsOption: ['', '', '', ''],
+        sbppxh: [],
+        rfid4gPpxhOption: ['', ''],
+        fileUploadBtnText: '导入数据',
+        dialogTitle: '',
+        gs: [],
+        gldjs: [],
+        sbgzzts: [],
+        qypmc: [],
+        ssxzqys: []
       }
     },
     components: {
@@ -629,7 +605,7 @@
         // })
         this.getRequest('/api/Sbs/gldj').then(res => {
           if (res && res.status === 200) {
-            _this.gldj = res.data.GldjList
+            _this.gldjs = res.data.GldjList
           }
         })
         // 获取公司字典
@@ -648,7 +624,7 @@
         // 获取工作状态
         this.getRequest('/api/Sbs/gzzt').then(res => {
           if (res && res.status === 200) {
-            _this.sbgzzt = res.data.GzztList
+            _this.sbgzzts = res.data.GzztList
           }
         })
         // 获取启用片区域名称
@@ -750,38 +726,75 @@
         this.emptyRfid4gData()
       },
       addRfid4g(formName) {
+        this.dialogVisible = true
         var _this = this
-        _this.dialogVisible = true
         this.$refs[formName].validate((valid) => {
           if (valid) {
             // this.rfid4g.sbzbh 判断唯一性 存在则edit后更新 不存在则add
             // this.rfid4g.sbzbh刚刚填写的肯定存在true永远执行不到下一步
             // 但是基因号是在新增时临时生成可通过其作为判断
-            console.log(this.rfid4g.sbjyh)
-            if (this.rfid4g.sbjyh) {
-              // Edit
-              this.putRequest('/api/sb/rfid4g', this.rfid4g).then(res => {
-                if (res && res.status == 200) {
-                  console.log('没有执行到此')
-                  this.loadRfid4gData()
-                }
-              })
-            } else {
-              // Add
-              this.tableLoading = true
-              this.rfid4g.sbjyh = Date.now().toString()
-              this.postRequest('/api/sb/rfid4g', this.rfid4g).then(res => {
-                _this.tableLoading = false
-                _this.dialogVisible = false
-                if (res && res.status === 200) {
-                  this.loadRfid4gData()
-                }
-              })
-            }
+            console.log('rfid4g表单信息（先）', this.rfid4g)
+            console.log('判断设备基因号', this.rfid4g.sbjyh)
+            // if (this.rfid4g.sbjyh) {
+            //   // Edit
+            //   this.putRequest('/api/sb/rfid4g', this.rfid4g).then(res => {
+            //     if (res && res.status === 200) {
+            //       console.log('没有执行到此')
+            //       this.loadRfid4gData()
+            //     }
+            //   })
+            // } else {
+            //   // Add
+            //   this.tableLoading = true
+            //   this.rfid4g.sbjyh = Date.now().toString()
+            //   console.log('判断设备基因号', this.rfid4g.sbjyh)
+            //   console.log('rfid4g表单信息（后）', this.rfid4g)
+            //   this.postRequest('/api/sb/rfid4g', this.rfid4g).then(res => {
+            //     _this.tableLoading = false
+            //     _this.dialogVisible = false
+            //     if (res && res.status === 200) {
+            //       console.log('没有执行到此')
+            //       this.loadRfid4gData()
+            //     }
+            //   })
+            // }
           } else {
+            alert('FALSE')
             return false
           }
         })
+        // this.$refs[formName].validate((valid) => {
+        //   if (valid) {
+        //     // this.rfid4g.sbzbh 判断唯一性 存在则edit后更新 不存在则add
+        //     // this.rfid4g.sbzbh刚刚填写的肯定存在true永远执行不到下一步
+        //     // 但是基因号是在新增时临时生成可通过其作为判断
+        //     console.log('表单rfid4g', this.rfid4g)
+        //     console.log('设备基因号', this.rfid4g.sbjyh)
+        //     if (this.rfid4g.sbjyh) {
+        //       // Edit
+        //       this.putRequest('/api/sb/rfid4g', this.rfid4g).then(res => {
+        //         if (res && res.status == 200) {
+        //           console.log('没有执行到此')
+        //           this.loadRfid4gData()
+        //         }
+        //       })
+        //     } else {
+        //       // Add
+        //       this.tableLoading = true
+        //       this.rfid4g.sbjyh = Date.now().toString()
+        //       console.log('设备基因号', this.rfid4g.sbjyh)
+        //       this.postRequest('/api/sb/rfid4g', this.rfid4g).then(res => {
+        //         _this.tableLoading = false
+        //         _this.dialogVisible = false
+        //         if (res && res.status === 200) {
+        //           this.loadRfid4gData()
+        //         }
+        //       })
+        //     }
+        //   } else {
+        //     return false
+        //   }
+        // })
       },
       deleteRfid4g(row) {
         this.$confirm('此操作将永久删除设备：RFID4G' + row.sbzbh + ', 是否继续?', '提示', {

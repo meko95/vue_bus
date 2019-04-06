@@ -494,13 +494,13 @@
         gsxl: [],
         rules: {
           sbzbh: [{required: true, message: '必填:编号', trigger: 'blur'}],
-          qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
+          qypbh: [{required: false, message: '必填:分片编号', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
           sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
           sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
           simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
-          clbqGsOption: [{required: true, message: '必填:设备归属信息', trigger: 'blur'}],
+          clbqGsOption: [{required: false, message: '必填:设备归属信息', trigger: 'blur'}],
           sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'blur'}],
           sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
           sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'blur'}],
@@ -832,7 +832,7 @@
         this.emptyRfid4gData()
         this.emptyRfid4gGs()
       },
-      addClbp() {
+      addClbp(formName) {
         var _this = this
         _this.dialogVisible = true
         this.$refs[formName].validate((valid) => {
@@ -842,6 +842,7 @@
               this.tableLoading = true
             } else {
               // Add
+              console.log(this.clbq)
               this.tableLoading = true
             }
           } else {
