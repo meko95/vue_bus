@@ -74,21 +74,39 @@ router.beforeEach((to, from, next) => {
 // 全局函数 获取当前选择归属信息
 Vue.prototype.getSbGsInfo = function (data, jtdm, gsdm, cddm, xldm) {
   const sbGs = data.value
-  jtdm = sbGs.substr(0,2)
-  if(sbGs[2]){
-    gsdm = sbGs.substr(0,4)
-    if(sbGs[4]){
-      cddm = sbGs.substr(0,6)
-      if(sbGs[6]){
-        xldm = sbGs.substr(0,8)
-      }else{
+  jtdm = sbGs.substr(0, 2)
+  if (sbGs[2]) {
+    gsdm = sbGs.substr(0, 4)
+    if (sbGs[4]) {
+      cddm = sbGs.substr(0, 6)
+      if (sbGs[6]) {
+        xldm = sbGs.substr(0, 8)
+      } else {
         xldm = ''
       }
-    }else{
+    } else {
       cddm = ''
     }
-  }else{
+  } else {
     gsdm = ''
   }
-  console.log(jtdm,gsdm,cddm,xldm)
+  console.log(jtdm, gsdm, cddm, xldm)
+}
+// 全局函数 获取设备品牌型号信息
+Vue.prototype.getPpxhInfo = function (data, sbppdm, sbxhdm, sbpp, sbxh, sbppxh) {
+  // 可直接传递数组作为js函数参数
+  console.log(sbppxh)
+  // 设置代码=>dm
+  sbppdm = data[0]
+  sbxhdm = data[1]
+  // 设置名称=>mc
+  var pp = parseInt(data[0])
+  var xh = parseInt(data[1])
+  if (pp && xh) {
+    xh = parseInt((data[1]).substring(2, 4))
+    sbpp = sbppxh[pp - 1].label
+    sbxh = sbppxh[pp - 1].children[xh - 1].label
+  }
+  // 也确实赋值成功
+  console.log(sbppdm, sbpp, sbxhdm, sbxh)
 }

@@ -78,7 +78,7 @@
                   <el-col :span="4">
                     分片区域:
                     <el-select v-model="rfid4g.qypmc" style="width: 120px" clearable size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmc" :key="item.id" :label="item.descriptionZh"
+                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
@@ -292,7 +292,7 @@
                 <div>
                   <el-form-item label="分片区域:" prop="qypmc">
                     <el-select v-model="rfid4g.qypmc" style="width: 120px" size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmc" :key="item.id" :label="item.descriptionZh"
+                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
@@ -476,7 +476,7 @@
             </el-row>
             <span slot="footer" class="dialog-footer">
               <el-form-item>
-               <el-button size="large" @click="cancelEidt('rfid4g')">取 消</el-button>
+               <el-button size="large" @click="cancelEidt">取 消</el-button>
                <el-button size="large" type="primary" @click="addRfid4g('rfid4g')">确 定</el-button>
               </el-form-item>
             </span>
@@ -507,7 +507,9 @@
           qypmc: '',
           ssxzqy: '',
           gldj: '',
+          sbppdm: '',
           sbpp: '',
+          sbxhdm: '',
           sbxh: '',
           simkh: '',
           sbgsjtdm: '',
@@ -539,7 +541,7 @@
           rfid4gPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
           // sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
           // sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
-          // simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
+          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           rfid4gGsOption: [{required: false, message: '必填:设备归属', trigger: 'blur'}],
           // sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'change'}],
           // sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'change'}],
@@ -580,7 +582,7 @@
         gs: [],
         gldjs: [],
         sbgzzts: [],
-        qypmc: [],
+        qypmcs: [],
         ssxzqys: []
       }
     },
@@ -630,7 +632,7 @@
         // 获取启用片区域名称
         this.getRequest('/api/Sbs/qypmc').then(res => {
           if (res && res.status === 200) {
-            _this.qypmc = res.data.QypmcList
+            _this.qypmcs = res.data.QypmcList
           }
         })
         // 获取品牌型号信息
@@ -721,7 +723,7 @@
         this.rfid4g.ewmbh = row.ewmbh
       },
       // 添加RFID4G的取消按钮
-      cancelEidt(formName) {
+      cancelEidt() {
         this.dialogVisible = false
         this.emptyRfid4gData()
       },
@@ -854,6 +856,7 @@
       },
       handlePpxhChange(value) {
         this.rfid4gPpxhOption = value
+        // this.getPpxhInfo(value, this.rfid4g.sbppdm, this.rfid4g.sbxhdm, this.rfid4g.sbpp, this.rfid4g.sbxh, this.sbppxh)
         // 设置代码=>dm
         this.rfid4g.sbppdm = value[0]
         this.rfid4g.sbxhdm = value[1]
@@ -865,6 +868,7 @@
           this.rfid4g.sbpp = this.sbppxh[pp - 1].label
           this.rfid4g.sbxh = this.sbppxh[pp - 1].children[xh - 1].label
         }
+        // 但就是未成功修改rfid4g
         console.log(this.rfid4g)
       },
       handleGsChange(value) {
@@ -946,7 +950,6 @@
         let params = {
           page: this.currentPage,
           size: this.pageSize,
-          keywords: this.keywords,
           orderItemName: '',
           order: '',
           sbjyh: this.rfid4g.sbjyh,

@@ -12,25 +12,25 @@
             <el-input
               placeholder="通过分片编号查询"
               clearable
-              @change="keywordsChange"
+              @change="qypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
               size="mini"
               :disabled="advanceSearchViewVisible"
               @keyup.enter.native="searchClbp"
               prefix-icon="el-icon-search"
-              v-model="keywords">
+              v-model="clbq.qypbh">
             </el-input>
-          </div>
-          <div style="display: inline">
-            <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchClbp">
-              搜索
-            </el-button>
-            <el-button slot="reference" type="primary" size="mini" style="margin-left: 0px"
-                       @click="showAdvanceSearchView">
-              <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
-                 style="margin-right: 5px">
-              </i>高级搜索
-            </el-button>
+            <div style="display: inline">
+              <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchClbp">
+                搜索
+              </el-button>
+              <el-button slot="reference" type="primary" size="mini" style="margin-left: 0px"
+                         @click="showAdvanceSearchView">
+                <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
+                   style="margin-right: 5px">
+                </i>高级搜索
+              </el-button>
+            </div>
           </div>
           <div style="display: inline">
             <el-button type="success" size="mini" @click="importClbps">
@@ -53,34 +53,48 @@
                 v-show="advanceSearchViewVisible">
                 <el-row>
                   <el-col :span="6">
-                    车辆标签编号：
+                    车辆标签编号:
                     <el-input prefix-icon="el-icon-search" v-model="clbq.sbzbh" size="small" style="width: 150px"
                               placeholder="设备查询编号"></el-input>
                   </el-col>
-                  <el-col :span="4">
-                    管理等级：
-                    <el-select v-model="clbq.gldj" style="width: 100px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldj" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                  <el-col :span="5">
+                    合同编号:
+                    <el-input prefix-icon="el-icon-search" v-model="clbq.htbh" size="small" style="width: 150px"
+                              placeholder="设备合同编号"></el-input>
                   </el-col>
                   <el-col :span="4">
-                    品牌：
-                    <el-select v-model="clbq.sbpp" style="width: 130px" size="small" placeholder="请选择品牌">
-                      <el-option v-for="item in pp" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    管理等级:
+                    <el-select v-model="clbq.gldj" style="width: 100px" size="small" placeholder="管理等级">
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="5">
-                    型号：
-                    <el-select v-model="clbq.sbxh" style="width: 130px" size="small" placeholder="请选择型号">
-                      <el-option v-for="item in xh" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                    品牌型号:
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备品牌型号"
+                      style="width: 170px;"
+                      expand-trigger="hover"
+                      clearable
+                      :options="sbppxh"
+                      v-model="clbqPpxhOption"
+                      @change="handlePpxhChange"
+                      change-on-select>
+                    </el-cascader>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
-                  <el-col :span="10">
+                  <el-col :span="4">
+                    分片区域:
+                    <el-select v-model="clbq.qypmc" style="width: 120px" clearable size="small" placeholder="请选择">
+                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="9">
                     启用日期：
                     <el-date-picker
-                      v-model="dateScope"
+                      v-model="beginDateScope"
                       unlink-panels
                       size="small"
                       type="daterange"
@@ -93,7 +107,7 @@
                   <el-col :span="9">
                     更新日期：
                     <el-date-picker
-                      v-model="dateScope"
+                      v-model="updateDateScope"
                       unlink-panels
                       size="small"
                       type="daterange"
@@ -105,10 +119,10 @@
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
-                  <el-col :span="10">
+                  <el-col :span="9">
                     报废日期：
                     <el-date-picker
-                      v-model="dateScope"
+                      v-model="endDateScope"
                       unlink-panels
                       size="small"
                       type="daterange"
@@ -119,31 +133,31 @@
                     </el-date-picker>
                   </el-col>
                   <el-col :span="4">
-                    供应商：
+                    供应商:
                     <el-select v-model="clbq.gysmc" style="width: 130px" size="small" placeholder="请选择供应商">
                       <el-option
-                        v-for="item in gys"
+                        v-for="item in gs"
                         :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
+                        :label="item.descriptionZh"
+                        :value="item.descriptionZh">
                       </el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="4">
-                    集成商：
+                    集成商:
                     <el-select v-model="clbq.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商">
                       <el-option
-                        v-for="item in jcs"
+                        v-for="item in gs"
                         :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
+                        :label="item.descriptionZh"
+                        :value="item.descriptionZh">
                       </el-option>
                     </el-select>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="8">
-                    设备归属：
+                    设备归属:
                     <el-cascader
                       size="small"
                       placeholder="请选择设备归属"
@@ -151,15 +165,9 @@
                       expand-trigger="hover"
                       :options="clbqGsOptions"
                       v-model="clbqGsOption"
-                      @change="handleChange"
-                      change-on-select
-                    >
+                      @change="handleGsChange"
+                      change-on-select>
                     </el-cascader>
-                  </el-col>
-                  <el-col :span="6">
-                    线路：
-                    <el-input prefix-icon="el-icon-search" v-model="clbq.sbgsxlmc" size="small" style="width: 250px"
-                              placeholder="输入设备线路，以中文逗号相间隔"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
@@ -249,17 +257,25 @@
           </div>
         </el-main>
       </el-container>
-      <!-- 添加车辆标签信息Begin -->
-      <el-form :model="clbq" :rules="rules" ref="addClbpForm" style="margin: 0px;padding: 0px;">
+      <!-- Form Begin -->
+      <el-form :model="clbq" :rules="rules" ref="clbq" style="margin: 0px;padding: 0px;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                     :visible.sync="dialogVisible" width="77%">
+                     :visible.sync="dialogVisible" width="77%" @close="cancel_add('clbq')">
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="车辆标签编号：" prop="sbzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="clbq.sbzbh" size="small" style="width: 150px"
                               placeholder="请输入设备编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="合同编号:" prop="htbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="clbq.htbh" size="small" style="width: 150px"
+                              placeholder="请输入设备合同编号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -271,12 +287,40 @@
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="分片区域:" prop="qypmc">
+                    <el-select v-model="clbq.qypmc" style="width: 120px" size="small" placeholder="请选择">
+                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
               <el-col :span="6">
                 <div>
                   <el-form-item label="管理等级：" prop="gldj">
                     <el-select v-model="clbq.gldj" style="width: 120px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldj" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="品牌型号:" prop="clbqx`PpxhOption">
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备品牌型号"
+                      style="width:162px;"
+                      expand-trigger="hover"
+                      :options="sbppxh"
+                      v-model="clbqPpxhOption"
+                      @change="handlePpxhChange"
+                      change-on-select>
+                    </el-cascader>
                   </el-form-item>
                 </div>
               </el-col>
@@ -284,32 +328,14 @@
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
-                  <el-form-item label="设备品牌：" prop="sbpp">
-                    <el-select v-model="clbq.sbpp" style="width: 110px" size="small" placeholder="设备品牌">
-                      <el-option v-for="item in pp" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                  <el-form-item label="工作状态:" prop="sbgzzt">
+                    <el-select v-model="clbq.sbgzzt" style="width: 120px" size="small" placeholder="请选择">
+                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="设备型号：" prop="sbxh">
-                    <el-select v-model="clbq.sbxh" style="width: 140px" size="small" placeholder="设备型号">
-                      <el-option v-for="item in xh" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div>
-                  <el-form-item label="SIM卡号：" prop="simkh">
-                    <el-input prefix-icon="el-icon-edit" v-model="clbq.simkh" size="small" style="width: 150px"
-                              placeholder="请输入SIM卡号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="10">
                 <div>
                   <el-form-item label="设备归属：" prop="clbqGsOption">
@@ -320,17 +346,9 @@
                       expand-trigger="hover"
                       :options="clbqGsOptions"
                       v-model="clbqGsOption"
-                      @change="handleChange"
+                      @change="handleGsChange"
                       change-on-select>
                     </el-cascader>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="归属线路：" prop="sbgsxlmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="clbq.sbgsxlmc" size="small" style="width: 150px"
-                              placeholder="请输入归属线路"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -384,7 +402,7 @@
                 <div>
                   <el-form-item label="供应商：" prop="gysmc">
                     <el-select v-model="clbq.gysmc" style="width: 130px" size="small" placeholder="供应商">
-                      <el-option v-for="item in gys" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
@@ -393,11 +411,21 @@
                 <div>
                   <el-form-item label="集成商：" prop="jcsmc">
                     <el-select v-model="clbq.jcsmc" style="width: 130px" size="small" placeholder="集成商">
-                      <el-option v-for="item in jcs" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="SIM卡号：" prop="simkh">
+                    <el-input prefix-icon="el-icon-edit" v-model="clbq.simkh" size="small" style="width: 190px"
+                              placeholder="请输入SIM卡号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="条码编号：" prop="tmbh">
@@ -406,8 +434,6 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="8">
                 <div>
                   <el-form-item label="二维码编号：" prop="ewmbh">
@@ -419,7 +445,7 @@
             </el-row>
             <span slot="footer" class="dialog-footer">
             <el-button size="large" @click="cancelEidt">取 消</el-button>
-            <el-button size="large" type="primary" @click="addClbp('addClbpForm')">确 定</el-button>
+            <el-button size="large" type="primary" @click="addClbp('clbq')">确 定</el-button>
           </span>
           </el-dialog>
 
@@ -438,28 +464,15 @@
     name: "ClbqBasicInfo",
     data() {
       return {
-        cardTitle: '上海久事一集团',
-        subsidiary: this.$store.getters.getAllSubsidiary,
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
-        totalRow: 0,
-        pageSize: 10,
-        currentPage: 1,
-        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
-        advanceSearchViewVisible: false,
-        dialogVisible: false,
-        tableLoading: false,
-        keywords: '',
-        dateScope: '',
         clbq: {
           sblb: this.$store.getters.getSblb,
           sbzbh: '',
           qypbh: '',
           htbh: '',
           gldj: '',
+          sbppdm: '',
           sbpp: '',
+          sbxhdm: '',
           sbxh: '',
           simkh: '',
           sbgsjtdm: '',
@@ -478,41 +491,57 @@
           tmbh: '',
           ewmbh: ''
         },
-        Sbs: [],
-        multipleSelection: [],
-        searchUp: 'el-icon-arrow-up',
-        searchDown: 'el-icon-arrow-down',
-        clbqGsOption: ['', '', ''],
-        clbqGsOptions: [],
-        fileUploadBtnText: '导入数据',
-        dialogTitle: '',
-        xh: [],
-        pp: [],
-        gldj: [],
-        gys: [],
-        jcs: [],
-        gsxl: [],
         rules: {
           sbzbh: [{required: true, message: '必填:编号', trigger: 'blur'}],
-          qypbh: [{required: false, message: '必填:分片编号', trigger: 'blur'}],
+          qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
+          qypmc: [{required: true, message: '必填:分片名称', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
+          sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
-          sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
-          sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
+          clbqPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
+          // sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
+          // sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
           simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           clbqGsOption: [{required: false, message: '必填:设备归属信息', trigger: 'blur'}],
-          sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'blur'}],
-          sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
-          sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'blur'}],
-          sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
+          // sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'blur'}],
+          // sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
+          // sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'blur'}],
+          // sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
           sbqyrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
-          sbgxrq: [{required: true, message: '必填:更新日期', trigger: 'blur'}],
-          sbbfrq: [{required: true, message: '必填:报废日期', trigger: 'blur'}],
+          sbgxrq: [{required: false, message: '必填:更新日期', trigger: 'blur'}],
+          sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'blur'}],
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
           tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
           ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
-        }
+        },
+        cardTitle: '上海久事一集团',
+        subsidiary: this.$store.getters.getAllSubsidiary,
+        totalRow: 0,
+        pageSize: 10,
+        currentPage: 1,
+        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
+        advanceSearchViewVisible: false,
+        dialogVisible: false,
+        tableLoading: false,
+        beginDateScope: '',
+        updateDateScope: '',
+        endDateScope: '',
+        Sbs: [],
+        multipleSelection: [],
+        searchUp: 'el-icon-arrow-up',
+        searchDown: 'el-icon-arrow-down',
+        clbqGsOptions: [],
+        clbqGsOption: ['', '', '',''],
+        sbppxh: [],
+        clbqPpxhOption: ['', ''],
+        fileUploadBtnText: '导入数据',
+        dialogTitle: '',
+        gs: [],
+        gldjs: [],
+        sbgzzts: [],
+        qypmcs: [],
+        ssxzqys: []
       }
     },
     components: {
@@ -526,302 +555,97 @@
         this.getSbGsInfo(data,this.clbq.sbgsjtdm,this.clbq.sbgsgsdm,this.clbq.sbgscddm,this.clbq.sbgsxldm)
       },
       initData() {
-        this.gsxl = [
-          {id: 1, name: '1001'},
-          {id: 2, name: 'B支4'},
-          {id: 3, name: '上南路西'}
-        ]
-        this.gys = [
-          {id: 1, name: '澳马公司'},
-          {id: 2, name: '中安科技'},
-          {id: 3, name: '强生科技'},
-          {id: 4, name: '新新媒体'}
-        ]
-        this.jcs = [
-          {id: 1, name: '澳马公司'},
-          {id: 2, name: '中安科技'},
-          {id: 3, name: '强生科技'},
-          {id: 4, name: '新新媒体'}
-        ]
-        this.xh = [
-          {id: 1, name: 'Z-SO31-4105'},
-          {id: 2, name: 'Z-SO31-4106'},
-          {id: 3, name: 'Z-SO31-4107'}
-        ]
-        this.pp = [
-          {id: 1, name: '索尼'},
-          {id: 2, name: '联想'},
-          {id: 3, name: '戴尔'}
-        ]
-        this.gldj = [
-          {id: 1, name: 'A'},
-          {id: 2, name: 'B'},
-          {id: 3, name: 'C'}
-        ]
-        this.clbqGsOptions = [
-          {
-            value: '01',
-            label: '上海久事一集团',
-            children: [
-              {
-                value: '01001',
-                label: '巴士一公司',
-                children: [
-                  {
-                    value: '0100101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '0100102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '0100103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '01002',
-                label: '巴士二公司',
-                children: [
-                  {
-                    value: '0100201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '0100202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '0100203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '01003',
-                label: '巴士三公司',
-                children: [
-                  {
-                    value: '0100301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '0100302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '0100303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            value: '02',
-            label: '上海久事二集团',
-            children: [
-              {
-                value: '02001',
-                label: '巴士1公司',
-                children: [
-                  {
-                    value: '0200101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '0200102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '0200103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '02002',
-                label: '巴士2公司',
-                children: [
-                  {
-                    value: '0200201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '0200202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '0200203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '02003',
-                label: '巴士3公司',
-                children: [
-                  {
-                    value: '0200301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '0200302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '0200303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            value: '03',
-            label: '上海久事三集团',
-            children: [
-              {
-                value: '03001',
-                label: '巴士壹公司',
-                children: [
-                  {
-                    value: '0300101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '0300102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '0300103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '03002',
-                label: '巴士贰公司',
-                children: [
-                  {
-                    value: '0300201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '0300202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '0300203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '03003',
-                label: '巴士叁公司',
-                children: [
-                  {
-                    value: '0300301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '0300302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '0300303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
+        var _this = this
+        this.getRequest('/api/Sbs/gldj').then(res => {
+          if (res && res.status === 200) {
+            _this.gldjs = res.data.GldjList
           }
-        ]
+        })
+        this.getRequest('/api/Sbs/gs').then(res => {
+          if (res && res.status === 200) {
+            _this.gs = res.data.GsList
+          }
+        })
+        this.clbqGsOptions = this.$store.getters.getAllSubsidiary
+        this.getRequest('/api/Sbs/gzzt').then(res => {
+          if (res && res.status === 200) {
+            _this.sbgzzts = res.data.GzztList
+          }
+        })
+        this.getRequest('/api/Sbs/qypmc').then(res => {
+          if (res && res.status === 200) {
+            _this.qypmcs = res.data.QypmcList
+          }
+        })
+        this.getRequest('/api/Sbs/ppxh').then(res => {
+          if (res && res.status === 200) {
+            _this.sbppxh = res.data.PpxhList
+          }
+        })
       },
-      keywordsChange(val) {
-        if (val == '') {
+      qypbhChange(val) {
+        if (val === '') {
           this.loadClbpData()
         }
       },
       searchClbp() {
-        const device_type = parseInt(this.clbq.sblb)
-        if (device_type === 3) {
-          this.loadClbpData()
-          return
-        }
-        switch (device_type) {
-          case 1:
-            this.$router.push('/bus/basicdata/getRfid4gBasicInfo')
-            break
-          case 2:
-            this.$router.push('/bus/basicdata/getRfid4gczBasicInfo')
-            break
-          case 3:
-            this.$router.push('/bus/basicdata/getClbqBasicInfo')
-            break
-          case 4:
-            this.$router.push('/bus/basicdata/getCzytjBasicInfo')
-            break
-          case 5:
-            this.$router.push('/bus/basicdata/getBdjBasicInfo')
-            break
-          case 6:
-            this.$router.push('/bus/basicdata/getYcyjBasicInfo')
-            break
-          case 7:
-            this.$router.push('/bus/basicdata/getZdtBasicInfo')
-            break
-          case 8:
-            this.$router.push('/bus/basicdata/getFfcpBasicInfo')
-            break
-          case 9:
-            this.$router.push('/bus/basicdata/getZgybpBasicInfo')
-            break
-          default:
-            this.loadClbpData()
-        }
+        this.loadClbpData()
       },
       cancelSearch() {
         this.advanceSearchViewVisible = false
-        this.emptyClbpData()
+        this.emptyClbqData()
         this.emptyClbpGs()
-        this.dateScope = ''
+        this.beginDateScope = ''
+        this.updateDateSope = ''
+        this.endDateScope = ''
         this.loadClbpData()
+      },
+      cancel_add(formName) {
+        this.$refs[formName].resetFields()
+        this.emptyClbqData()
       },
       handleSelectionChange(val) {
         this.multipleSelection = val
       },
+      showAdvanceSearchView() {
+        this.advanceSearchViewVisible = !this.advanceSearchViewVisible
+        this.clbq.qypbh = ''
+        if (!this.advanceSearchViewVisible) {
+          this.emptyClbqData()
+          this.beginDateScope = ''
+          this.updateDateSope = ''
+          this.endDateScope = ''
+          this.loadClbpData()
+        }
+      },
       showAddClbpView() {
         this.dialogVisible = true
         this.dialogTitle = "添加车辆标签"
-        // var _this = this;
-        console.log('添加车辆标签设备')
-        // this.getRequest("/employee/basic/maxWorkID").then(resp => {
-        //   if (resp && resp.status == 200) {
-        //     _this.emp.workID = resp.data;
-        //   }
-        // })
       },
       showEditClbqView(row) {
         console.log(row)
         this.dialogVisible = true
         this.dialogTitle = "编辑车辆标签"
         this.clbq = row
+        this.clbq.sbjyh = row.sbjyh
         this.clbq.sbzbh = row.sbzbh
         this.clbq.qypbh = row.qypbh
         this.clbq.htbh = row.htbh
         this.clbq.gldj = row.gldj
+        this.clbq.sbppdm = row.sbppdm
         this.clbq.sbpp = row.sbpp
+        this.clbq.sbxhdm = row.sbxhdm
         this.clbq.sbxh = row.sbxh
         this.clbq.simkh = row.simkh
-        this.clbqGsOption = [row.sbgsjtmc, row.sbgsgsmc, row.sbgscdmc]
+        this.clbqGsOption = [row.sbgsjtdm, row.sbgsgsdm, row.sbgscddm, row.sbgsxldm]
+        this.clbqPpxhOption = [row.sbppdm, row.sbxhdm]
+        this.clbq.sbgsjtmc = row.sbgsjtmc
+        this.clbq.sbgsgsmc = row.sbgsgsmc
+        this.clbq.sbgscdmc = row.sbgscdmc
         this.clbq.sbgsxlmc = row.sbgsxlmc
-        this.clbq.sbqdrq = row.sbqdrq
-        this.clbq.sbgxrq = row.sbgxrq
-        this.clbq.sbbfrq = row.sbbfrq
+        this.clbq.sbqdrq = this.formatDate(row.sbqdrq)
+        this.clbq.sbgxrq = this.formatDate(row.sbgxrq)
+        this.clbq.sbbfrq = this.formatDate(row.sbbfrq)
         this.clbq.gysmc = row.gysmc
         this.clbq.jcsmc = row.jcsmc
         this.clbq.tmbh = row.tmbh
@@ -829,22 +653,14 @@
       },
       cancelEidt() {
         this.dialogVisible = false
-        this.emptyRfid4gData()
-        this.emptyRfid4gGs()
+        this.emptyClbqData()
       },
       addClbp(formName) {
         var _this = this
         _this.dialogVisible = true
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            if (this.clbq.sbzbh) {
-              // Edit
-              this.tableLoading = true
-            } else {
-              // Add
-              console.log(this.clbq)
-              this.tableLoading = true
-            }
+            console.log('clbq表单信息（先）', this.clbq)
           } else {
             return false
           }
@@ -896,37 +712,81 @@
         this.pageSize = val
         this.loadRfid4gData()
       },
-      handleChange(value) {
+      handlePpxhChange(value) {
+        this.clbqPpxhOption = value
+        // this.getPpxhInfo(value, this.clbq.sbppdm, this.clbq.sbxhdm, this.clbq.sbpp, this.clbq.sbxh, this.sbppxh)
+        // 设置代码=>dm
+        this.clbq.sbppdm = value[0]
+        this.clbq.sbxhdm = value[1]
+        // 设置名称=>mc
+        var pp = parseInt(value[0])
+        var xh = parseInt(value[1])
+        if (pp && xh) {
+          xh = parseInt((value[1]).substring(2, 4))
+          this.clbq.sbpp = this.sbppxh[pp - 1].label
+          this.clbq.sbxh = this.sbppxh[pp - 1].children[xh - 1].label
+        }
+        // 但就是未成功修改clbq
+        console.log(this.clbq)
+      },
+      handleGsChange(value) {
+        this.clbqGsOption = value
+        // 设置代码=>dm
         this.clbq.sbgsjtdm = value[0]
         this.clbq.sbgsgsdm = value[1]
         this.clbq.sbgscddm = value[2]
-      },
-      showAdvanceSearchView() {
-        this.advanceSearchViewVisible = !this.advanceSearchViewVisible
-        this.keywords = ''
-        if (!this.advanceSearchViewVisible) {
-          this.emptyClbpData()
-          this.dateScope = ''
-          this.loadClbpData()
+        this.clbq.sbgsxldm = value[3]
+        // 设置名称=>mc
+        var jt = parseInt(value[0])
+        var gs = parseInt(value[1])
+        var cd = parseInt(value[2])
+        var xl = parseInt(value[3])
+        if (jt && gs) {
+          // console.log('集团', jt)
+          gs = parseInt((value[1]).substring(2, 4))
+          // console.log('公司', gs)
+          if (cd) {
+            cd = parseInt((value[2]).substring(4, 6))
+            // console.log('车队', cd)
+            if (xl) {
+              xl = parseInt((value[3]).substring(6, 8))
+              // console.log('线路', xl)
+              this.clbq.sbgsjtmc = this.clbqGsOptions[jt - 1].label
+              this.clbq.sbgsgsmc = this.clbqGsOptions[jt - 1].children[gs - 1].label
+              this.clbq.sbgscdmc = this.clbqGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
+              this.clbq.sbgsxlmc = this.clbqGsOptions[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
+              console.log(this.clbq)
+            }
+          }
         }
       },
       emptyClbpGs() {
-        this.clbqGsOption = ['', '', '']
+        this.clbqGsOption = ['', '', '','']
       },
-      emptyClbpData() {
-        this.clbqGsOption = ['', '', '']
+      emptyClbqPpxh() {
+        this.clbqPpxhOption = ['', '']
+      },
+      emptyClbqData() {
+        this.emptyClbpGs()
+        this.emptyClbqPpxh()
         this.clbq = {
           sblb: '',
           sbzbh: '',
           qypbh: '',
           htbh: '',
           gldj: '',
+          sbppdm: '',
           sbpp: '',
+          sbxhdm: '',
           sbxh: '',
           simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
@@ -964,18 +824,21 @@
           simkh: '',
           gldj: this.clbq.gldj,
           sbgsjtdm: this.clbqGsOption[0],
-          sbgsjtmc: '',
+          sbgsjtmc: this.clbq.sbgsjtmc,
           sbgsgsdm: this.clbqGsOption[1],
-          sbgsgsmc: '',
+          sbgsgsmc: this.clbq.sbgsgsmc,
           sbgscddm: this.clbqGsOption[2],
-          sbgscdmc: '',
-          sbgsxldm: this.clbq.sbgsxlmc,
-          sbgsxlmc: '',
+          sbgscdmc: this.clbq.sbgscdmc,
+          // sbgsxldm: '',
+          sbgsxldm: this.clbqGsOption[3],
+          sbgsxlmc: this.clbq.sbgsxlmc,
           gysdm: '',
           gysmc: this.clbq.gysmc,
           jcsdm: '',
           jcsmc: this.clbq.jcsmc,
-          dateScope: this.dateScope
+          beginDateScope: this.beginDateScope,
+          updateDateScope: this.updateDateSope,
+          endDateScope: this.endDateScope
         }
         console.log('1123 本次查询参数为')
         console.log(params)

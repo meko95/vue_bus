@@ -308,7 +308,8 @@ const state = {
     }, {
       text: '银行卡',
       value: '3'
-    }]
+    }],
+  SBPPXH: []
 }
 const getters = {
   getSblb(state) {
