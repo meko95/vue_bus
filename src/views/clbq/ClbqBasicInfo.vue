@@ -92,7 +92,7 @@
                     </el-select>
                   </el-col>
                   <el-col :span="9">
-                    启用日期：
+                    启用日期:
                     <el-date-picker
                       v-model="beginDateScope"
                       unlink-panels
@@ -105,7 +105,7 @@
                     </el-date-picker>
                   </el-col>
                   <el-col :span="9">
-                    更新日期：
+                    更新日期:
                     <el-date-picker
                       v-model="updateDateScope"
                       unlink-panels
@@ -120,7 +120,7 @@
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="9">
-                    报废日期：
+                    报废日期:
                     <el-date-picker
                       v-model="endDateScope"
                       unlink-panels
@@ -156,6 +156,16 @@
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
+                  <el-col :span="5">
+                    起点基站:
+                    <el-input prefix-icon="el-icon-search" v-model="clbq.bqdyjzqd" size="small" style="width: 150px"
+                              placeholder="设备起点基站"></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    终点基站:
+                    <el-input prefix-icon="el-icon-search" v-model="clbq.bqdyjzzd" size="small" style="width: 150px"
+                              placeholder="设备终点基站"></el-input>
+                  </el-col>
                   <el-col :span="8">
                     设备归属:
                     <el-cascader
@@ -265,7 +275,7 @@
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
-                  <el-form-item label="车辆标签编号：" prop="sbzbh">
+                  <el-form-item label="车辆标签编号:" prop="sbzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="clbq.sbzbh" size="small" style="width: 150px"
                               placeholder="请输入设备编号"></el-input>
                   </el-form-item>
@@ -281,7 +291,7 @@
               </el-col>
               <el-col :span="8">
                 <div>
-                  <el-form-item label="车辆标签分片编号：" prop="qypbh">
+                  <el-form-item label="车辆标签分片编号:" prop="qypbh">
                     <el-input prefix-icon="el-icon-edit" v-model="clbq.qypbh" size="small" style="width: 150px"
                               placeholder="请输入分片编号"></el-input>
                   </el-form-item>
@@ -299,9 +309,36 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="管理等级：" prop="gldj">
+                  <el-form-item label="安装车牌号:" prop="ancph">
+                    <el-input prefix-icon="el-icon-edit" v-model="clbq.ancph" size="small" style="width: 150px"
+                              placeholder="请输入车牌号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="车辆编号:" prop="azclbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="clbq.azclbh" size="small" style="width: 150px"
+                              placeholder="请输入车牌号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="动力类别:" prop="azcldllbmc">
+                    <el-select v-model="clbq.azcldllbmc" style="width: 120px" size="small" placeholder="车辆动力">
+                      <el-option v-for="item in dllbs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="管理等级:" prop="gldj">
                     <el-select v-model="clbq.gldj" style="width: 120px" size="small" placeholder="管理等级">
                       <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
@@ -418,22 +455,14 @@
               </el-col>
               <el-col :span="7">
                 <div>
-                  <el-form-item label="SIM卡号：" prop="simkh">
-                    <el-input prefix-icon="el-icon-edit" v-model="clbq.simkh" size="small" style="width: 190px"
-                              placeholder="请输入SIM卡号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
-              <el-col :span="7">
-                <div>
                   <el-form-item label="条码编号：" prop="tmbh">
                     <el-input prefix-icon="el-icon-edit" v-model="clbq.tmbh" size="small" style="width: 160px"
                               placeholder="请输入条码编号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="8">
                 <div>
                   <el-form-item label="二维码编号：" prop="ewmbh">
@@ -469,12 +498,14 @@
           sbzbh: '',
           qypbh: '',
           htbh: '',
+          ancph: '',
+          azclbh: '',
+          azcldllbmc: '',
           gldj: '',
           sbppdm: '',
           sbpp: '',
           sbxhdm: '',
           sbxh: '',
-          simkh: '',
           sbgsjtdm: '',
           sbgsjtmc: '',
           sbgsgsdm: '',
@@ -497,11 +528,13 @@
           qypmc: [{required: true, message: '必填:分片名称', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
           sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
+          ancph: [{required: true, message: '必填:安装车牌号', trigger: 'blur'}],
+          azclbh: [{required: true, message: '必填:安装车辆编号', trigger: 'blur'}],
+          azcldllbmc: [{required: true, message: '必填:车辆动力类别', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
           clbqPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
           // sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
           // sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
-          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           clbqGsOption: [{required: false, message: '必填:设备归属信息', trigger: 'blur'}],
           // sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'blur'}],
           // sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
@@ -541,7 +574,8 @@
         gldjs: [],
         sbgzzts: [],
         qypmcs: [],
-        ssxzqys: []
+        ssxzqys: [],
+        dllbs: []
       }
     },
     components: {
@@ -582,6 +616,11 @@
             _this.sbppxh = res.data.PpxhList
           }
         })
+        this.getRequest('/api/Sbs/dllb').then(res=>{
+          if (res && res.status === 200) {
+            _this.dllbs = res.data.DllbList
+          }
+        })
       },
       qypbhChange(val) {
         if (val === '') {
@@ -596,7 +635,7 @@
         this.emptyClbqData()
         this.emptyClbpGs()
         this.beginDateScope = ''
-        this.updateDateSope = ''
+        this.updateDateScope = ''
         this.endDateScope = ''
         this.loadClbpData()
       },
@@ -613,7 +652,7 @@
         if (!this.advanceSearchViewVisible) {
           this.emptyClbqData()
           this.beginDateScope = ''
-          this.updateDateSope = ''
+          this.updateDateScope = ''
           this.endDateScope = ''
           this.loadClbpData()
         }
@@ -636,7 +675,6 @@
         this.clbq.sbpp = row.sbpp
         this.clbq.sbxhdm = row.sbxhdm
         this.clbq.sbxh = row.sbxh
-        this.clbq.simkh = row.simkh
         this.clbqGsOption = [row.sbgsjtdm, row.sbgsgsdm, row.sbgscddm, row.sbgsxldm]
         this.clbqPpxhOption = [row.sbppdm, row.sbxhdm]
         this.clbq.sbgsjtmc = row.sbgsjtmc
@@ -779,7 +817,6 @@
           sbpp: '',
           sbxhdm: '',
           sbxh: '',
-          simkh: '',
           sbgsjtdm: '',
           sbgsjtmc: '',
           sbgsgsdm: '',
@@ -821,7 +858,6 @@
           dyxljhmc: '',
           sbxh: this.clbq.sbxh,
           sbpp: this.clbq.sbpp,
-          simkh: '',
           gldj: this.clbq.gldj,
           sbgsjtdm: this.clbqGsOption[0],
           sbgsjtmc: this.clbq.sbgsjtmc,
@@ -837,7 +873,7 @@
           jcsdm: '',
           jcsmc: this.clbq.jcsmc,
           beginDateScope: this.beginDateScope,
-          updateDateScope: this.updateDateSope,
+          updateDateScope: this.updateDateScope,
           endDateScope: this.endDateScope
         }
         console.log('1123 本次查询参数为')

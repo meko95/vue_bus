@@ -320,7 +320,7 @@
               </el-col>
               <el-col :span="7">
                 <div>
-                  <el-form-item label="品牌型号:" prop="rfid4gPpxhOption">
+                  <el-form-item label="品牌型号:" prop="rfid4gczPpxhOption">
                     <el-cascader
                       size="small"
                       placeholder="请选择设备品牌型号"
@@ -487,6 +487,8 @@
           sbzbh: '',
           qypbh: '',
           htbh: '',
+          sbgzzt: '',
+          azdd: '',
           gldj: '',
           sbpp: '',
           sbxh: '',
@@ -504,15 +506,16 @@
           sbbfrq: '',
           gysmc: '',
           jcsmc: '',
+          zdbh: '',
           tmbh: '',
           ewmbh: ''
         },
         rules: {
           sbzbh: [{required: true, message: '必填:编号', trigger: 'blur'}],
           qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
-          sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
-          qypmc: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
+          qypmc: [{required: true, message: '必填:分片区域', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
+          sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
           rfid4gczPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
           // sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
@@ -533,10 +536,6 @@
         },
         cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
         totalRow: 0,
         pageSize: 10,
         currentPage: 1,
@@ -625,12 +624,22 @@
       },
       cancelSearch() {
         this.advanceSearchViewVisible = false
-        this.emptyRfid4gczGs()
         this.emptyRfid4gczData()
         this.beginDateScope = ''
-        this.updateDateSope = ''
+        this.updateDateScope = ''
         this.endDateScope = ''
         this.loadRfid4gczData()
+      },
+      addRfid4gcz(formName) {
+        this.dialogVisible = true
+        var _this = this
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            console.log('rfid4gcz表单信息（先）', this.rfid4gcz)
+          } else {
+            return false
+          }
+        })
       },
       cancel_add(formName) {
         this.$refs[formName].resetFields()
@@ -646,7 +655,7 @@
         if (!this.advanceSearchViewVisible) {
           this.emptyRfid4gczData()
           this.beginDateScope = ''
-          this.updateDateSope = ''
+          this.updateDateScope = ''
           this.endDateScope = ''
           this.loadRfid4gczData()
         }
@@ -687,17 +696,6 @@
       cancelEidt() {
         this.dialogVisible = false
         this.emptyRfid4gczData()
-      },
-      addRfid4gcz(formName) {
-        this.dialogVisible = true
-        var _this = this
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            console.log('rfid4gcz表单信息（先）', this.rfid4gcz)
-          } else {
-            return false
-          }
-        })
       },
       deleteRfid4gcz(row) {
         this.$confirm('此操作将永久删除设备：添加RFID4G（场站）' + row.sbzbh + ', 是否继续?', '提示', {
@@ -867,7 +865,7 @@
           jcsdm: '',
           jcsmc: this.rfid4gcz.jcsmc,
           beginDateScope: this.beginDateScope,
-          updateDateScope: this.updateDateSope,
+          updateDateScope: this.updateDateScope,
           endDateScope: this.endDateScope
         }
         console.log('1123 本次查询参数为')

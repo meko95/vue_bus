@@ -12,35 +12,35 @@
             <el-input
               placeholder="通过分片编号查询"
               clearable
-              @change="keywordsChange"
+              @change="qypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
               size="mini"
               :disabled="advanceSearchViewVisible"
               @keyup.enter.native="searchYcyj"
               prefix-icon="el-icon-search"
-              v-model="keywords">
+              v-model="ycyj.qypbh">
             </el-input>
+            <div style="display: inline">
+              <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchYcyj">
+                搜索
+              </el-button>
+              <el-button slot="reference" type="primary" size="mini" style="margin-left: 0"
+                         @click="showAdvanceSearchView">
+                <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
+                   style="margin-right: 5px">
+                </i>高级搜索
+              </el-button>
+            </div>
           </div>
           <div style="display: inline">
-            <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchYcyj">
-              搜索
-            </el-button>
-            <el-button slot="reference" type="primary" size="mini" style="margin-left: 0"
-                       @click="showAdvanceSearchView">
-              <i :class="[advanceSearchViewVisible ? searchUp:searchDown]"
-                 style="margin-right: 5px">
-              </i>高级搜索
-            </el-button>
-          </div>
-          <div style="margin-left: 5px;display: inline">
             <el-button type="success" size="mini" @click="importYcyjs">
-              <i class="el-icon-upload2" style="margin-right: 3px"></i>导入数据
+              <i class="el-icon-upload2"></i>导入数据
             </el-button>
-            <el-button type="success" size="mini" @click="exportYcyjs">
-              <i class="el-icon-download" style="margin-right: 3px"></i>导出数据
+            <el-button type="success" size="mini" @click="exportYcyjs" style="margin-left: 0">
+              <i class="el-icon-download"></i>导出数据
             </el-button>
           </div>
-          <div style="display: inline;margin-left: 7px">
+          <div style="display: inline;margin-left: 5px">
             <el-button type="primary" size="mini" icon="el-icon-plus" @click="showAddYcyjView">添加一程一检</el-button>
           </div>
         </el-header>
@@ -52,61 +52,54 @@
                 style="margin-bottom: 10px;border: 1px solid #20a0ff;border-radius: 5px;padding: 20px 35px;box-sizing:border-box;"
                 v-show="advanceSearchViewVisible">
                 <el-row>
-                  <el-col :span="5">
-                    一程一检编号：
+                  <el-col :span="6">
+                    一程一检编号:
                     <el-input prefix-icon="el-icon-search" v-model="ycyj.sbzbh" size="small" style="width: 150px"
                               placeholder="设备查询编号"></el-input>
                   </el-col>
-                  <el-col :span="4">
-                    管理等级：
-                    <el-select v-model="ycyj.gldj" style="width: 100px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldj" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                  <el-col :span="5">
+                    合同编号:
+                    <el-input prefix-icon="el-icon-search" v-model="ycyj.htbh" size="small" style="width: 150px"
+                              placeholder="设备合同编号"></el-input>
                   </el-col>
                   <el-col :span="4">
-                    品牌：
-                    <el-select v-model="ycyj.sbpp" style="width: 130px" size="small" placeholder="请选择品牌">
-                      <el-option v-for="item in pp" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    分片区域:
+                    <el-select v-model="ycyj.qypmc" style="width: 120px" clearable size="small" placeholder="请选择">
+                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="5">
-                    型号:
-                    <el-select v-model="ycyj.sbxh" style="width: 130px" size="small" placeholder="请选择型号">
-                      <el-option v-for="item in xh" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    安装地点:
+                    <el-input prefix-icon="el-icon-search" v-model="ycyj.azdd" size="small" style="width: 150px"
+                              placeholder="设备安装地点"></el-input>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
+                  <el-col :span="4">
+                    管理等级：
+                    <el-select v-model="ycyj.gldj" style="width: 100px" size="small" placeholder="管理等级">
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-col>
-                </el-row>
-                <el-row style="margin-top: 18px">
-                  <el-col :span="8">
+                  <el-col :span="5">
+                    品牌型号:
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备品牌型号"
+                      style="width: 170px;"
+                      expand-trigger="hover"
+                      clearable
+                      :options="sbppxh"
+                      v-model="ycyjPpxhOption"
+                      @change="handlePpxhChange"
+                      change-on-select>
+                    </el-cascader>
+                  </el-col>
+                  <el-col :span="9">
                     启动日期:
                     <el-date-picker
-                      v-model="dateScope"
-                      unlink-panels
-                      size="small"
-                      type="daterange"
-                      value-format="yyyy-MM-dd"
-                      range-separator="至"
-                      start-placeholder="开始日期"
-                      end-placeholder="结束日期">
-                    </el-date-picker>
-                  </el-col>
-                  <el-col :span="8">
-                    更新日期:
-                    <el-date-picker
-                      v-model="dateScope"
-                      unlink-panels
-                      size="small"
-                      type="daterange"
-                      value-format="yyyy-MM-dd"
-                      range-separator="至"
-                      start-placeholder="开始日期"
-                      end-placeholder="结束日期">
-                    </el-date-picker>
-                  </el-col>
-                  <el-col :span="8">
-                    报废日期:
-                    <el-date-picker
-                      v-model="dateScope"
+                      v-model="beginDateScope"
                       unlink-panels
                       size="small"
                       type="daterange"
@@ -118,25 +111,53 @@
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
+                  <el-col :span="9">
+                    更新日期:
+                    <el-date-picker
+                      v-model="updateDateScope"
+                      unlink-panels
+                      size="small"
+                      type="daterange"
+                      value-format="yyyy-MM-dd"
+                      range-separator="至"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
+                    </el-date-picker>
+                  </el-col>
+                  <el-col :span="9">
+                    报废日期:
+                    <el-date-picker
+                      v-model="endDateScope"
+                      unlink-panels
+                      size="small"
+                      type="daterange"
+                      value-format="yyyy-MM-dd"
+                      range-separator="至"
+                      start-placeholder="开始日期"
+                      end-placeholder="结束日期">
+                    </el-date-picker>
+                  </el-col>
                   <el-col :span="4">
                     供应商:
                     <el-select v-model="ycyj.gysmc" style="width: 130px" size="small" placeholder="请选择供应商">
                       <el-option
-                        v-for="item in gys"
+                        v-for="item in gs"
                         :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
+                        :label="item.descriptionZh"
+                        :value="item.descriptionZh">
                       </el-option>
                     </el-select>
                   </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
                   <el-col :span="4">
                     集成商:
                     <el-select v-model="ycyj.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商">
                       <el-option
-                        v-for="item in jcs"
+                        v-for="item in gs"
                         :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
+                        :label="item.descriptionZh"
+                        :value="item.descriptionZh">
                       </el-option>
                     </el-select>
                   </el-col>
@@ -149,14 +170,9 @@
                       expand-trigger="hover"
                       :options="ycyjGsOptions"
                       v-model="ycyjGsOption"
-                      @change="handleChange"
+                      @change="handleGsChange"
                       change-on-select>
                     </el-cascader>
-                  </el-col>
-                  <el-col :span="6">
-                    线路：
-                    <el-input prefix-icon="el-icon-search" v-model="ycyj.sbgsxlmc" size="small" style="width: 250px"
-                              placeholder="输入设备线路，以中文逗号相间隔"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
@@ -171,7 +187,7 @@
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
                       style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                       @selection-change="handleSelectionChange" stripe size="small" height="559"
-                      :default-sort="{prop: 'sbqyrq', order: 'descending'}">
+                      :default-sort="{prop: 'sbqdrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
               <el-table-column prop="sbzbh" label="一程一检编号" width="130" align="center" fixed></el-table-column>
               <el-table-column prop="htbh" label="合同编号" width="95" align="center"></el-table-column>
@@ -200,8 +216,8 @@
               <el-table-column prop="sbgsgsmc" label="公司" width="90" align="center"></el-table-column>
               <el-table-column prop="sbgscdmc" label="车队" width="70" align="center"></el-table-column>
               <el-table-column prop="sbgsxlmc" label="线路" width="70" align="center"></el-table-column>
-              <el-table-column prop="sbqyrq" label="启用日期" width="100" align="center" sortable>
-                <!--<template slot-scope="scope">{{ scope.row.sbqyrq | formatDate}}</template>-->
+              <el-table-column prop="sbqdrq" label="启动日期" width="100" align="center" sortable>
+                <!--<template slot-scope="scope">{{ scope.row.sbqdrq | formatDate}}</template>-->
               </el-table-column>
               <el-table-column prop="sbgxrq" label="更新日期" width="100" align="center" sortable>
                 <!--<template slot-scope="scope">{{ scope.row.sbgxrq | formatDate}}</template>-->
@@ -241,25 +257,17 @@
           </div>
         </el-main>
       </el-container>
-      <!-- 添加一程一检信息Begin -->
-      <el-form :model="ycyj" :rules="rules" ref="addYcyjForm" style="margin: 0px;padding: 0px;">
+      <!-- Form Begin -->
+      <el-form :model="ycyj" :rules="rules" ref="ycyj" style="margin: 0px;padding: 0px;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                     :visible.sync="dialogVisible" width="77%">
+                     :visible.sync="dialogVisible" width="77%" @close="cancel_add('ycyj')">
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="一程一检编号:" prop="sbzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="ycyj.sbzbh" size="small" style="width: 150px"
                               placeholder="请输入设备编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="一程一检分片编号:" prop="qypbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.qypbh" size="small" style="width: 150px"
-                              placeholder="请输入分片编号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -271,40 +279,76 @@
                   </el-form-item>
                 </div>
               </el-col>
+              <el-col :span="8">
+                <div>
+                  <el-form-item label="一程一检分片编号:" prop="qypbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.qypbh" size="small" style="width: 150px"
+                              placeholder="请输入分片编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="4">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="分片区域:" prop="qypmc">
+                    <el-select v-model="ycyj.qypmc" style="width: 120px" size="small" placeholder="请选择">
+                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="工作状态:" prop="sbgzzt">
+                    <el-select v-model="ycyj.sbgzzt" style="width: 120px" size="small" placeholder="请选择">
+                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.descriptionZh"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="安装地点:" prop="azdd">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.azdd" size="small" style="width: 150px"
+                              placeholder="请输入设备安装地点"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="管理等级:" prop="gldj">
-                    <el-select v-model="ycyj.gldj" style="width: 60px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldj" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                    <el-select v-model="ycyj.gldj" style="width: 120px" size="small" placeholder="管理等级">
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="设备品牌:" prop="sbpp">
-                    <el-select v-model="ycyj.sbpp" style="width: 100px" size="small" placeholder="设备品牌">
-                      <el-option v-for="item in pp" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
+                  <el-form-item label="品牌型号:" prop="ycyjPpxhOption">
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备品牌型号"
+                      style="width:162px;"
+                      expand-trigger="hover"
+                      :options="sbppxh"
+                      v-model="ycyjPpxhOption"
+                      @change="handlePpxhChange"
+                      change-on-select>
+                    </el-cascader>
                   </el-form-item>
                 </div>
               </el-col>
               <el-col :span="6">
                 <div>
-                  <el-form-item label="设备型号:" prop="sbxh">
-                    <el-select v-model="ycyj.sbxh" style="width: 140px" size="small" placeholder="设备型号">
-                      <el-option v-for="item in xh" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div>
-                  <el-form-item label="SIM卡号:" prop="simkh">
-                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.simkh" size="small" style="width: 150px"
-                              placeholder="请输入SIM卡号"></el-input>
+                  <el-form-item label="站点编号:" prop="zdbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.zdbh" size="small" style="width: 120px"
+                              placeholder="请输入站点编号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -320,27 +364,17 @@
                       expand-trigger="hover"
                       :options="ycyjGsOptions"
                       v-model="ycyjGsOption"
-                      @change="handleChange"
+                      @change="handleGsChange"
                       change-on-select>
                     </el-cascader>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="归属线路:" prop="sbgsxlmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.sbgsxlmc" size="small" style="width: 150px"
-                              placeholder="请输入归属线路"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="6">
                 <div>
-                  <el-form-item label="启动日期:" prop="sbqyrq">
+                  <el-form-item label="启动日期:" prop="sbqdrq">
                     <el-date-picker
-                      v-model="ycyj.sbqyrq"
+                      v-model="ycyj.sbqdrq"
                       size="small"
                       value-format="yyyy-MM-dd HH:mm:ss"
                       style="width: 150px"
@@ -364,6 +398,8 @@
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="6">
                 <div>
                   <el-form-item label="报废日期:" prop="sbbfrq">
@@ -378,13 +414,11 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="6">
                 <div>
                   <el-form-item label="供应商:" prop="gysmc">
                     <el-select v-model="ycyj.gysmc" style="width: 130px" size="small" placeholder="供应商">
-                      <el-option v-for="item in gys" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
@@ -393,13 +427,21 @@
                 <div>
                   <el-form-item label="集成商:" prop="jcsmc">
                     <el-select v-model="ycyj.jcsmc" style="width: 130px" size="small" placeholder="集成商">
-                      <el-option v-for="item in jcs" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="SIM卡号:" prop="simkh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ycyj.simkh" size="small" style="width: 190px"
+                              placeholder="请输入SIM卡号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
               <el-col :span="6">
                 <div>
                   <el-form-item label="条码编号:" prop="tmbh">
@@ -419,7 +461,7 @@
             </el-row>
             <span slot="footer" class="dialog-footer">
             <el-button size="large" @click="cancelEidt">取 消</el-button>
-            <el-button size="large" type="primary" @click="addYcyj('addYcyjForm')">确 定</el-button>
+            <el-button size="large" type="primary" @click="addYcyj('ycyj')">确 定</el-button>
           </span>
           </el-dialog>
 
@@ -438,28 +480,15 @@
     name: "YcyjBasicInfo",
     data() {
       return {
-        cardTitle: '上海久事一集团',
-        subsidiary: this.$store.getters.getAllSubsidiary,
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
-        totalPage: 0,
-        pageSize: 10,
-        currentPage: 1,
-        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
-        advanceSearchViewVisible: false,
-        dialogVisible: false,
-        tableLoading: false,
-        keywords: '',
-        dateScope: '',
         ycyj: {
           sblb: this.$store.getters.getSblb,
           sbzbh: '',
           qypbh: '',
           htbh: '',
           gldj: '',
+          sbppdm: '',
           sbpp: '',
+          sbxhdm: '',
           sbxh: '',
           simkh: '',
           sbgsjtdm: '',
@@ -470,7 +499,7 @@
           sbgscdmc: '',
           sbgsxldm: '',
           sbgsxlmc: '',
-          sbqyrq: '',
+          sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
           gysmc: '',
@@ -478,41 +507,53 @@
           tmbh: '',
           ewmbh: ''
         },
-        Sbs: [],
-        multipleSelection: [],
-        searchUp: 'el-icon-arrow-up',
-        searchDown: 'el-icon-arrow-down',
-        ycyjGsOption: ['', '', ''],
-        ycyjGsOptions: [],
-        fileUploadBtnText: '导入数据',
-        dialogTitle: '',
-        xh: [],
-        pp: [],
-        gldj: [],
-        gys: [],
-        jcs: [],
-        gsxl: [],
         rules: {
           sbzbh: [{required: true, message: '必填:编号', trigger: 'blur'}],
-          qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
+          qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
+          qypmc: [{required: true, message: '必填:分片区域', trigger: 'blur'}],
+          sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
+          azdd: [{required: true, message: '必填:安装地点', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
-          sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
-          sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
+          ycyjPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
           simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
-          ycyjGsOption: [{required: true, message: '必填:设备归属信息', trigger: 'blur'}],
-          sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'blur'}],
-          sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
-          sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'blur'}],
-          sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
-          sbqyrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
+          ycyjGsOption: [{required: false, message: '必填:设备归属信息', trigger: 'blur'}],
+          sbqdrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
           sbgxrq: [{required: false, message: '必填:更新日期', trigger: 'blur'}],
           sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'blur'}],
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
+          zdbh: [{required: true, message: '必填:站点编号', trigger: 'blur'}],
           tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
           ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
-        }
+        },
+        cardTitle: '上海久事一集团',
+        subsidiary: this.$store.getters.getAllSubsidiary,
+        totalPage: 0,
+        pageSize: 10,
+        currentPage: 1,
+        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
+        advanceSearchViewVisible: false,
+        dialogVisible: false,
+        tableLoading: false,
+        beginDateScope: '',
+        updateDateScope: '',
+        endDateScope: '',
+        Sbs: [],
+        multipleSelection: [],
+        searchUp: 'el-icon-arrow-up',
+        searchDown: 'el-icon-arrow-down',
+        ycyjGsOption: ['', '', '',''],
+        ycyjGsOptions: [],
+        sbppxh: [],
+        ycyjPpxhOption: ['', ''],
+        fileUploadBtnText: '导入数据',
+        dialogTitle: '',
+        gs: [],
+        gldjs: [],
+        sbgzzts: [],
+        qypmcs: [],
+        ssxzqys: []
       }
     },
     components: {
@@ -526,285 +567,84 @@
         this.getSbGsInfo(data,this.ycyj.sbgsjtdm,this.ycyj.sbgsgsdm,this.ycyj.sbgscddm,this.ycyj.sbgsxldm)
       },
       initData() {
-        this.gsxl = [
-          {id: 1, name: '1001'},
-          {id: 2, name: 'B支4'},
-          {id: 3, name: '上南路西'}
-        ]
-        this.gys = [
-          {id: 1, name: '澳马公司'},
-          {id: 2, name: '中安科技'},
-          {id: 3, name: '强生科技'},
-          {id: 4, name: '新新媒体'}
-        ]
-        this.jcs = [
-          {id: 1, name: '澳马公司'},
-          {id: 2, name: '中安科技'},
-          {id: 3, name: '强生科技'},
-          {id: 4, name: '新新媒体'}
-        ]
-        this.xh = [
-          {id: 1, name: 'Z-SO31-4105'},
-          {id: 2, name: 'Z-SO31-4106'},
-          {id: 3, name: 'Z-SO31-4107'}
-        ]
-        this.pp = [
-          {id: 1, name: '索尼'},
-          {id: 2, name: '联想'},
-          {id: 3, name: '戴尔'}
-        ]
-        this.gldj = [
-          {id: 1, name: 'A'},
-          {id: 2, name: 'B'},
-          {id: 3, name: 'C'}
-        ]
-        // 清晰度 标清高清 带与不带？？？？？
-        this.ycyjGsOptions = [
-          {
-            value: '01',
-            label: '上海久事一集团',
-            children: [
-              {
-                value: '01001',
-                label: '巴士一公司',
-                children: [
-                  {
-                    value: '0100101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '0100102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '0100103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '01002',
-                label: '巴士二公司',
-                children: [
-                  {
-                    value: '0100201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '0100202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '0100203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '01003',
-                label: '巴士三公司',
-                children: [
-                  {
-                    value: '0100301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '0100302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '0100303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            value: '02',
-            label: '上海久事二集团',
-            children: [
-              {
-                value: '02001',
-                label: '巴士1公司',
-                children: [
-                  {
-                    value: '0200101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '0200102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '0200103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '02002',
-                label: '巴士2公司',
-                children: [
-                  {
-                    value: '0200201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '0200202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '0200203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '02003',
-                label: '巴士3公司',
-                children: [
-                  {
-                    value: '0200301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '0200302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '0200303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            value: '03',
-            label: '上海久事三集团',
-            children: [
-              {
-                value: '03001',
-                label: '巴士壹公司',
-                children: [
-                  {
-                    value: '0300101',
-                    label: '一车队'
-                  },
-                  {
-                    value: '0300102',
-                    label: '二车队'
-                  },
-                  {
-                    value: '0300103',
-                    label: '三车队'
-                  }
-                ]
-              },
-              {
-                value: '03002',
-                label: '巴士贰公司',
-                children: [
-                  {
-                    value: '0300201',
-                    label: '1车队'
-                  },
-                  {
-                    value: '0300202',
-                    label: '2车队'
-                  },
-                  {
-                    value: '0300203',
-                    label: '3车队'
-                  }
-                ]
-              },
-              {
-                value: '03003',
-                label: '巴士叁公司',
-                children: [
-                  {
-                    value: '0300301',
-                    label: '壹车队'
-                  },
-                  {
-                    value: '0300302',
-                    label: '贰车队'
-                  },
-                  {
-                    value: '0300303',
-                    label: '叁车队'
-                  }
-                ]
-              }
-            ]
+        var _this = this
+        this.getRequest('/api/Sbs/gldj').then(res => {
+          if (res && res.status === 200) {
+            _this.gldjs = res.data.GldjList
           }
-        ]
+        })
+        this.getRequest('/api/Sbs/gs').then(res => {
+          if (res && res.status === 200) {
+            _this.gs = res.data.GsList
+          }
+        })
+        this.ycyjGsOptions = this.$store.getters.getAllSubsidiary
+        this.getRequest('/api/Sbs/gzzt').then(res => {
+          if (res && res.status === 200) {
+            _this.sbgzzts = res.data.GzztList
+          }
+        })
+        // 获取启用片区域名称
+        this.getRequest('/api/Sbs/qypmc').then(res => {
+          if (res && res.status === 200) {
+            _this.qypmcs = res.data.QypmcList
+          }
+        })
+        // 获取品牌型号信息
+        this.getRequest('/api/Sbs/ppxh').then(res => {
+          if (res && res.status === 200) {
+            _this.sbppxh = res.data.PpxhList
+          }
+        })
       },
-      keywordsChange(val) {
-        if (val == '') {
+      qypbhChange(val) {
+        if (val === '') {
           this.loadYcyjData()
         }
       },
       searchYcyj() {
-        const device_type = parseInt(this.ycyj.sblb)
-        if (device_type === 6) {
-          this.loadYcyjData()
-          return
-        }
-        switch (device_type) {
-          case 1:
-            this.$router.push('/bus/basicdata/getRfid4gBasicInfo')
-            break
-          case 2:
-            this.$router.push('/bus/basicdata/getRfid4gczBasicInfo')
-            break
-          case 3:
-            this.$router.push('/bus/basicdata/getClbqBasicInfo')
-            break
-          case 4:
-            this.$router.push('/bus/basicdata/getCzytjBasicInfo')
-            break
-          case 5:
-            this.$router.push('/bus/basicdata/getBdjBasicInfo')
-            break
-          case 6:
-            this.$router.push('/bus/basicdata/getYcyjBasicInfo')
-            break
-          case 7:
-            this.$router.push('/bus/basicdata/getZdtBasicInfo')
-            break
-          case 8:
-            this.$router.push('/bus/basicdata/getFfcpBasicInfo')
-            break
-          case 9:
-            this.$router.push('/bus/basicdata/getZgybpBasicInfo')
-            break
-          default:
-            this.loadYcyjData()
-        }
+        this.loadYcyjData()
       },
       cancelSearch() {
         this.advanceSearchViewVisible = false
         this.emptyYcyjData()
-        this.emptyYcyjGs()
-        this.dateScope = ''
+        this.beginDateScope = ''
+        this.updateDateScope = ''
+        this.endDateScope = ''
         this.loadYcyjData()
+      },
+      addYcyj(formName) {
+        var _this = this
+        _this.dialogVisible = true
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            console.log('ycyj表单信息（先）', this.ycyj)
+          } else {
+            return false
+          }
+        })
+      },
+      cancel_add(formName) {
+        this.$refs[formName].resetFields()
+        this.emptyYcyjData()
       },
       handleSelectionChange(val) {
         this.multipleSelection = val
       },
+      showAdvanceSearchView() {
+        this.advanceSearchViewVisible = !this.advanceSearchViewVisible
+        this.ycyj.qypbh = ''
+        if (!this.advanceSearchViewVisible) {
+          this.emptyYcyjData()
+          this.beginDateScope = ''
+          this.updateDateScope = ''
+          this.endDateScope = ''
+          this.loadYcyjData()
+        }
+      },
       showAddYcyjView() {
         this.dialogVisible = true
         this.dialogTitle = "添加一程一检"
-        // var _this = this;
-        console.log('添加一程一检设备')
-        // this.getRequest("/employee/basic/maxWorkID").then(resp => {
-        //   if (resp && resp.status == 200) {
-        //     _this.emp.workID = resp.data;
-        //   }
-        // })
       },
       showEditYcyjView(row) {
         console.log(row)
@@ -813,16 +653,17 @@
         this.ycyj = row
         this.ycyj.sbzbh = row.sbzbh
         this.ycyj.qypbh = row.qypbh
+        this.ycyj.qypmc = row.qypmc
         this.ycyj.htbh = row.htbh
         this.ycyj.gldj = row.gldj
         this.ycyj.sbpp = row.sbpp
         this.ycyj.sbxh = row.sbxh
         this.ycyj.simkh = row.simkh
-        this.ycyjGsOption = [row.sbgsjtmc, row.sbgsgsmc, row.sbgscdmc]
-        this.ycyj.sbgsxlmc = row.sbgsxlmc
-        this.ycyj.sbqdrq = row.sbqdrq
-        this.ycyj.sbgxrq = row.sbgxrq
-        this.ycyj.sbbfrq = row.sbbfrq
+        this.ycyjGsOption = [row.sbgsjtdm, row.sbgsgsdm, row.sbgscddm, row.sbgsxldm]
+        this.ycyjPpxhOption = [row.sbppdm, row.sbxhdm]
+        this.ycyj.sbqdrq = this.formatDate(row.sbqdrq)
+        this.ycyj.sbgxrq = this.formatDate(row.sbgxrq)
+        this.ycyj.sbbfrq = this.formatDate(row.sbbfrq)
         this.ycyj.gysmc = row.gysmc
         this.ycyj.jcsmc = row.jcsmc
         this.ycyj.tmbh = row.tmbh
@@ -830,25 +671,7 @@
       },
       cancelEidt() {
         this.dialogVisible = false
-        this.emptyRfid4gData()
-        this.emptyRfid4gGs()
-      },
-      addYcyj(formName) {
-        var _this = this
-        _this.dialogVisible = true
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            if (this.ycyj.sbzbh) {
-              // Edit
-              this.tableLoading = true
-            } else {
-              // Add
-              this.tableLoading = true
-            }
-          } else {
-            return false
-          }
-        })
+        this.emptyYcyjData()
       },
       deleteYcyj(row) {
         this.$confirm('此操作将永久删除设备：一程一检' + row.sbzbh + ', 是否继续?', '提示', {
@@ -889,36 +712,73 @@
       },
       handleCurrentChange(val) {
         this.currentPage = val
-        this.loadRfid4gData()
+        this.loadYcyjData()
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`)
         this.pageSize = val
-        this.loadRfid4gData()
+        this.loadYcyjData()
       },
-      handleChange(value) {
+      handlePpxhChange(value) {
+        this.ycyjPpxhOption = value
+        // this.getPpxhInfo(value, this.rfid4g.sbppdm, this.rfid4g.sbxhdm, this.rfid4g.sbpp, this.rfid4g.sbxh, this.sbppxh)
+        // 设置代码=>dm
+        this.ycyj.sbppdm = value[0]
+        this.ycyj.sbxhdm = value[1]
+        // 设置名称=>mc
+        var pp = parseInt(value[0])
+        var xh = parseInt(value[1])
+        if (pp && xh) {
+          xh = parseInt((value[1]).substring(2, 4))
+          this.ycyj.sbpp = this.sbppxh[pp - 1].label
+          this.ycyj.sbxh = this.sbppxh[pp - 1].children[xh - 1].label
+        }
+        // 但就是未成功修改ycyj
+        console.log(this.ycyj)
+      },
+      handleGsChange(value) {
+        this.ycyjGsOption = value
         this.ycyj.sbgsjtdm = value[0]
         this.ycyj.sbgsgsdm = value[1]
         this.ycyj.sbgscddm = value[2]
-      },
-      showAdvanceSearchView() {
-        this.advanceSearchViewVisible = !this.advanceSearchViewVisible
-        this.keywords = ''
-        if (!this.advanceSearchViewVisible) {
-          this.emptyYcyjData()
-          this.dateScope = ''
-          this.loadYcyjData()
+        this.ycyj.sbgsxldm = value[3]
+        // 设置名称
+        var jt = parseInt(value[0])
+        var gs = parseInt(value[1])
+        var cd = parseInt(value[2])
+        var xl = parseInt(value[3])
+        if (jt && gs) {
+          console.log('集团', jt)
+          gs = parseInt((value[1]).substring(2, 4))
+          console.log('公司', gs)
+          if (cd) {
+            cd = parseInt((value[2]).substring(4, 6))
+            if (xl) {
+              xl = parseInt((value[3]).substring(6, 8))
+              // console.log('线路', xl)
+              this.ycyj.sbgsjtmc = this.ycyjGsOptions[jt - 1].label
+              this.ycyj.sbgsgsmc = this.ycyjGsOptions[jt - 1].children[gs - 1].label
+              this.ycyj.sbgscdmc = this.ycyjGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
+              this.ycyj.sbgsxlmc = this.ycyjGsOptions[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
+              console.log(this.ycyj)
+            }
+          }
         }
       },
       emptyYcyjGs() {
-        this.ycyjGsOption = ['', '', '']
+        this.ycyjGsOption = ['', '', '','']
+      },
+      emptyYcyjPpxh() {
+        this.ycyjPpxhOption = ['', '']
       },
       emptyYcyjData() {
         this.emptyYcyjGs()
+        this.emptyYcyjPpxh()
         this.ycyj = {
           sblb: '',
           sbzbh: '',
           qypbh: '',
+          qypmc: '',
           htbh: '',
           gldj: '',
           sbpp: '',
@@ -928,7 +788,7 @@
           sbgsgsmc: '',
           sbgscdmc: '',
           sbgsxlmc: '',
-          sbqyrq: '',
+          sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
           gysmc: '',
@@ -943,14 +803,12 @@
         let params = {
           page: this.currentPage,
           pagePize: this.pageSize,
-          keywords: this.keywords,
+          qypbh: this.ycyj.qypbh,
           orderItemName: '',
           order: '',
           sblb: this.ycyj.sblb,
           gzzt: '',
           sbzbh: this.ycyj.sbzbh,
-          // 区域片编号
-          qypbh: '',
           azdddm: '',
           ssxzdm: '',
           ssxzqy: '',
@@ -969,13 +827,15 @@
           sbgsgsmc: '',
           sbgscddm: this.ycyjGsOption[2],
           sbgscdmc: '',
-          sbgsxldm: this.ycyj.sbgsxlmc,
+          sbgsxldm: this.ycyjGsOption[3],
           sbgsxlmc: '',
           gysdm: '',
           gysmc: this.ycyj.gysmc,
           jcsdm: '',
           jcsmc: this.ycyj.jcsmc,
-          dateScope: this.dateScope
+          beginDateScope : this.beginDateScope,
+          updateDateScope: this.updateDateScope,
+          endDateScope: this.endDateScope
         }
         console.log('1123 本次查询参数为')
         console.log(params)
