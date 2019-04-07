@@ -107,31 +107,31 @@
         switch (scope.row.sblb) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
-            this.$router.push('/rfid4g/basic/jt1')
+            this.$router.push('/rfid4g/basic')
             break
           case 'RFID4G（场站）':
-            this.$router.push('/rfid4gcz/basic/jt1')
+            this.$router.push('/rfid4gcz/basic')
             break
           case '车辆标签':
-            this.$router.push('/clbq/basic/jt1')
+            this.$router.push('/clbq/basic')
             break
           case '车载一体机':
-            this.$router.push('/czytj/basic/jt1')
+            this.$router.push('/czytj/basic')
             break
           case '报到机':
-            this.$router.push('/bdj/basic/jt1')
+            this.$router.push('/bdj/basic')
             break
           case '一程一检':
-            this.$router.push('/ycyj/basic/jt1')
+            this.$router.push('/ycyj/basic')
             break
           case '站点通':
-            this.$router.push('/zdt/basic/jt1')
+            this.$router.push('/zdt/basic')
             break
           case '55寸屏':
-            this.$router.push('/ffcp/basic/jt1')
+            this.$router.push('/ffcp/basic')
             break
           case '站杆预报屏':
-            this.$router.push('/zgybp/basic/jt1')
+            this.$router.push('/zgybp/basic')
             break
           default:
         }
@@ -140,31 +140,31 @@
         switch (scope.row.sblb) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
-            this.$router.push('/rfid4g/move/jt1')
+            this.$router.push('/rfid4g/move')
             break
           case 'RFID4G（场站）':
-            this.$router.push('/rfid4gcz/move/jt1')
+            this.$router.push('/rfid4gcz/move')
             break
           case '车辆标签':
-            this.$router.push('/clbq/move/jt1')
+            this.$router.push('/clbq/move')
             break
           case '车载一体机':
-            this.$router.push('/czytj/move/jt1')
+            this.$router.push('/czytj/move')
             break
           case '报到机':
-            this.$router.push('/bdj/move/jt1')
+            this.$router.push('/bdj/move')
             break
           case '一程一检':
-            this.$router.push('/ycyj/move/jt1')
+            this.$router.push('/ycyj/move')
             break
           case '站点通':
-            this.$router.push('/zdt/move/jt1')
+            this.$router.push('/zdt/move')
             break
           case '55寸屏':
-            this.$router.push('/ffcp/move/jt1')
+            this.$router.push('/ffcp/move')
             break
           case '站杆预报屏':
-            this.$router.push('/zgybp/move/jt1')
+            this.$router.push('/zgybp/move')
             break
           default:
         }
@@ -173,31 +173,31 @@
         switch (scope.row.sblb) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
-            this.$router.push('/rfid4g/check/jt1')
+            this.$router.push('/rfid4g/check')
             break
           case 'RFID4G（场站）':
-            this.$router.push('/rfid4gcz/check/jt1')
+            this.$router.push('/rfid4gcz/check')
             break
           case '车辆标签':
-            this.$router.push('/clbq/check/jt1')
+            this.$router.push('/clbq/check')
             break
           case '车载一体机':
-            this.$router.push('/czytj/check/jt1')
+            this.$router.push('/czytj/check')
             break
           case '报到机':
-            this.$router.push('/bdj/check/jt1')
+            this.$router.push('/bdj/check')
             break
           case '一程一检':
-            this.$router.push('/ycyj/check/jt1')
+            this.$router.push('/ycyj/check')
             break
           case '站点通':
-            this.$router.push('/zdt/check/jt1')
+            this.$router.push('/zdt/check')
             break
           case '55寸屏':
-            this.$router.push('/ffcp/check/jt1')
+            this.$router.push('/ffcp/check')
             break
           case '站杆预报屏':
-            this.$router.push('/zgybp/check/jt1')
+            this.$router.push('/zgybp/check')
             break
           default:
         }
@@ -206,31 +206,31 @@
         switch (scope.row.sblb) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
-            this.$router.push('/rfid4g/report/jt1')
+            this.$router.push('/rfid4g/report')
             break
           case 'RFID4G（场站）':
-            this.$router.push('/rfid4gcz/report/jt1')
+            this.$router.push('/rfid4gcz/report')
             break
           case '车辆标签':
-            this.$router.push('/clbq/report/jt1')
+            this.$router.push('/clbq/report')
             break
           case '车载一体机':
-            this.$router.push('/czytj/report/jt1')
+            this.$router.push('/czytj/report')
             break
           case '报到机':
-            this.$router.push('/bdj/report/jt1')
+            this.$router.push('/bdj/report')
             break
           case '一程一检':
-            this.$router.push('/ycyj/report/jt1')
+            this.$router.push('/ycyj/report')
             break
           case '站点通':
-            this.$router.push('/zdt/report/jt1')
+            this.$router.push('/zdt/report')
             break
           case '55寸屏':
-            this.$router.push('/ffcp/report/jt1')
+            this.$router.push('/ffcp/report')
             break
           case '站杆预报屏':
-            this.$router.push('/zgybp/report/jt1')
+            this.$router.push('/zgybp/report')
             break
           default:
         }
@@ -239,31 +239,31 @@
         switch (scope.row.sblb) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
-            this.$router.push('/rfid4g/fix/jt1')
+            this.$router.push('/rfid4g/fix')
             break
           case 'RFID4G（场站）':
-            this.$router.push('/rfid4gcz/fix/jt1')
+            this.$router.push('/rfid4gcz/fix')
             break
           case '车辆标签':
-            this.$router.push('/clbq/fix/jt1')
+            this.$router.push('/clbq/fix')
             break
           case '车载一体机':
-            this.$router.push('/czytj/fix/jt1')
+            this.$router.push('/czytj/fix')
             break
           case '报到机':
-            this.$router.push('/bdj/fix/jt1')
+            this.$router.push('/bdj/fix')
             break
           case '一程一检':
-            this.$router.push('/ycyj/fix/jt1')
+            this.$router.push('/ycyj/fix')
             break
           case '站点通':
-            this.$router.push('/zdt/fix/jt1')
+            this.$router.push('/zdt/fix')
             break
           case '55寸屏':
-            this.$router.push('/ffcp/fix/jt1')
+            this.$router.push('/ffcp/fix')
             break
           case '站杆预报屏':
-            this.$router.push('/zgybp/fix/jt1')
+            this.$router.push('/zgybp/fix')
             break
           default:
         }
