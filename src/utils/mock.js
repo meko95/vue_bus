@@ -256,7 +256,7 @@ Mock.mock('/api/rfid4g/basic/jt1', {
       'sbgscdmc|1': ['一车队', '二车队', '三车队', '四车队', '五车队', '六车队', '七车队', '八车队', '九车队',],
       'sbgsxldm|1': ['01010101', '01010102', '01010103', '01010104', '01010105'],
       'sbgsxlmc|1': ['56', '57', '101', '1002', '1111', '66'],
-      'sbqyrq': random.date(),
+      'sbqdrq': random.date(),
       'sbgxrq': random.date(),
       'sbbfrq': random.date(),
       'gysmc|1': ['澳马', '中安', '秀派', '公用所'],

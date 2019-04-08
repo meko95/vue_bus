@@ -3,14 +3,14 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="RFID4G" @listenToChildEvent="getGsSelected"></SideBar>
+      <SideBar sb-type="55寸屏" @listenToChildEvent="getGsSelected"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
         <el-header style="text-align: center; font-size: 24px">
           <!-- 标题 Begin -->
           <div id="title">
-            <span>RFID4G工作状态</span>
+            <span>55寸屏工作状态</span>
           </div>
           <!-- 搜索框及高级搜索 Begin -->
           <!-- 导入、导出、添加 Begin -->
@@ -62,7 +62,7 @@
   import ElementHeader from '../../components/Header'
   import SideBar from '../../components/SideBar'
   export default {
-    name: "Rfid4gStatus",
+    name: "FfcpStatus",
     data() {
       return {
         tableLoading: false,

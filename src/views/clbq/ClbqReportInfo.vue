@@ -2,52 +2,15 @@
   <div>
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
-      <!-- Side Begin -->
-      <SideBar sb-type="车辆标签"></SideBar>
-      <!-- Container Begin -->
       <el-container>
-        <el-header style="text-align: center; font-size: 24px">
+        <el-header>
           <!-- 标题 Begin -->
           <div id="title">
-            <span>车辆标签报修情况</span>
+            <span>车辆标签报修次数统计</span>
           </div>
-          <!-- 搜索框及高级搜索 Begin -->
-          <!-- 导入、导出、添加 Begin -->
         </el-header>
         <el-main>
-          <!-- 高级搜索框Begin -->
-          <!-- Table Begin -->
-          <el-table :data="ReportDevices" border stripe size="small" style="width: 100%;" :row-style="{'height': 0}"
-                    :cell-style="{'padding': 0}"
-                    highlight-current-row height="559" tooltip-effect="dark">
-            <el-table-column prop="bxsj" label="报修日期" width="110" align="center" fixed></el-table-column>
-            <el-table-column prop="bxdh" label="报修单号" width="110" align="center"></el-table-column>
-            <el-table-column prop="bxsbbh" label="设备编号" width="110" align="center"></el-table-column>
-            <el-table-column prop="sbgsgsmc" label="公司" width="90" align="center"></el-table-column>
-            <el-table-column prop="sbgscdmc" label="车队" width="70" align="center"></el-table-column>
-            <el-table-column prop="sbgsxlmc" label="线路" width="70" align="center"></el-table-column>
-            <el-table-column prop="xjydm" label="巡检员工号" width="90" align="center"></el-table-column>
-            <el-table-column prop="xjygmc" label="巡检人姓名" width="90" align="center"></el-table-column>
-            <el-table-column prop="bxnr" label="报修内容" width="95" align="center"></el-table-column>
-            <el-table-column prop="bxlx" label="报修类型" width="75" align="center"></el-table-column>
-            <el-table-column prop="bxfs" label="报修方式" width="95" align="center"></el-table-column>
-            <el-table-column prop="bxgzmc" label="报修故障名称" width="125" align="center"></el-table-column>
-            <el-table-column prop="bmzgmc" label="部门主管" width="80" align="center"></el-table-column>
-            <el-table-column prop="bxrydm" label="拟维修人员工号" width="110" align="center"></el-table-column>
-            <el-table-column prop="bxrymc" label="拟维修人员姓名" width="75" align="center"></el-table-column>
-            <el-table-column prop="jcsmc" label="集成商" width="75" align="center"></el-table-column>
-            <el-table-column prop="gysmc" label="供应商" width="75" align="center"></el-table-column>
-            <el-table-column prop="sbtxm" label="条形码" width="110" align="center"></el-table-column>
-            <el-table-column prop="sbewm" label="二维码" width="110" align="center"></el-table-column>
-          </el-table>
-          <!-- 批量删除、分页Begin -->
-          <div style="display: flex;justify-content: flex-end;margin: 4px">
-            <el-pagination background :page-sizes="[10, 30, 50, 100]" :total="totalRow" :page-size="pageSize"
-                           :current-page="currentPage"
-                           @current-change="handleCurrentChange" @size-change="handleSizeChange"
-                           layout="total, sizes, prev, pager, next, jumper">
-            </el-pagination>
-          </div>
+          <div id="clbq"></div>
         </el-main>
       </el-container>
     </el-container>
@@ -56,55 +19,151 @@
 
 <script>
   import ElementHeader from '../../components/Header'
-  import SideBar from '../../components/SideBar'
+  import echarts from 'echarts'
 
   export default {
-    name: "Rfid4gReportInfo",
+    name: "ClbqReportInfo",
     data() {
-      return {
-        totalRow: 0,
-        pageSize: 10,
-        currentPage: 1,
-        ReportDevices: [],
-        tableLoading: false
-      }
+      return {}
     },
     components: {
-      ElementHeader,
-      SideBar
+      ElementHeader
     },
-    methods: {
-      handleCurrentChange(val) {
-        this.currentPage = val
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`)
-        this.pageSize = val
-      },
-      loadReportDevices(){
-        var _this = this
-        this.tableLoading = true
-        this.getRequest('/api/rfid4g/report/jt1').then(res=>{
-        _this.tableLoading = false
-          if(res&&res.status===200){
-            _this.ReportDevices = res.data.Rfid4gReportList
-            _this.totalRow = res.data.totalRow
-          }
-        })
+    methods: {},
+    mounted() {
+      function my_data() {
+        var data = [];
+        for (var i = 0; i < 30; i++) {
+          data.push(Math.round(Math.random() * (500 - 100) + 100));
+        }
+        return data;
       }
-    },
-    mounted(){
-      this.loadReportDevices()
+
+      const data = ['2016/11/1', '2016/11/2', '2016/11/3', '2016/11/4', '2016/11/5', '2016/11/6', '2016/11/7', '2016/11/8', '2016/11/9', '2016/11/10',
+        '2016/11/11', '2016/11/12', '2016/11/13', '2016/11/14', '2016/11/15', '2016/11/16', '2016/11/17', '2016/11/18'
+        , '2016/11/19', '2016/11/20', '2016/11/21', '2016/11/22', '2016/11/23', '2016/11/24', '2016/11/25', '2016/11/26', '2016/11/27'
+        , '2016/11/28', '2016/11/29', '2016/11/30']
+      const clbqChart = echarts.init(document.getElementById('clbq'))
+      const clbqChartOption = {
+        title: {
+          text: '车辆标签',
+          textStyle: {
+            fontSize: 22
+          }
+        },
+        color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        legend: {
+          type: 'scroll',
+          orient: 'horizontal',
+          left: 43,
+          top: 25,
+          bottom: 20,
+          data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: true,
+            data: data
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        toolbox: {
+          show: true,
+          right: 53,
+          top: 20,
+          feature: {
+            mark: {show: true},
+            magicType: {show: true, type: ['tiled']},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+        dataZoom: [{
+          type: 'inside',
+          start: 74,
+          end: 100,
+        }, {
+          start: 74,
+          end: 100,
+          handleSize: '80%',
+          handleStyle: {
+            color: '#fff',
+            shadowBlur: 3,
+            shadowColor: 'rgba(0, 0, 0, 0.6)',
+            shadowOffsetX: 2,
+            shadowOffsetY: 2
+          }
+        }],
+        series: [{
+          name: '系统预警',
+          type: 'bar',
+          barMaxWidth: 40,
+          stack: '车辆标签',
+          data: my_data()
+        },
+          {
+            name: '平台报修',
+            type: 'bar',
+            stack: '车辆标签',
+            data: my_data()
+          },
+          {
+            name: '微信报修',
+            type: 'bar',
+            stack: '车辆标签',
+            data: my_data()
+          },
+          {
+            name: 'QQ报修',
+            type: 'bar',
+            stack: '车辆标签',
+            data: my_data()
+          },
+          {
+            name: '电话报修',
+            type: 'bar',
+            stack: '车辆标签',
+            data: my_data()
+          },
+          {
+            name: '其他',
+            type: 'bar',
+            stack: '车辆标签',
+            data: my_data()
+          }]
+      }
+      clbqChart.setOption(clbqChartOption)
     }
   }
 </script>
 
-<style scoped>
+<style lang="less" type="text/less" scoped>
   #title {
     background-color: #eef1f6;
     text-align: center;
     font-size: 26px;
     height: 60px;
     line-height: 60px;
+  }
+
+  #clbq{
+    height: 619px;
   }
 </style>
