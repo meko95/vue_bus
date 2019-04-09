@@ -5,19 +5,19 @@ var random = Mock.Random
 Mock.mock('/api/Sbs/gldj',{
   'GldjList':[
     {
-      id: '0',
+      id: '01',
       descriptionZh: '管理等级A'
     },
     {
-      id: '1',
+      id: '02',
       descriptionZh: '管理等级B'
     },
     {
-      id: '2',
+      id: '03',
       descriptionZh: '管理等级C'
     },
     {
-      id: '3',
+      id: '04',
       descriptionZh: '管理等级D'
     }
   ]
@@ -26,39 +26,39 @@ Mock.mock('/api/Sbs/gldj',{
 Mock.mock('/api/Sbs/gs',{
   'GsList':[
     {
-      id: '00',
+      id: '01',
       descriptionZh: '澳马'
     },
     {
-      id: '01',
+      id: '02',
       descriptionZh: '中安'
     },
     {
-      id: '02',
+      id: '03',
       descriptionZh: '公用所'
     },
     {
-      id: '03',
+      id: '04',
       descriptionZh: '博协'
     },
     {
-      id: '04',
+      id: '05',
       descriptionZh: '忠程'
     },
     {
-      id: '05',
+      id: '06',
       descriptionZh: '多伦斯'
     },
     {
-      id: '06',
+      id: '07',
       descriptionZh: '新新媒体'
     },
     {
-      id: '07',
+      id: '08',
       descriptionZh: '祺壹'
     },
     {
-      id: '08',
+      id: '09',
       descriptionZh: '福阔'
     }
   ]
@@ -231,19 +231,19 @@ Mock.mock('/api/Sbs/gztj',{
 Mock.mock('/api/Sbs/zd',{
   'ZdList':[
     {
-      id: '0001',
+      id: '00001',
       descriptionZh: '站点名称A'
     },
     {
-      id: '0002',
+      id: '00002',
       descriptionZh: '站点名称B'
     },
     {
-      id: '0003',
+      id: '00003',
       descriptionZh: '站点名称C'
     },
     {
-      id: '0004',
+      id: '00004',
       descriptionZh: '站点名称D'
     }
   ]
@@ -294,22 +294,24 @@ Mock.mock('/api/Sbs/fp',{
 
 // 获取设备基本信息
 // RFID4G
-Mock.mock('/api/rfid4g/basic/jt1', {
+Mock.mock('/api/rfid4g/basic', {
   'totalRow': 20,
   'Rfid4gList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
-      'sbgzztdm|1': ['0001','0002','0003','0004'],
+      'sbgzztdm|1': ['01','02','03','04'],
       'sbgzzt|1': ['工作正常', '正在维修', '暂停使用', '正在迁移'],
       'azzp': '查看照片',
       'qypbh|1': ['00001','00002','00003','00004'],
       'qypmc|1': ['分片区域A', '分片区域B', '分片区域C', '分片区域D'],
       'ssxzqydm|1': ['0001','0002','0003','0004'],
       'ssxzqy|1': ['杨浦区', '徐家汇', '静安区', '普陀区'],
+      'zdbh|1': ['00001','00002','00003','00004','00004'],
       'zdmc|1': ['站点名称A','站点名称B','站点名称C','站点名称D'],
+      'jzbh|1': ['0000000001','0000000002','0000000003','0000000004'],
       'jzmc|1': ['基站名称A','基站名称B','基站名称C','基站名称D'],
-      'gldjdm|1': ['0','1','2','3'],
+      'gldjdm|1': ['01','02','03','04'],
       'gldj|1': ['管理等级A','管理等级B','管理等级C','管理等级D'],
       'sbppdm|1': ['01','02','03'],
       'sbpp|1': ['索尼', '三星', '华为'],
@@ -331,24 +333,23 @@ Mock.mock('/api/rfid4g/basic/jt1', {
       'gysmc|1': ['澳马', '中安', '秀派', '公用所'],
       'jcsdm|1': ['01', '02', '03', '04'],
       'jcsmc|1': ['澳马', '中安', '秀派', '公用所'],
-      'zdbh|1': ['00001','00002','00003','00004','00004'],
-      'jzbh|1': ['0000000001','0000000002','0000000003','0000000004'],
       'tmbh|10': /[0-9]/,
       'ewmbh|10': /[0-9]/
     }
   ]
 })
 // RFID4G场站
-Mock.mock('/api/rfid4gcz/basic/jt1', {
+Mock.mock('/api/rfid4gcz/basic', {
   'totalRow': 20,
   'rfid4gczList|20': [
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
+      'sbgzztdm|1': ['01','02','03','04'],
       'sbgzzt|1': ['工作正常', '正在维修', '暂停使用', '正在迁移'],
       'azwz|1': ['一层', '二层', '三层'],
       'azzp': '查看照片',
-      'qypbh|5': /[0-9]/,
+      'qypbh|1': ['00001','00002','00003','00004'],
       'qypmc|1': ['分片区域1', '分片区域2', '分片区域3'],
       'gldj|1': /[A-D]/,
       'sbppdm|1': ['01','02','03'],
@@ -367,7 +368,9 @@ Mock.mock('/api/rfid4gcz/basic/jt1', {
       'sbqyrq': random.date(),
       'sbgxrq': random.date(),
       'sbbfrq': random.date(),
+      'gysdm|1': ['01', '02', '03', '04'],
       'gysmc|1': ['澳马', '中安', '秀派', '公用所'],
+      'jcsdm|1': ['01', '02', '03', '04'],
       'jcsmc|1': ['澳马', '中安', '秀派', '公用所'],
       'ewmbh|10': /[0-9]/,
       'tmbh|10': /[0-9]/
@@ -393,7 +396,7 @@ Mock.mock('/api/rfid4g_location/basic', {
   ]
 })
 // 车辆标签
-Mock.mock('/api/clbq/basic/jt1', {
+Mock.mock('/api/clbq/basic', {
   'totalRow': 20,
   'ClbqList|20': [
     {
@@ -435,7 +438,7 @@ Mock.mock('/api/clbq/basic/jt1', {
   ]
 })
 // 车载一体机
-Mock.mock('/api/czytj/basic/jt1', {
+Mock.mock('/api/czytj/basic', {
   'totalRow': 20,
   'CzytjList|20': [
     {
@@ -475,7 +478,7 @@ Mock.mock('/api/czytj/basic/jt1', {
   ]
 })
 // 报到机
-Mock.mock('/api/bdj/basic/jt1', {
+Mock.mock('/api/bdj/basic', {
   'totalRow': 20,
   'BdjList|20': [
     {
@@ -511,7 +514,7 @@ Mock.mock('/api/bdj/basic/jt1', {
   ]
 })
 // 一程一检
-Mock.mock('/api/ycyj/basic/jt1', {
+Mock.mock('/api/ycyj/basic', {
   'totalRow': 20,
   'YcyjList|20': [
     {
@@ -548,7 +551,7 @@ Mock.mock('/api/ycyj/basic/jt1', {
   ]
 })
 // 站点通
-Mock.mock('/api/zdt/basic/jt1', {
+Mock.mock('/api/zdt/basic', {
   'totalRow': 20,
   'ZdtList|20': [
     {
@@ -588,7 +591,7 @@ Mock.mock('/api/zdt/basic/jt1', {
   ]
 })
 // 55寸屏
-Mock.mock('/api/ffcp/basic/jt1', {
+Mock.mock('/api/ffcp/basic', {
   'totalRow': 20,
   'FfcpList|20': [
     {
@@ -635,7 +638,7 @@ Mock.mock('/api/ffcp/basic/jt1', {
   ]
 })
 // 站杆预报屏
-Mock.mock('/api/zgybp/basic/jt1', {
+Mock.mock('/api/zgybp/basic', {
   'totalRow': 20,
   'ZgybpList|20': [
     {

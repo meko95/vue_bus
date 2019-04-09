@@ -572,7 +572,7 @@
     methods: {
       getGsSelected(data) {
         this.cardTitle = data.label
-        this.getSbGsInfo(data, this.rfid4gcz.sbgsjtdm, this.rfid4gcz.sbgsgsdm, this.rfid4gcz.sbgscddm, this.rfid4gcz.sbgsxldm)
+        this.getGsTreeInfo(data, this.rfid4gcz.sbgsjtdm, this.rfid4gcz.sbgsgsdm, this.rfid4gcz.sbgscddm, this.rfid4gcz.sbgsxldm)
       },
       initData() {
         var _this = this

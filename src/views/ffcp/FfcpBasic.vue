@@ -669,7 +669,7 @@
     methods: {
       getGsSelected(data){
         this.cardTitle = data.label
-        this.getSbGsInfo(data,this.ffcp.sbgsjtdm,this.ffcp.sbgsgsdm,this.ffcp.sbgscddm,this.ffcp.sbgsxldm)
+        this.getGsTreeInfo(data,this.ffcp.sbgsjtdm,this.ffcp.sbgsgsdm,this.ffcp.sbgscddm,this.ffcp.sbgsxldm)
       },
       initData() {
         var _this = this

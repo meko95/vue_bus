@@ -71,8 +71,41 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
-// 全局函数 获取当前选择归属信息
-Vue.prototype.getSbGsInfo = function (data, jtdm, gsdm, cddm, xldm) {
+// 全局函数 获取设备Selection归属信息
+Vue.prototype.getGsInfo = function (data, jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc) {
+  console.log('归属Selection Change 参数选择信息')
+  // 设置代码=>dm
+  jtdm = data[0]
+  gsdm = data[1]
+  cddm = data[2]
+  xldm = data[3]
+  // 设置名称=>mc
+  var jt = parseInt(data[0])
+  var gs = parseInt(data[1])
+  var cd = parseInt(data[2])
+  var xl = parseInt(data[3])
+  if (jt && gs) {
+    // console.log('集团', jt)
+    gs = parseInt((data[1]).substring(2, 4))
+    // console.log('公司', gs)
+    if (cd) {
+      cd = parseInt((data[2]).substring(4, 6))
+      // console.log('车队', cd)
+      if (xl) {
+        xl = parseInt((data[3]).substring(6, 8))
+        // console.log('线路', xl)
+        jtmc = this.rfid4gGsOptions[jt - 1].label
+        gsmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].label
+        cdmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
+        xlmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
+      }
+    }
+  }
+  return [jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc]
+}
+// 全局函数 获取设备TREE归属信息
+Vue.prototype.getGsTreeInfo = function (data, jtdm, gsdm, cddm, xldm) {
+  console.log('归属Tree Change 参数选择信息')
   const sbGs = data.value
   jtdm = sbGs.substr(0, 2)
   if (sbGs[2]) {
@@ -90,12 +123,11 @@ Vue.prototype.getSbGsInfo = function (data, jtdm, gsdm, cddm, xldm) {
   } else {
     gsdm = ''
   }
-  console.log(jtdm, gsdm, cddm, xldm)
+  return [jtdm, gsdm, cddm, xldm]
 }
 // 全局函数 获取设备品牌型号信息
 Vue.prototype.getPpxhInfo = function (data, sbppdm, sbxhdm, sbpp, sbxh, sbppxh) {
-  // 可直接传递数组作为js函数参数
-  console.log(sbppxh)
+  console.log('品牌型号 参数选择信息')
   // 设置代码=>dm
   sbppdm = data[0]
   sbxhdm = data[1]
@@ -107,6 +139,5 @@ Vue.prototype.getPpxhInfo = function (data, sbppdm, sbxhdm, sbpp, sbxh, sbppxh) 
     sbpp = sbppxh[pp - 1].label
     sbxh = sbppxh[pp - 1].children[xh - 1].label
   }
-  // 也确实赋值成功
-  console.log(sbppdm, sbpp, sbxhdm, sbxh)
+  return [sbppdm, sbpp, sbxhdm, sbxh]
 }
