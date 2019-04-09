@@ -156,19 +156,19 @@ Mock.mock('/api/Sbs/ppxh',{
 Mock.mock('/api/Sbs/ssxzqy',{
   'SsxzqyList': [
     {
-      id: '01',
+      id: '0001',
       descriptionZh: '静安区'
     },
     {
-      id: '02',
+      id: '0002',
       descriptionZh: '杨浦区'
     },
     {
-      id: '03',
+      id: '0003',
       descriptionZh: '徐家汇'
     },
     {
-      id: '04',
+      id: '0004',
       descriptionZh: '普陀区'
     }
   ]
@@ -227,6 +227,69 @@ Mock.mock('/api/Sbs/gztj',{
     }
   ]
 })
+// 获取站点信息
+Mock.mock('/api/Sbs/zd',{
+  'ZdList':[
+    {
+      id: '0001',
+      descriptionZh: '站点名称A'
+    },
+    {
+      id: '0002',
+      descriptionZh: '站点名称B'
+    },
+    {
+      id: '0003',
+      descriptionZh: '站点名称C'
+    },
+    {
+      id: '0004',
+      descriptionZh: '站点名称D'
+    }
+  ]
+})
+// 获取基站信息
+Mock.mock('/api/Sbs/jz',{
+  'JzList':[
+    {
+      id: '0000000001',
+      descriptionZh: '基站名称A'
+    },
+    {
+      id: '0000000002',
+      descriptionZh: '基站名称B'
+    },
+    {
+      id: '0000000003',
+      descriptionZh: '基站名称C'
+    },
+    {
+      id: '0000000004',
+      descriptionZh: '基站名称D'
+    }
+  ]
+})
+// 获取分片信息
+Mock.mock('/api/Sbs/fp',{
+  'FpList':[
+    {
+      id: '00001',
+      descriptionZh: '分片区域A'
+    },
+    {
+      id: '00002',
+      descriptionZh: '分片区域B'
+    },
+    {
+      id: '00003',
+      descriptionZh: '分片区域C'
+    },
+    {
+      id: '00004',
+      descriptionZh: '分片区域D'
+    }
+  ]
+})
 // 获取合同信息
 
 // 获取设备基本信息
@@ -237,11 +300,16 @@ Mock.mock('/api/rfid4g/basic/jt1', {
     {
       'sbzbh|12': /[0-9]/,
       'htbh|10': /[0-9]/,
+      'sbgzztdm|1': ['0001','0002','0003','0004'],
       'sbgzzt|1': ['工作正常', '正在维修', '暂停使用', '正在迁移'],
       'azzp': '查看照片',
-      'qypbh|5': /[0-9]/,
-      'qypmc|1': ['分片区域1', '分片区域2', '分片区域3'],
+      'qypbh|1': ['00001','00002','00003','00004'],
+      'qypmc|1': ['分片区域A', '分片区域B', '分片区域C', '分片区域D'],
+      'ssxzqydm|1': ['0001','0002','0003','0004'],
       'ssxzqy|1': ['杨浦区', '徐家汇', '静安区', '普陀区'],
+      'zdmc|1': ['站点名称A','站点名称B','站点名称C','站点名称D'],
+      'jzmc|1': ['基站名称A','基站名称B','基站名称C','基站名称D'],
+      'gldjdm|1': ['0','1','2','3'],
       'gldj|1': ['管理等级A','管理等级B','管理等级C','管理等级D'],
       'sbppdm|1': ['01','02','03'],
       'sbpp|1': ['索尼', '三星', '华为'],
@@ -259,10 +327,12 @@ Mock.mock('/api/rfid4g/basic/jt1', {
       'sbqdrq': random.date(),
       'sbgxrq': random.date(),
       'sbbfrq': random.date(),
+      'gysdm|1': ['01', '02', '03', '04'],
       'gysmc|1': ['澳马', '中安', '秀派', '公用所'],
+      'jcsdm|1': ['01', '02', '03', '04'],
       'jcsmc|1': ['澳马', '中安', '秀派', '公用所'],
-      'zdbh|5': /[0-9]/,
-      'jzbh|10': /[0-9]/,
+      'zdbh|1': ['00001','00002','00003','00004','00004'],
+      'jzbh|1': ['0000000001','0000000002','0000000003','0000000004'],
       'tmbh|10': /[0-9]/,
       'ewmbh|10': /[0-9]/
     }

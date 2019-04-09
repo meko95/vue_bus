@@ -43,6 +43,111 @@
         '2016/11/11', '2016/11/12', '2016/11/13', '2016/11/14', '2016/11/15', '2016/11/16', '2016/11/17', '2016/11/18'
         , '2016/11/19', '2016/11/20', '2016/11/21', '2016/11/22', '2016/11/23', '2016/11/24', '2016/11/25', '2016/11/26', '2016/11/27'
         , '2016/11/28', '2016/11/29', '2016/11/30']
+      const rfid4gOption = {
+        title: {
+          text: 'RFID4G',
+          textStyle: {
+            fontSize: 22
+          }
+        },
+        color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#fc97af'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        legend: {
+          type: 'scroll',
+          orient: 'horizontal',
+          left: 43,
+          top: 25,
+          bottom: 23,
+          data: ['系统预警', '平台报修', '微信报修', 'QQ报修', '电话报修', '其他']
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: true,
+            data: data
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        toolbox: {
+          show: true,
+          right: 53,
+          top: 20,
+          feature: {
+            mark: {show: true},
+            magicType: {show: true, type: ['tiled']},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable: true,
+        dataZoom: [{
+          type: 'inside',
+          start: 74,
+          end: 100,
+        }, {
+          start: 74,
+          end: 100,
+          handleSize: '80%',
+          handleStyle: {
+            color: '#fff',
+            shadowBlur: 3,
+            shadowColor: 'rgba(0, 0, 0, 0.6)',
+            shadowOffsetX: 2,
+            shadowOffsetY: 2
+          }
+        }],
+        series: [{
+          name: '系统预警',
+          type: 'bar',
+          barMaxWidth: 40,
+          stack: '站点通',
+          data: my_data()
+        },
+          {
+            name: '平台报修',
+            type: 'bar',
+            stack: '站点通',
+            data: my_data()
+          },
+          {
+            name: '微信报修',
+            type: 'bar',
+            stack: '站点通',
+            data: my_data()
+          },
+          {
+            name: 'QQ报修',
+            type: 'bar',
+            stack: '站点通',
+            data: my_data()
+          },
+          {
+            name: '电话报修',
+            type: 'bar',
+            stack: '站点通',
+            data: my_data()
+          },
+          {
+            name: '其他',
+            type: 'bar',
+            stack: '站点通',
+            data: my_data()
+          }]
+      }
       const rfid4gChart = echarts.init(document.getElementById('rfid4g'))
       rfid4gChart.setOption(rfid4gOption)
     }

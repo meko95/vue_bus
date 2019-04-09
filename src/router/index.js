@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Login from '@/views/login'
-import Contract from '../views/contract/Contract'
 
 import DeviceCollectData from '@/components/DeviceCollectData'
 import DeviceInstallInfo from '@/components/DeviceInstallInfo'
@@ -16,6 +15,8 @@ import DeviceDStatistics from '@/components/DeviceDStatistics'
 import DeviceMStatistics from '@/components/DeviceMStatistics'
 
 import System from '@/components/System'
+// 合同信息
+import Contract from '../views/contract/Contract'
 /* 各类设备归属统计信息 */
 import AllSbStatistics from '../views/statistics/AllSbStatistics'
 /* 设备基本信息 */
@@ -123,10 +124,6 @@ export default new Router({
     },
     {
       path: '/bus/contract',
-      redirect: '/bus/contract/getContract'
-    },
-    {
-      path: '/bus/contract/getContract',
       name: 'Contract',
       component: Contract
     },

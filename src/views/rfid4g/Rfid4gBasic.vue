@@ -67,37 +67,46 @@
                   </el-col>
                   <el-col :span="4">
                     工作状态:
-                    <el-select v-model="rfid4g.sbgzzt" style="width: 120px" clearable size="small" placeholder="请选择">
+                    <el-select v-model="rfid4g.sbgzztdm" style="width: 120px" clearable size="small" placeholder="请选择" @change="handleGzztChange">
                       <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
-                  </el-col>
-                  <el-col :span="5">
-                    分片编号:
-                    <el-input prefix-icon="el-icon-search" v-model="rfid4g.qypbh" size="small" style="width: 150px"
-                              placeholder="设备分片编号"></el-input>
                   </el-col>
                   <el-col :span="4">
                     分片区域:
-                    <el-select v-model="rfid4g.qypmc" style="width: 120px" clearable size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                    <el-select v-model="rfid4g.qypbh" style="width: 120px" clearable size="small" placeholder="请选择" @change="handleFpChange">
+                      <el-option v-for="item in fps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="4">
                     行政区域:
-                    <el-select v-model="rfid4g.ssxzqy" style="width: 120px" clearable size="small" placeholder="请选择">
+                    <el-select v-model="rfid4g.ssxzqydm" style="width: 120px" clearable size="small" placeholder="请选择" @change="handleXzqyChange">
                       <el-option v-for="item in ssxzqys" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    基站名称:
+                    <el-select v-model="rfid4g.jzbh" style="width: 130px" clearable size="small" placeholder="请选择基站" @change="handleJzChange">
+                      <el-option v-for="item in jzs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    站点名称:
+                    <el-select v-model="rfid4g.zdbh" style="width: 130px" clearable size="small" placeholder="请选择站点" @change="handleZdChange">
+                      <el-option v-for="item in zds" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="4">
                     管理等级:
-                    <el-select v-model="rfid4g.gldj" style="width: 110px" clearable size="small" placeholder="管理等级">
+                    <el-select v-model="rfid4g.gldjdm" style="width: 110px" clearable size="small" placeholder="管理等级" @change="handleGldjChange">
                       <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="5">
@@ -114,6 +123,8 @@
                       change-on-select>
                     </el-cascader>
                   </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     启动日期:
                     <el-date-picker
@@ -127,8 +138,6 @@
                       end-placeholder="结束日期">
                     </el-date-picker>
                   </el-col>
-                </el-row>
-                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     更新日期:
                     <el-date-picker
@@ -142,6 +151,8 @@
                       end-placeholder="结束日期">
                     </el-date-picker>
                   </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     报废日期:
                     <el-date-picker
@@ -156,21 +167,21 @@
                     </el-date-picker>
                   </el-col>
                   <el-col :span="4">
-                    供应商:
-                    <el-select v-model="rfid4g.gysmc" style="width: 130px" clearable size="small" placeholder="请选择供应商">
+                    集成商:
+                    <el-select v-model="rfid4g.jcsdm" style="width: 130px" clearable size="small" placeholder="请选择集成商" @change="handleJcsChange">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    供应商:
+                    <el-select v-model="rfid4g.gysdm" style="width: 130px" clearable size="small" placeholder="请选择供应商" @change="handleGysChange">
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
-                  <el-col :span="4">
-                    集成商:
-                    <el-select v-model="rfid4g.jcsmc" style="width: 130px" clearable size="small" placeholder="请选择集成商">
-                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
-                    </el-select>
-                  </el-col>
                   <el-col :span="5">
                     站点编号:
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.zdbh" size="small" style="width: 150px"
@@ -241,6 +252,8 @@
               <el-table-column prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
               <el-table-column prop="qypmc" label="分片名称" width="80" align="center"></el-table-column>
               <el-table-column prop="ssxzqy" label="行政区域" width="70" align="center"></el-table-column>
+              <el-table-column prop="jzmc" label="基站名称" width="80" align="center"></el-table-column>
+              <el-table-column prop="zdmc" label="站点名称" width="80" align="center"></el-table-column>
               <el-table-column prop="gldj" label="管理等级" width="80" align="center"></el-table-column>
               <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
               <el-table-column prop="sbxh" label="型号" width="70" align="center"></el-table-column>
@@ -312,51 +325,63 @@
               <el-col :span="7">
                 <div>
                   <el-form-item label="工作状态:" prop="sbgzzt">
-                    <el-select v-model="rfid4g.sbgzzt" style="width: 120px" size="small" placeholder="请选择">
+                    <el-select v-model="rfid4g.sbgzztdm" style="width: 120px" size="small" placeholder="请选择" @change="handleGzztChange">
                       <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="7">
-                <div>
-                  <el-form-item label="分片编号:" prop="qypbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.qypbh" size="small" style="width: 150px"
-                              placeholder="请输入分片编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="7">
+              <el-col :span="6">
                 <div>
                   <el-form-item label="分片名称:" prop="qypmc">
-                    <el-select v-model="rfid4g.qypmc" style="width: 120px" size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                    <el-select v-model="rfid4g.qypbh" style="width: 120px" size="small" placeholder="请选择" @change="handleFpChange">
+                      <el-option v-for="item in fps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="7">
+              <el-col :span="6">
                 <div>
                   <el-form-item label="行政区域:" prop="ssxzqy">
-                    <el-select v-model="rfid4g.ssxzqy" style="width: 120px" size="small" placeholder="请选择">
+                    <el-select v-model="rfid4g.ssxzqydm" style="width: 120px" size="small" placeholder="请选择" @change="handleXzqyChange">
                       <el-option v-for="item in ssxzqys" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="基站名称:" prop="jzmc">
+                    <el-select v-model="rfid4g.jzbh" style="width: 120px" size="small" placeholder="请选择" @change="handleJzChange">
+                      <el-option v-for="item in jzs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="站点名称:" prop="zdmc">
+                    <el-select v-model="rfid4g.zdbh" style="width: 120px" size="small" placeholder="请选择" @change="handleZdChange">
+                      <el-option v-for="item in zds" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="7">
+              <el-col :span="6">
                 <div>
                   <el-form-item label="管理等级:" prop="gldj">
-                    <el-select v-model="rfid4g.gldj" style="width: 120px" size="small" placeholder="管理等级">
+                    <el-select v-model="rfid4g.gldjdm" style="width: 120px" size="small" placeholder="管理等级" @change="handleGldjChange">
                       <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
@@ -377,13 +402,13 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="11">
+              <el-col :span="10">
                 <div>
                   <el-form-item label="设备归属:" prop="rfid4gGsOption">
                     <el-cascader
                       size="small"
                       placeholder="请选择设备归属"
-                      style="width:288px;"
+                      style="width: 300px;"
                       expand-trigger="hover"
                       :options="rfid4gGsOptions"
                       v-model="rfid4gGsOption"
@@ -440,22 +465,22 @@
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="7">
+              <el-col :span="6">
                 <div>
                   <el-form-item label="供应商:" prop="gysmc">
-                    <el-select v-model="rfid4g.gysmc" style="width: 130px" size="small" placeholder="供应商">
+                    <el-select v-model="rfid4g.gysdm" style="width: 130px" size="small" placeholder="供应商" @change="handleGysChange">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="7">
+              <el-col :span="6">
                 <div>
                   <el-form-item label="集成商:" prop="jcsmc">
-                    <el-select v-model="rfid4g.jcsmc" style="width: 130px" size="small" placeholder="集成商">
+                    <el-select v-model="rfid4g.jcsdm" style="width: 130px" size="small" placeholder="集成商" @change="handleJcsChange">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
@@ -472,30 +497,12 @@
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
-                  <el-form-item label="站点编号:" prop="zdbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.zdbh" size="small" style="width: 150px"
-                              placeholder="请输入站点编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <div>
-                  <el-form-item label="基站编号:" prop="jzbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="rfid4g.jzbh" size="small" style="width: 150px"
-                              placeholder="请输入基站编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <div>
                   <el-form-item label="条码编号:" prop="tmbh">
                     <el-input prefix-icon="el-icon-edit" v-model="rfid4g.tmbh" size="small" style="width: 150px"
                               placeholder="请输入条码编号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="8">
                 <div>
                   <el-form-item label="二维码编号:" prop="ewmbh">
@@ -531,11 +538,16 @@
           sbjyh: '',
           sbzbh: '',
           htbh: '',
+          sbgzztdm: '',
           sbgzzt: '',
           azzp: '',
           qypbh: '',
           qypmc: '',
+          jzmc: '',
+          zdmc: '',
+          ssxzqydm: '',
           ssxzqy: '',
+          gldjdm: '',
           gldj: '',
           sbppdm: '',
           sbpp: '',
@@ -553,7 +565,9 @@
           sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
+          gysdm: '',
           gysmc: '',
+          jcsdm: '',
           jcsmc: '',
           zdbh: '',
           jzbh: '',
@@ -565,10 +579,11 @@
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
           sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
           azzp: [{required: true, message: '必填:安装照片', trigger: 'blur'}],
-          qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
           qypmc: [{required: true, message: '必填:分片名称', trigger: 'blur'}],
-          ssxzqy: [{required: true, message: '必填:行政区域', trigger: 'blur'}],
-          gldj: [{required: true, message: '必填:管理等级', trigger: 'change'}],
+          ssxzqydm: [{required: true, message: '必填:行政区域', trigger: 'blur'}],
+          jzmc :[{required: true, message: '必填:基站名称', trigger: 'blur'}],
+          zdmc:[{required: true, message: '必填:站点名称', trigger: 'blur'}],
+          gldjdm: [{required: true, message: '必填:管理等级', trigger: 'change'}],
           rfid4gPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
           simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           rfid4gGsOption: [{required: false, message: '必填:设备归属', trigger: 'blur'}],
@@ -577,8 +592,6 @@
           sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'change'}],
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
-          zdbh: [{required: true, message: '必填:站点编号', trigger: 'blur'}],
-          jzbh: [{required: true, message: '必填:基站编号', trigger: 'blur'}],
           tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
           ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
         },
@@ -608,7 +621,10 @@
         qypmcs: [],
         ssxzqys: [],
         gldjs: [],
-        gs: []
+        gs: [],
+        jzs: [],
+        zds: [],
+        fps: []
       }
     },
     components: {
@@ -670,6 +686,21 @@
         this.getRequest('/api/Sbs/ssxzqy').then(res => {
           if (res && res.status === 200) {
             _this.ssxzqys = res.data.SsxzqyList
+          }
+        })
+        this.getRequest('/api/Sbs/jz').then(res=>{
+          if (res && res.status === 200) {
+            _this.jzs = res.data.JzList
+          }
+        })
+        this.getRequest('/api/Sbs/zd').then(res=>{
+          if (res && res.status === 200) {
+            _this.zds = res.data.ZdList
+          }
+        })
+        this.getRequest('/api/Sbs/fp').then(res => {
+          if (res && res.status === 200) {
+            _this.fps = res.data.FpList
           }
         })
       },
@@ -744,6 +775,8 @@
         this.rfid4g.sbbfrq = this.formatDate(row.sbbfrq)
         this.rfid4g.gysmc = row.gysmc
         this.rfid4g.jcsmc = row.jcsmc
+        this.rfid4g.jzbh = row.jzbh
+        this.rfid4g.zdbh = row.zdbh
         this.rfid4g.tmbh = row.tmbh
         this.rfid4g.ewmbh = row.ewmbh
       },
@@ -879,6 +912,38 @@
         this.pageSize = val
         this.loadRfid4gData()
       },
+      handleXzqyChange(val){
+        var xzqy = parseInt(val)
+        this.rfid4g.ssxzqy = this.ssxzqys[xzqy-1].descriptionZh
+      },
+      handleFpChange(val){
+        var fp = parseInt(val)
+        this.rfid4g.qypmc = this.qypmcs[fp-1].descriptionZh
+      },
+      handleJzChange(val){
+        var jz = parseInt(val)
+        this.rfid4g.jzmc = this.jzs[jz-1].descriptionZh
+      },
+      handleGzztChange(val){
+        var gzzt = parseInt(val)
+        this.rfid4g.sbgzzt = this.sbgzzts[gzzt-1].descriptionZh
+      },
+      handleGldjChange(val){
+        var gldj = parseInt(val)
+        this.rfid4g.gldj = this.gldjs[gldj].descriptionZh
+      },
+      handleZdChange(val){
+        var zd = parseInt(val)
+        this.rfid4g.zdmc = this.zds[zd-1].descriptionZh
+      },
+      handleGysChange(val){
+        var gys = parseInt(val)
+        this.rfid4g.gysmc = this.gs[gys].descriptionZh
+      },
+      handleJcsChange(val){
+        var jcs = parseInt(val)
+        this.rfid4g.jcsmc = this.gs[jcs].descriptionZh
+      },
       handlePpxhChange(value) {
         this.rfid4gPpxhOption = value
         // this.getPpxhInfo(value, this.rfid4g.sbppdm, this.rfid4g.sbxhdm, this.rfid4g.sbpp, this.rfid4g.sbxh, this.sbppxh)
@@ -943,7 +1008,10 @@
           sblb: '',
           sbzbh: '',
           qypbh: '',
+          sbgzzt: '',
+          sbgzztdm: '',
           htbh: '',
+          gldjdm: '',
           gldj: '',
           sbppdm: '',
           sbpp: '',
@@ -961,8 +1029,12 @@
           sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
+          gysdm: '',
           gysmc: '',
+          jcsdm: '',
           jcsmc: '',
+          zdbh: '',
+          jzbh: '',
           tmbh: '',
           ewmbh: ''
         }

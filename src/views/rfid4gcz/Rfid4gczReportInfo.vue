@@ -46,7 +46,7 @@
       const rfid4gczChart = echarts.init(document.getElementById('rfid4gcz'))
       const rfid4gczChartOption = {
         title: {
-          text: 'RFID4G（场站）',
+          text: 'RFID4G(场站)',
           textStyle: {
             fontSize: 22
           }

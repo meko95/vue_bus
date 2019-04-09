@@ -75,7 +75,7 @@
         } else {
           // 100001 lab607
           // 测试模式登录
-          this.$router.push('/bus/contract/getContract')
+          this.$router.push('/bus/contract')
           this.axios.post('http://kathryn.cn:8080/bus/login', JSON.stringify(this.formData)).then(res => {
             // console.log(JSON.stringify(this.formData))
             console.log('Login.vue 77')
@@ -86,7 +86,7 @@
             if (true) {
               // 获取服务端session=>浏览器设置cookie=>每次请求判断cookie是否存在 退出账户时移除cookie
               // main.js验证登录状态 next()表示验证通过
-              this.$router.push('/bus/contract/getContract')
+              this.$router.push('/bus/contract')
               this.clearData()
             } else if (code == 2005) {
               this.info = '工号不存在'

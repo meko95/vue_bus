@@ -3,7 +3,7 @@
     <el-menu :default-active="$route.path" router class="el-menu" mode="horizontal"
              @select="handleSelect">
       <el-menu-item style="background-color: #324157;color: white;font-size: 16px">上海澳马设备运维管理系统</el-menu-item>
-      <el-menu-item index="/bus/contract/getContract">合同管理</el-menu-item>
+      <el-menu-item index="/bus/contract">合同管理</el-menu-item>
       <el-submenu index="2">
         <template slot="title">设备基础数据管理</template>
         <el-menu-item index="/sbs">查看设备归属统计</el-menu-item>

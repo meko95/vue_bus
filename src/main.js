@@ -49,7 +49,7 @@ new Vue({
 /* 全局前置路由 */
 router.beforeEach((to, from, next) => {
   // 暂时省略一些用户访问需验证登录的路径
-  if (to.path === '/bus/contract/getContract') {
+  if (to.path === '/bus/contract') {
     const url = 'http://kathryn.cn:8080/bus/isLogin'
     // 使用this.$http.get 报错this.$http未定义vue-resource可能没有axios好用
     axios.post(url).then(res => {
@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
       console.log('main.js 52')
       console.log(res)
       // 假设不管code如何都通过isLogin
-      res.data.code == 0
+      res.data.code === 0
       if (true) {
         next()
       } else if (res.data.code === 2006) {
