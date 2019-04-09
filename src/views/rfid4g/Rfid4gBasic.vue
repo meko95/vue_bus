@@ -312,7 +312,7 @@
       <el-form :model="rfid4g" :rules="rules" ref="rfid4g" style="margin: 0;padding: 0;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                     :visible.sync="dialogVisible" width="77%" @close="cancel_add('rfid4g')">
+                     :visible.sync="dialogVisible" width="77%" @close="cancelAdd('rfid4g')">
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
@@ -640,7 +640,11 @@
         gs: [],
         jzs: [],
         zds: [],
-        fps: []
+        fps: [],
+        sbgsjtdm: '',
+        sbgsgsdm: '',
+        sbgscddm: '',
+        sbgsxldm: ''
       }
     },
     components: {
@@ -716,14 +720,31 @@
           }
         })
       },
+      // HANDLE FUNCTIONS
       handleGsTreeSelect(data) {
+        var _this = this
         this.cardTitle = data.label
         let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data, this.rfid4g.sbgsjtdm, this.rfid4g.sbgsgsdm, this.rfid4g.sbgscddm, this.rfid4g.sbgsxldm)
-        this.rfid4g.sbgsjtdm = jtdm
-        this.rfid4g.sbgsgsdm = gsdm
-        this.rfid4g.sbgscddm = cddm
-        this.rfid4g.sbgsxldm = xldm
-        this.loadRfid4gData()
+        this.sbgsjtdm = jtdm
+        this.sbgsgsdm = gsdm
+        this.sbgscddm = cddm
+        this.sbgsxldm = xldm
+        // this.loadRfid4gData()
+        let params = {
+          sbgsjtdm: jtdm,
+          sbgsgsdm: gsdm,
+          sbgscddm: cddm,
+          sbgsxldm: xldm
+        }
+        console.log('Tree参数信息', params)
+        this.getRequest('/api/rfid4g/basic', params).then(res => {
+          _this.tableLoading = false
+          if (res && res.status === 200) {
+            _this.Sbs = res.data.Rfid4gList
+            // totalRow会发生改变 currentPage、pageSize是向服务端发送的
+            _this.totalPage = res.data.totalRow
+          }
+        })
       },
       handleQypbhChange(val) {
         // 点击输入框叉号触发if条件语句的执行
@@ -799,6 +820,15 @@
         this.rfid4g.sbgsxlmc = xlmc
         console.log(this.rfid4g)
       },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`)
+        this.pageSize = val
+        this.loadRfid4gData()
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val
+        this.loadRfid4gData()
+      },
       // 显示高级搜索框
       showAdvanceSearchView() {
         this.advanceSearchViewVisible = !this.advanceSearchViewVisible
@@ -845,7 +875,7 @@
           }
         })
       },
-      cancel_add(formName) {
+      cancelAdd(formName) {
         this.$refs[formName].resetFields()
         this.emptyRfid4gData()
       },
@@ -934,15 +964,6 @@
           this.$refs.multipleTable.clearSelection()
         }
       },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`)
-        this.pageSize = val
-        this.loadRfid4gData()
-      },
-      handleCurrentChange(val) {
-        this.currentPage = val
-        this.loadRfid4gData()
-      },
       emptyRfid4gGs() {
         this.rfid4gGsOption = ['', '', '', '']
       },
@@ -998,58 +1019,72 @@
       // 根据所有可缺省参数向服务器请求数据
       loadRfid4gData() {
         var _this = this
+        let params
         this.tableLoading = true
-        let params = {
-          page: this.currentPage,
-          size: this.pageSize,
-          orderItemName: '',
-          order: '',
-          // dyxljhdm: '',
-          // dyxljhmc: '',
-          sbzbh: this.rfid4g.sbzbh,
-          htbh: this.rfid4g.htbh,
-          sbgzztdm: this.rfid4g.sbgzztdm,
-          // sbgzzt: '',
-          // azzp: '',
-          qypbh: this.rfid4g.qypbh,
-          // qypmc: '',
-          jzbh: this.rfid4g.jzbh,
-          // jzmc: '',
-          zdbh: this.rfid4g.zdbh,
-          // zdmc: '',
-          ssxzqydm: this.rfid4g.ssxzqydm,
-          // ssxzqy: '',
-          gldjdm: this.rfid4g.gldjdm,
-          // gldj: '',
-          sbppdm: this.rfid4g.sbppdm,
-          // sbpp: '',
-          sbxhdm: this.rfid4g.sbxhdm,
-          // sbxh: '',
-          simkh: this.rfid4g.simkh,
-          sbgsjtdm: this.rfid4g.sbgsjtdm,
-          // sbgsjtmc: '',
-          sbgsgsdm: this.rfid4g.sbgsgsdm,
-          // sbgsgsmc: '',
-          sbgscddm: this.rfid4g.sbgscddm,
-          // sbgscdmc: '',
-          sbgsxldm: this.rfid4g.sbgsxldm,
-          // sbgsxlmc: '',
-          beginDateScope: this.beginDateScope,
-          // sbqdrq: this.rfid4g.sbqdrq,
-          updateDateScope: this.updateDateScope,
-          // sbgxrq: this.rfid4g.sbqdrq,
-          endDateScope: this.endDateScope,
-          // sbbfrq: this.rfid4g.sbbfrq,
-          gysdm: this.rfid4g.gysdm,
-          // gysmc: '',
-          jcsdm: this.rfid4g.jcsdm,
-          // jcsmc: '',
-          tmbh: this.rfid4g.tmbh,
-          ewmbh: this.rfid4g.ewmbh
+        if(this.rfid4g.sbgsjtdm){
+          params = {
+            page: this.currentPage,
+            size: this.pageSize,
+            orderItemName: '',
+            order: '',
+            // dyxljhdm: '',
+            // dyxljhmc: '',
+            sbzbh: this.rfid4g.sbzbh,
+            htbh: this.rfid4g.htbh,
+            sbgzztdm: this.rfid4g.sbgzztdm,
+            // sbgzzt: '',
+            // azzp: '',
+            qypbh: this.rfid4g.qypbh,
+            // qypmc: '',
+            jzbh: this.rfid4g.jzbh,
+            // jzmc: '',
+            zdbh: this.rfid4g.zdbh,
+            // zdmc: '',
+            ssxzqydm: this.rfid4g.ssxzqydm,
+            // ssxzqy: '',
+            gldjdm: this.rfid4g.gldjdm,
+            // gldj: '',
+            sbppdm: this.rfid4g.sbppdm,
+            // sbpp: '',
+            sbxhdm: this.rfid4g.sbxhdm,
+            // sbxh: '',
+            simkh: this.rfid4g.simkh,
+            sbgsjtdm: this.rfid4g.sbgsjtdm,
+            // sbgsjtmc: '',
+            sbgsgsdm: this.rfid4g.sbgsgsdm,
+            // sbgsgsmc: '',
+            sbgscddm: this.rfid4g.sbgscddm,
+            // sbgscdmc: '',
+            sbgsxldm: this.rfid4g.sbgsxldm,
+            // sbgsxlmc: '',
+            beginDateScope: this.beginDateScope,
+            // sbqdrq: this.rfid4g.sbqdrq,
+            updateDateScope: this.updateDateScope,
+            // sbgxrq: this.rfid4g.sbqdrq,
+            endDateScope: this.endDateScope,
+            // sbbfrq: this.rfid4g.sbbfrq,
+            gysdm: this.rfid4g.gysdm,
+            // gysmc: '',
+            jcsdm: this.rfid4g.jcsdm,
+            // jcsmc: '',
+            tmbh: this.rfid4g.tmbh,
+            ewmbh: this.rfid4g.ewmbh
+          }
+        }else{
+          params = {
+            page: this.currentPage,
+            size: this.pageSize,
+            orderItemName: '',
+            order: '',
+            sbgsjtdm: this.sbgsjtdm,
+            sbgsgsdm: this.sbgsgsdm,
+            sbgscddm: this.sbgscddm,
+            sbgsxldm: this.sbgsxldm
+          }
         }
+        console.log(params)
         // console.log(params.beginDateScope) // 数组 Date类型
         // console.log(this.formatDate(params.beginDateScope[0])) // 字符串 String类型 2019-03-15
-        console.log('loadRfid4gData 参数信息', params)
         this.getRequest('/api/rfid4g/basic', params).then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
