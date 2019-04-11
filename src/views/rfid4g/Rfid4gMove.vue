@@ -69,10 +69,14 @@
         MoveDevices: [],
         sb: {
           sblx: '',
+          sbqydh: '',// 迁移单号
           sbgsjtdm: '',
           sbgsgsdm: '',
           sbgscddm: '',
           sbgsxldm: '',
+          dateScope: '',
+          gysdm: '',
+          jcsdm: ''
         }
       }
     },
@@ -99,7 +103,7 @@
       loadMoveDevices() {
         this.tableLoading = true
         var _this = this
-        this.getRequest('/api/rfid4g/move/jt1').then(res => {
+        this.getRequest('/api/rfid4g/move').then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
             _this.MoveDevices = res.data.Rfid4gMoveList

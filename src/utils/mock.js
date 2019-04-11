@@ -402,7 +402,26 @@ Mock.mock('/api/Sbs/azdd',{
   ]
 })
 // 获取合同信息
-
+Mock.mock('/api/sbs/contract',{
+  'totalRow': 20,
+  'ContractList|20': [
+    {
+      'htbh|10': /[0-9]/,
+      'htlb|1': ['主合同','分包合同'],
+      'htmc|1': ['合同合同合同合同名称A','合同合同合同合同名称B','合同合同合同合同名称C'],
+      'jfmc|1': ['甲方甲方甲方甲方名称A','甲方甲方甲方甲方名称B','甲方甲方甲方甲方名称C'],
+      'yfmc|1': ['乙方乙方乙方乙方名称A','乙方乙方乙方乙方名称B','乙方乙方乙方乙方名称C'],
+      'bfmc|1': ['丙方丙方丙方丙方名称A','丙方丙方丙方丙方名称B','丙方丙方丙方丙方名称C'],
+      'htqdrq': random.date(),
+      'htqx|1': ['3','6','9','12','15'],
+      'fkfsdm|1': ['01','02','03'],
+      'fkfs|1': ['微信','支付宝','银行卡'],
+      'sbsysm|1': ['9','12','15','18','21','24'],
+      'sbzbk|1': ['12.5','23.6','30'],
+      'sbzbq|1': ['9','12','15','18','21','24']
+    }
+  ]
+})
 // 获取设备基本信息
 // RFID4G
 Mock.mock('/api/rfid4g/basic', {
@@ -1023,7 +1042,7 @@ Mock.mock('/api/Sbs/statistics', {
 })
 // 获取设备迁移信息
 // RFID4G
-Mock.mock('/api/rfid4g/move/jt1', {
+Mock.mock('/api/rfid4g/move', {
   'totalRow': 30,
   'Rfid4gMoveList|30': [
     {
@@ -1046,7 +1065,7 @@ Mock.mock('/api/rfid4g/move/jt1', {
 })
 // 获取设备修理信息
 // RFID4G
-Mock.mock('/api/rfid4g/fix/jt1', {
+Mock.mock('/api/rfid4g/fix', {
   'totalRow': 30,
   'Rfid4gFixList|30': [
     {
@@ -1072,7 +1091,7 @@ Mock.mock('/api/rfid4g/fix/jt1', {
 })
 // 获取设备巡检信息
 // RFID4G
-Mock.mock('/api/rfid4g/check/jt1', {
+Mock.mock('/api/rfid4g/check', {
   'totalRow': 30,
   'Rfid4gCheckList|30': [
     {
@@ -1097,7 +1116,7 @@ Mock.mock('/api/rfid4g/check/jt1', {
 })
 // 获取设备报修信息
 // RFID4G
-Mock.mock('/api/rfid4g/report/jt1', {
+Mock.mock('/api/rfid4g/report', {
   'totalRow': 30,
   'Rfid4gReportList|30': [
     {

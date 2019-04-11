@@ -355,7 +355,7 @@
       <el-form :model="ffcp" :rules="rules" ref="ffcp" style="margin: 0px;padding: 0px;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                     :visible.sync="dialogVisible" width="77%" @close="cancel_add('ffcp')">
+                     :visible.sync="dialogVisible" width="77%" @close="cancelAdd('ffcp')">
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
@@ -977,7 +977,7 @@
           }
         })
       },
-      cancel_add(formName) {
+      cancelAdd(formName) {
         this.$refs[formName].resetFields()
         this.emptyFfcpData()
       },

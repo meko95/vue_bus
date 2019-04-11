@@ -1,162 +1,114 @@
-
-
-
 <template>
   <div>
-    <div id="head">
-      <img src="../../../static/image/aoma.png" alt="上海奥马运维有限公司">
-    </div>
-    <div class="container">
-      <div class="row">
-        <div id="form_panel">
-          <!--<form @submit.prevent="checkData" id="login_form" method="post" action="http://kathryn.cn:8080/bus/login"-->
-          <!--novalidate="novalidate">-->
-          <form id="login_form" @submit.prevent="checkData" method="post" novalidate="novalidate">
-            <div id="inputId">
-              <div class="form-group-lg">
-                <label>工号：</label>
-                <input type="text" name="uid" v-model="formData.uid" data-bv-field="uid"
-                       class="form-control"
-                       placeholder="请在此输入工号">
-              </div>
-            </div>
-            <div id="inputPass">
-              <div class="form-group-lg">
-                <label>密码：</label>
-                <input type="password" name="password" v-model="formData.password" class="form-control"
-                       placeholder="请在此输入密码">
-              </div>
-            </div>
-            <div id="register">
-              没有账户？<a href="#">注册账户</a>
-            </div>
-            <div id="login">
-              <!--data-toggle="modal" data-target="#myModal"-->
-              <!--data-toggle="modal" :data-target="modal_id"-->
-              <!--不可同时使用data和Javascript方式调用模态-->
-              <button id="btn_login" class="btn btn-primary btn_login"
-                      type="submit">
-                <div>登录</div>
-              </button>
-            </div>
-          </form>
+    <el-container style="height: 762px; border: 1px solid #eee">
+      <el-header>
+        <div id="title">
+          <span>上海澳马设备运维管理系统</span>
         </div>
-      </div>
-    </div>
-    <!-- Modals -->
-    <Modal modal-size="modal-dialog modal-md" modal-id="modal_login" modal-title="警告：" :modal-body="info" footer-btn-left="取消"
-           btn-left-color="btn btn-default" @l_func="cancel" footer-btn-right="确定" btn-right-color="btn btn-danger"
-           @r_func="ok"></Modal>
-
+      </el-header>
+      <el-main>
+        <div id="login">
+          <el-form label-position="left" :model="user" :rules="rules" ref="loginForm" label-width="80px">
+            <el-form-item label="用户名:" prop="username">
+              <el-input prefix-icon="el-icon-edit" autofocus v-model="user.username" clearable
+                        placeholder="请输入用户名"></el-input>
+            </el-form-item>
+            <el-form-item label="密码:" prop="password">
+              <el-input prefix-icon="el-icon-edit" v-model="user.password" show-password clearable
+                        placeholder="请输入密码" @keyup.enter.native="submitForm('loginForm')"></el-input>
+            </el-form-item>
+            <div style="text-align: center">
+              <el-button type="primary" style="width: 180px;margin: 0 auto;" @click="submitForm('loginForm')">登录
+              </el-button>
+            </div>
+          </el-form>
+        </div>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
-  import Modal from "../../components/Modal"
-
   export default {
     name: "Login",
-    components: {Modal},
     data() {
       return {
-        formData: {
-          uid: '',
-          password: ''
+        user: {
+          username: '',
+          password: '',
+          // login_status: '',
+          // user_cookie: ''
         },
-        info: ''
+        rules: {
+          username: [
+            {required: true, message: '请输入姓名', trigger: 'blur'},
+            {min: 2, max: 3, message: '长度在2到3个字符', trigger: 'change'}
+          ],
+          password: [
+            {required: true, message: '请输入密码', trigger: 'blur'},
+            {min: 8, max: 12, message: '长度在8到12个字符 不可包含特殊字符', trigger: 'change'}
+          ]
+        }
       }
     },
     methods: {
-      checkData: function () {
-        if (this.formData.uid === '' || this.formData.password === '') {
-          this.info = '工号/密码不可为空'
-          $('#modal_login').modal()
-          this.clearData()
-        } else {
-          // 100001 lab607
-          // 测试模式登录
-          this.$router.push('/bus/contract')
-          this.axios.post('http://kathryn.cn:8080/bus/login', JSON.stringify(this.formData)).then(res => {
-            // console.log(JSON.stringify(this.formData))
-            console.log('Login.vue 77')
-            // console.log(res)
-            // let code = res.data.code
-            // console.log(code)
-            // code == 0
-            if (true) {
-              // 获取服务端session=>浏览器设置cookie=>每次请求判断cookie是否存在 退出账户时移除cookie
-              // main.js验证登录状态 next()表示验证通过
-              this.$router.push('/bus/contract')
-              this.clearData()
-            } else if (code == 2005) {
-              this.info = '工号不存在'
-              $('#modal_login').modal()
-            } else if (code == 2014) {
-              this.info = '密码错误'
-              $('#modal_login').modal()
-              this.formData.password = ''
-            } else {
-              this.info = res.data.msg
-              $('#modal_login').modal()
-              this.clearData()
-            }
-          }).catch(function (err) {
-            console.log(err)
-          })
-        }
-      },
-      clearData: function () {
-        this.formData.uid = ''
-        this.formData.password = ''
-      },
-      cancel: function () {
-        $('#modal_login').modal('toggle')
-      },
-      ok: function () {
-        $('#modal_login').modal('toggle')
+      submitForm(formName) {
+        let [usr, pass] = [this.username, this.password]
+        // 前端验证
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+          //  服务器端验证
+            this.postRequest('http://kathryn.cn:8080/bus/login',this.user).then(res=>{
+            //  通过res.code判断各种类型
+              if (true) {
+                // 获取服务端session=>浏览器设置cookie=>每次请求判断cookie是否存在 退出账户时移除cookie
+                // main.js验证登录状态 next()表示验证通过
+                this.$router.push('/bus/contract')
+              } else if (code === 2005) {
+                this.$message.error('用户名不存在')
+              } else if (code === 2014) {
+                this.$message.error('密码错误')
+                this.user.password = ''
+              } else {
+                this.user = {
+                  username: '',
+                  password: ''
+                }
+              }
+            })
+          } else{
+            return false
+          }
+          // this.user = {
+          //   username: '',
+          //   password: ''
+          // }
+          // return false
+        })
       }
-    },
-    comments: {
-      Modal
     }
   }
 </script>
 
-<style lang="less" type="text/less" scoped>
-  #head {
-    height: 86px;
-    background-color: white;
+<style scoped>
+  .el-header {
+    padding: 0;
   }
 
-  #form_panel {
-    border: 1px solid gray;
-    padding: 40px 20px;
-    width: 350px;
-    height: 400px;
-    margin: 80px auto;
-  }
-
-  label {
-    font-size: 24px;
-    font-family: Helvetica;
-  }
-
-  #register {
-    margin-top: 10px;
-    letter-spacing: 2px;
-    text-align: right;
+  #title {
+    background-color: #324157;
+    text-align: left;
+    font-size: 26px;
+    color: #409eff;
+    height: 60px;
+    line-height: 60px;
   }
 
   #login {
-    margin: 20px auto;
-    text-align: center;
-
-    .btn_login {
-      letter-spacing: 18px;
-      text-indent: 18px;
-      font-size: 24px;
-      width: 190px;
-      margin: 36px auto
-    }
+    border: 1px solid #c5c5c5;
+    padding: 40px 20px;
+    width: 420px;
+    height: 259.56px;
+    margin: 80px auto;
   }
 </style>

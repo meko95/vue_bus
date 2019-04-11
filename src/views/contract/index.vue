@@ -5,7 +5,7 @@
     <div id="title">
       合同列表
     </div>
-    <el-container style="height: 701px; border: 1px solid #eee">
+    <el-container style="height: 665px; border: 1px solid #eee">
       <el-header style="padding: 0px;display:flex;justify-content:space-between;align-items: center">
         <div style="display: inline">
           <el-input
@@ -155,21 +155,22 @@
           </transition>
           <!-- 合同信息Begin -->
           <el-table ref="multipleTable" :data="contracts" v-loading="tableLoading" border tooltip-effect="dark"
-                    style="width: 100%;" @selection-change="handleSelectionChange" stripe size="small" height="559"
+                    style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
+                    @selection-change="handleSelectionChange" stripe size="small" height="543"
                     :default-sort="{prop: 'htqdrq', order: 'descending'}">
             <el-table-column type="selection" width="36" align="center"></el-table-column>
-            <el-table-column prop="htbh" label="合同编号" width="130" align="center" fixed></el-table-column>
-            <el-table-column prop="htlb" label="合同类别" width="85" align="center"></el-table-column>
-            <el-table-column prop="htmc" label="合同名称" width="90" align="center"></el-table-column>
-            <el-table-column prop="jfmc" label="甲方名称" width="85" align="center"></el-table-column>
-            <el-table-column prop="yfmc" label="乙方名称" width="85" align="center"></el-table-column>
-            <el-table-column prop="bfmc" label="丙方名称" width="85" align="center"></el-table-column>
-            <el-table-column prop="htqdrq" label="签订日期" width="110" align="center"></el-table-column>
-            <el-table-column prop="htqx" label="合同期限" width="100" align="center"></el-table-column>
-            <el-table-column prop="fkfs" label="付款方式" width="180" align="center"></el-table-column>
-            <el-table-column prop="sbsysm" label="设备使用寿命" width="100" align="center"></el-table-column>
-            <el-table-column prop="sbzbk" label="设备质包款" width="220" align="center"></el-table-column>
-            <el-table-column prop="sbzbq" label="设备质保期" width="115" align="center"></el-table-column>
+            <el-table-column prop="htbh" label="合同编号" width="90" align="center" fixed></el-table-column>
+            <el-table-column prop="htlb" label="合同类别" width="80" align="center"></el-table-column>
+            <el-table-column prop="htmc" label="合同名称" width="170" align="center"></el-table-column>
+            <el-table-column prop="jfmc" label="甲方名称" width="170" align="center"></el-table-column>
+            <el-table-column prop="yfmc" label="乙方名称" width="170" align="center"></el-table-column>
+            <el-table-column prop="bfmc" label="丙方名称" width="170" align="center"></el-table-column>
+            <el-table-column prop="htqdrq" label="签订日期" width="90" align="center"></el-table-column>
+            <el-table-column prop="htqx" label="合同期限(单位:月)" width="120" align="center"></el-table-column>
+            <el-table-column prop="fkfs" label="付款方式" width="80" align="center"></el-table-column>
+            <el-table-column prop="sbsysm" label="设备使用寿命(单位:月)" width="150" align="center"></el-table-column>
+            <el-table-column prop="sbzbk" label="设备质包款" width="100" align="center"></el-table-column>
+            <el-table-column prop="sbzbq" label="设备质保期(单位:月)" width="130" align="center"></el-table-column>
           </el-table>
           <!-- 合同信息End -->
           <!-- 批量删除及分页Begin -->
@@ -351,6 +352,7 @@
           bfmc: '',
           htqdrq: '',
           htqx: '',
+          fkfsdm: '',
           fkfs: '',
           sbsysm: '',
           sbzbk: '',
@@ -527,9 +529,11 @@
           bfmc: '',
           htqdrq: '',
           htqx: '',
+          fkfsdm: '',
           fkfs: '',
           sbsysm: '',
-          sbzbk: ''
+          sbzbk: '',
+          sbzbq: ''
         }
       },
       /* 分页处理 pageSize currentPage 发生变化时向服务器发送 */
@@ -551,26 +555,22 @@
           bfmc: this.contract.bfmc,
           htqdrq: this.contract.htqdrq,
           htqx: this.contract.htqx,
+          fkfsdm: this.contract.fkfsdm,
           fkfs: this.contract.fkfs,
           sbsysm: this.contract.sbsysm,
           sbzbk: this.contract.sbzbk,
           sbzbq: this.contract.sbzbq,
           dateScope: this.dateScope
         }
-        console.log('1123 本次查询参数为')
         console.log(params)
         // 接口待写
-        this.getRequest('/api/htb').then(res => {
+        this.getRequest('/api/sbs/contract').then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
-            console.log(res)
-            const data = res.data.data
-            _this.contracts = data.list
+            _this.contracts = res.data.ContractList
             // totalRow会发生改变 currentPage、pageSize是向服务端发送的
-            _this.totalRow = data.total
+            _this.totalRow = res.data.totalRow
           }
-        }, err => {
-          console.log(err)
         })
       },
       importContracts() {

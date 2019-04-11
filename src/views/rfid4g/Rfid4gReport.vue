@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="RFID4G"></SideBar>
+      <SideBar sb-type="RFID4G" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <el-header style="text-align: center; font-size: 24px">
@@ -65,8 +65,22 @@
         totalRow: 0,
         pageSize: 10,
         currentPage: 1,
+        tableLoading: false,
         ReportDevices: [],
-        tableLoading: false
+        sb: {
+          sblx: '',
+          sbbxdh: '',// 报修单号
+          sbbxlxdm: '',// 报修类型
+          sbbxfsdm: '',// 报修方式
+          sbgzztdm: '',
+          sbgsjtdm: '',
+          sbgsgsdm: '',
+          sbgscddm: '',
+          sbgsxldm: '',
+          dateScope: '',
+          gysdm: '',
+          jcsdm: ''
+        }
       }
     },
     components: {
@@ -74,6 +88,14 @@
       SideBar
     },
     methods: {
+      handleGsTreeSelect(data){
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data,this.sb.sbgsjtdm,this.sb.sbgsgsdm,this.sb.sbgscddm,this.sb.sbgsxldm)
+        this.sb.sbgsjtdm = jtdm
+        this.sb.sbgsgsdm = gsdm
+        this.sb.sbgscddm = cddm
+        this.sb.sbgsxldm = xldm
+        console.log(this.sb)
+      },
       handleCurrentChange(val) {
         this.currentPage = val
       },
@@ -84,7 +106,7 @@
       loadReportDevices(){
         var _this = this
         this.tableLoading = true
-        this.getRequest('/api/rfid4g/report/jt1').then(res=>{
+        this.getRequest('/api/rfid4g/report').then(res=>{
         _this.tableLoading = false
           if(res&&res.status===200){
             _this.ReportDevices = res.data.Rfid4gReportList

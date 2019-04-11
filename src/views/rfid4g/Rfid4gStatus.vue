@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="RFID4G" @listenToChildEvent="getGsSelected"></SideBar>
+      <SideBar sb-type="RFID4G" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
@@ -69,10 +69,12 @@
         totalPage:0,
         pageSize:10,
         currentPage:1,
-        sbgsjtdm: '',
-        sbgsgsdm: '',
-        sbgscddm: '',
-        sbgsxldm: '',
+        rfid4g:{
+          sbgsjtdm: '',
+          sbgsgsdm: '',
+          sbgscddm: '',
+          sbgsxldm: ''
+        },
         statistic: []
       }
     },
@@ -81,8 +83,13 @@
       SideBar
     },
     methods: {
-      getGsSelected(data) {
-        this.getSbGsInfo(data, this.sbgsjtdm, this.sbgsgsdm, this.sbgscddm, this.sbgsxldm)
+      handleGsTreeSelect(data){
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data,this.rfid4g.sbgsjtdm,this.rfid4g.sbgsgsdm,this.rfid4g.sbgscddm,this.rfid4g.sbgsxldm)
+        this.rfid4g.sbgsjtdm = jtdm
+        this.rfid4g.sbgsgsdm = gsdm
+        this.rfid4g.sbgscddm = cddm
+        this.rfid4g.sbgsxldm = xldm
+        console.log(this.rfid4g)
       },
       handleCurrentChange(val){
         this.currentPage = val
