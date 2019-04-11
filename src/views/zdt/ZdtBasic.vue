@@ -216,13 +216,13 @@
               </el-table-column>
               <el-table-column prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
               <el-table-column prop="qypmc" label="分片名称" width="80" align="center"></el-table-column>
+              <el-table-column prop="sbgszdmc" label="站点" width="85" align="center"></el-table-column>
               <el-table-column prop="gldj" label="管理等级" width="70" align="center"></el-table-column>
               <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
               <el-table-column prop="sbxh" label="型号" width="70" align="center"></el-table-column>
               <el-table-column prop="sbgsjtmc" label="集团" width="110" align="center"></el-table-column>
               <el-table-column prop="sbgsgsmc" label="公司" width="90" align="center"></el-table-column>
               <el-table-column prop="sbgscdmc" label="车队" width="100" align="center"></el-table-column>
-              <el-table-column prop="sbgszdmc" label="站点" width="85" align="center"></el-table-column>
               <el-table-column prop="sbgsxlmc" label="线路" width="70" align="center"></el-table-column>
               <el-table-column prop="sbqdrq" label="启用日期" width="100" align="center" sortable>
                 <!--<template slot-scope="scope">{{ scope.row.sbqdrq | formatDate}}</template>-->
@@ -607,9 +607,9 @@
           }
         })
         // 获取启用片区域名称
-        this.getRequest('/api/Sbs/qypmc').then(res => {
+        this.getRequest('/api/Sbs/fp').then(res => {
           if (res && res.status === 200) {
-            _this.qypmcs = res.data.QypmcList
+            _this.fps = res.data.FpList
           }
         })
         // 获取品牌型号信息

@@ -863,7 +863,7 @@
         this.getRequest('/api/zgybp/basic', params).then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
-            _this.Sbs = res.data.FfcpList
+            _this.Sbs = res.data.ZgybpList
             // totalRow会发生改变 currentPage、pageSize是向服务端发送的
             _this.totalPage = res.data.totalRow
           }

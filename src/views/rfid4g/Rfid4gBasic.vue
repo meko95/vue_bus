@@ -308,7 +308,7 @@
           </div>
         </el-main>
       </el-container>
-      <!-- Form Begin -->
+      <!-- FORM Begin -->
       <el-form :model="rfid4g" :rules="rules" ref="rfid4g" style="margin: 0;padding: 0;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"

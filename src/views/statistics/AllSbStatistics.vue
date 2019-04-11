@@ -2,13 +2,7 @@
   <div>
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
-      <!-- Side Begin -->
-      <!--<el-aside width="146px" style="background-color: rgb(238, 241, 246)">-->
-        <!--<span style="text-align: center; font-size: 24px">设备归属</span>-->
-        <!--<el-tree :data="subsidiary" :props="defaultProps" accordion @node-click="handleNodeClick"-->
-                 <!--highlight-current node-key="id" :default-expanded-keys="[1]"></el-tree>-->
-      <!--</el-aside>-->
-      <SideBar sb-type="设备归属" @listenToChildEvent="getGsSelected"></SideBar>
+      <SideBar sb-type="设备归属" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
@@ -19,9 +13,9 @@
         </el-header>
         <el-main>
           <!-- 设备统计信息Begin -->
-          <el-table :data="sbStatistics" v-loading="tableLoading" border tooltip-effect="dark" style="width: 100%;"
+          <el-table :data="statistics" v-loading="tableLoading" border tooltip-effect="dark" style="width: 100%;"
                     stripe size="small" highlight-current-row height="599">
-            <el-table-column prop="sblb" label="设备类别" width="112" align="left" fixed></el-table-column>
+            <el-table-column prop="sblx" label="设备类型" width="112" align="left" fixed></el-table-column>
             <el-table-column label="设备工作情况" align="center">
               <el-table-column prop="sb_sum" label="设备总数" width="70" align="center">
                 <template slot-scope="scope">
@@ -80,9 +74,9 @@
     data() {
       return {
         tableLoading: false,
-        sbStatistics: [],
+        statistics: [],
         sb: {
-          sblb: '',
+          sblx: '',
           sbgsjtdm: '',
           sbgsgsdm: '',
           sbgscddm: '',
@@ -100,16 +94,21 @@
       SideBar
     },
     methods: {
-      getGsSelected(data){
-        this.getSbGsInfo(data,this.sb.sbgsjtdm,this.sb.sbgsgsdm,this.sb.sbgscddm,this.sb.sbgsxldm)
+      handleGsTreeSelect(data){
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data,this.sb.sbgsjtdm,this.sb.sbgsgsdm,this.sb.sbgscddm,this.sb.sbgsxldm)
+        this.sb.sbgsjtdm = jtdm
+        this.sb.sbgsgsdm = gsdm
+        this.sb.sbgscddm = cddm
+        this.sb.sbgsxldm = xldm
+        console.log(this.sb)
       },
       goSbBasic(scope) {
-        switch (scope.row.sblb) {
+        switch (scope.row.sblx) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
             this.$router.push('/rfid4g/basic')
             break
-          case 'RFID4G（场站）':
+          case 'RFID4G(场站)':
             this.$router.push('/rfid4gcz/basic')
             break
           case '车辆标签':
@@ -137,12 +136,12 @@
         }
       },
       goSbMove(scope){
-        switch (scope.row.sblb) {
+        switch (scope.row.sblx) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
             this.$router.push('/rfid4g/move')
             break
-          case 'RFID4G（场站）':
+          case 'RFID4G(场站)':
             this.$router.push('/rfid4gcz/move')
             break
           case '车辆标签':
@@ -170,12 +169,12 @@
         }
       },
       goSbCheck(scope){
-        switch (scope.row.sblb) {
+        switch (scope.row.sblx) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
             this.$router.push('/rfid4g/check')
             break
-          case 'RFID4G（场站）':
+          case 'RFID4G(场站)':
             this.$router.push('/rfid4gcz/check')
             break
           case '车辆标签':
@@ -203,12 +202,12 @@
         }
       },
       goSbReport(scope){
-        switch (scope.row.sblb) {
+        switch (scope.row.sblx) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
             this.$router.push('/rfid4g/report')
             break
-          case 'RFID4G（场站）':
+          case 'RFID4G(场站)':
             this.$router.push('/rfid4gcz/report')
             break
           case '车辆标签':
@@ -236,12 +235,12 @@
         }
       },
       goSbFix(scope){
-        switch (scope.row.sblb) {
+        switch (scope.row.sblx) {
           case 'RFID4G':
             // 路由导向并携带当前集团、公司、车队、线路信息 应用路由参数???
             this.$router.push('/rfid4g/fix')
             break
-          case 'RFID4G（场站）':
+          case 'RFID4G(场站)':
             this.$router.push('/rfid4gcz/fix')
             break
           case '车辆标签':
@@ -271,10 +270,13 @@
       loadSbsStatistics() {
         var _this = this
         this.tableLoading = true
-        this.getRequest('/api/Sbs/statistics/jt1').then(res => {
+        // 统一一个接口or九个接口
+        // 九个接口=>九个统计结果加入统计数组->查询时带上设备类型参数
+        // 一个接口=>一个json数组九类设备统计结果->查询时不带设备类型参数
+        this.getRequest('/api/Sbs/statistics').then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
-            _this.sbStatistics = res.data.SbStatisticsList
+            _this.statistics = res.data.SbStatisticsList
           }
         })
       }

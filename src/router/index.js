@@ -129,7 +129,7 @@ export default new Router({
     },
     // 设备统计信息
     {
-      path: '/sbs',
+      path: '/sbs/statistic',
       name: 'AllSbStatistics',
       component: AllSbStatistics
     },

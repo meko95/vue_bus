@@ -6,7 +6,7 @@
       <el-menu-item index="/bus/contract">合同管理</el-menu-item>
       <el-submenu index="2">
         <template slot="title">设备基础数据管理</template>
-        <el-menu-item index="/sbs">查看设备归属统计</el-menu-item>
+        <el-menu-item index="/sbs/statistic">查看设备归属统计</el-menu-item>
         <el-submenu index="2-2">
           <template slot="title">查看基础信息</template>
           <el-menu-item index="/rfid4g/basic">RFID4G</el-menu-item>

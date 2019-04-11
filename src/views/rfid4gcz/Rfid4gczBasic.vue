@@ -595,9 +595,9 @@
           }
         })
         // 获取启用片区域名称
-        this.getRequest('/api/Sbs/qypmc').then(res => {
+        this.getRequest('/api/Sbs/fp').then(res => {
           if (res && res.status === 200) {
-            _this.qypmcs = res.data.QypmcList
+            _this.fps = res.data.FpList
           }
         })
         // 获取品牌型号信息

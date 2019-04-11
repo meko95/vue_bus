@@ -566,9 +566,9 @@
             _this.sbgzzts = res.data.GzztList
           }
         })
-        this.getRequest('/api/Sbs/qypmc').then(res => {
+        this.getRequest('/api/Sbs/fp').then(res => {
           if (res && res.status === 200) {
-            _this.qypmcs = res.data.QypmcList
+            _this.fps = res.data.FpList
           }
         })
         this.getRequest('/api/Sbs/ppxh').then(res => {

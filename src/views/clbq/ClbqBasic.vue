@@ -158,12 +158,12 @@
                 <el-row style="margin-top: 18px">
                   <el-col :span="5">
                     起点基站:
-                    <el-input prefix-icon="el-icon-search" v-model="clbq.bqdyjzqd" size="small" style="width: 150px"
+                    <el-input prefix-icon="el-icon-search" v-model="clbq.qdjz" size="small" style="width: 150px"
                               placeholder="设备起点基站"></el-input>
                   </el-col>
                   <el-col :span="5">
                     终点基站:
-                    <el-input prefix-icon="el-icon-search" v-model="clbq.bqdyjzzd" size="small" style="width: 150px"
+                    <el-input prefix-icon="el-icon-search" v-model="clbq.zdjz" size="small" style="width: 150px"
                               placeholder="设备终点基站"></el-input>
                   </el-col>
                   <el-col :span="8">
@@ -193,7 +193,7 @@
                       style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                       @selection-change="handleSelectionChange" stripe size="small"
                       highlight-current-row height="559"
-                      :default-sort="{prop: 'sbqyrq', order: 'descending'}">
+                      :default-sort="{prop: 'sbqdrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
               <el-table-column prop="sbzbh" label="车辆标签编号" width="120" align="center" fixed></el-table-column>
               <el-table-column prop="htbh" label="合同编号" width="95" align="center"></el-table-column>
@@ -215,23 +215,23 @@
               <el-table-column prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
               <el-table-column prop="qypmc" label="分片名称" width="80" align="center"></el-table-column>
               <el-table-column label="安装车辆信息" align="center">
-                <el-table-column prop="ancph" label="车牌号" width="100" align="center"></el-table-column>
-                <el-table-column prop="azclbh" label="车辆编号" width="95" align="center"></el-table-column>
+                <el-table-column prop="azclcph" label="车牌号" width="100" align="center"></el-table-column>
+                <el-table-column prop="azclzbh" label="车辆编号" width="95" align="center"></el-table-column>
                 <el-table-column prop="azcldllbdm" label="动力类别" width="80" align="center"></el-table-column>
                 <el-table-column prop="ancldyxlj" label="线路集合" width="80" align="center"></el-table-column>
               </el-table-column>
-              <el-table-column prop="gldj" label="管理等级" width="70" align="center"></el-table-column>
+              <el-table-column prop="gldj" label="管理等级" width="80" align="center"></el-table-column>
               <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
               <el-table-column prop="sbxh" label="型号" width="70" align="center"></el-table-column>
               <el-table-column prop="sbgsjtmc" label="集团" width="110" align="center"></el-table-column>
               <el-table-column prop="sbgsgsmc" label="公司" width="90" align="center"></el-table-column>
               <el-table-column prop="sbgscdmc" label="车队" width="70" align="center"></el-table-column>
               <el-table-column prop="sbgsxlmc" label="线路" width="70" align="center"></el-table-column>
-              <el-table-column prop="bqdyjzqd" label="起点基站" width="70" align="center"></el-table-column>
-              <el-table-column prop="bqdyjzzd" label="终点基站" width="70" align="center"></el-table-column>
+              <el-table-column prop="qdjz" label="起点基站" width="80" align="center"></el-table-column>
+              <el-table-column prop="zdjz" label="终点基站" width="80" align="center"></el-table-column>
               <el-table-column prop="bqdyjzqjzjh" label="区间站" width="80" align="center"></el-table-column>
-              <el-table-column prop="sbqyrq" label="启用日期" width="100" align="center" sortable>
-                <!--<template slot-scope="scope">{{ scope.row.sbqyrq | formatDate}}</template>-->
+              <el-table-column prop="sbqdrq" label="启用日期" width="100" align="center" sortable>
+                <!--<template slot-scope="scope">{{ scope.row.sbqdrq | formatDate}}</template>-->
               </el-table-column>
               <el-table-column prop="sbgxrq" label="更新日期" width="100" align="center" sortable>
                 <!--<template slot-scope="scope">{{ scope.row.sbgxrq | formatDate}}</template>-->
@@ -311,16 +311,16 @@
               </el-col>
               <el-col :span="7">
                 <div>
-                  <el-form-item label="安装车牌号:" prop="ancph">
-                    <el-input prefix-icon="el-icon-edit" v-model="clbq.ancph" size="small" style="width: 150px"
+                  <el-form-item label="安装车牌号:" prop="azclcph">
+                    <el-input prefix-icon="el-icon-edit" v-model="clbq.azclcph" size="small" style="width: 150px"
                               placeholder="请输入车牌号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
               <el-col :span="7">
                 <div>
-                  <el-form-item label="车辆编号:" prop="azclbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="clbq.azclbh" size="small" style="width: 150px"
+                  <el-form-item label="车辆编号:" prop="azclzbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="clbq.azclzbh" size="small" style="width: 150px"
                               placeholder="请输入车牌号"></el-input>
                   </el-form-item>
                 </div>
@@ -393,9 +393,9 @@
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
-                  <el-form-item label="启动日期：" prop="sbqyrq">
+                  <el-form-item label="启动日期：" prop="sbqdrq">
                     <el-date-picker
-                      v-model="clbq.sbqyrq"
+                      v-model="clbq.sbqdrq"
                       size="small"
                       value-format="yyyy-MM-dd HH:mm:ss"
                       style="width: 170px"
@@ -498,8 +498,8 @@
           sbzbh: '',
           qypbh: '',
           htbh: '',
-          ancph: '',
-          azclbh: '',
+          azclcph: '',
+          azclzbh: '',
           azcldllbmc: '',
           gldj: '',
           sbppdm: '',
@@ -514,7 +514,7 @@
           sbgscdmc: '',
           sbgsxldm: '',
           sbgsxlmc: '',
-          sbqyrq: '',
+          sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
           gysmc: '',
@@ -528,8 +528,8 @@
           qypmc: [{required: true, message: '必填:分片名称', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
           sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
-          ancph: [{required: true, message: '必填:安装车牌号', trigger: 'blur'}],
-          azclbh: [{required: true, message: '必填:安装车辆编号', trigger: 'blur'}],
+          azclcph: [{required: true, message: '必填:安装车牌号', trigger: 'blur'}],
+          azclzbh: [{required: true, message: '必填:安装车辆编号', trigger: 'blur'}],
           azcldllbmc: [{required: true, message: '必填:车辆动力类别', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
           clbqPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
@@ -540,7 +540,7 @@
           // sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
           // sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'blur'}],
           // sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
-          sbqyrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
+          sbqdrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
           sbgxrq: [{required: false, message: '必填:更新日期', trigger: 'blur'}],
           sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'blur'}],
@@ -606,9 +606,9 @@
             _this.sbgzzts = res.data.GzztList
           }
         })
-        this.getRequest('/api/Sbs/qypmc').then(res => {
+        this.getRequest('/api/Sbs/fp').then(res => {
           if (res && res.status === 200) {
-            _this.qypmcs = res.data.QypmcList
+            _this.fps = res.data.FpList
           }
         })
         this.getRequest('/api/Sbs/ppxh').then(res => {
@@ -825,7 +825,7 @@
           sbgscdmc: '',
           sbgsxldm: '',
           sbgsxlmc: '',
-          sbqyrq: '',
+          sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
           gysmc: '',

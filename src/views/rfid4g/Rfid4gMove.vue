@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="RFID4G"></SideBar>
+      <SideBar sb-type="RFID4G" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
@@ -66,7 +66,14 @@
         pageSize: 10,
         currentPage: 1,
         multipleSelection: [],
-        MoveDevices: []
+        MoveDevices: [],
+        sb: {
+          sblx: '',
+          sbgsjtdm: '',
+          sbgsgsdm: '',
+          sbgscddm: '',
+          sbgsxldm: '',
+        }
       }
     },
     components: {
@@ -74,6 +81,14 @@
       SideBar
     },
     methods: {
+      handleGsTreeSelect(data){
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data,this.sb.sbgsjtdm,this.sb.sbgsgsdm,this.sb.sbgscddm,this.sb.sbgsxldm)
+        this.sb.sbgsjtdm = jtdm
+        this.sb.sbgsgsdm = gsdm
+        this.sb.sbgscddm = cddm
+        this.sb.sbgsxldm = xldm
+        console.log(this.sb)
+      },
       handleCurrentChange(val) {
         this.currentPage = val
       },
