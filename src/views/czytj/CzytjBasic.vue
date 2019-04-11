@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="车载一体机" @listenToChildEvent="getGsSelected"></SideBar>
+      <SideBar sb-type="车载一体机" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <el-header>
@@ -12,7 +12,7 @@
             <el-input
               placeholder="通过分片编号查询"
               clearable
-              @change="qypbhChange"
+              @change="handleQypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
               size="mini"
               :disabled="advanceSearchViewVisible"
@@ -63,22 +63,42 @@
                               placeholder="设备合同编号"></el-input>
                   </el-col>
                   <el-col :span="4">
+                    工作状态:
+                    <el-select v-model="czytj.sbgzztdm" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleGzztChange">
+                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
                     分片区域:
-                    <el-select v-model="czytj.qypmc" style="width: 120px" clearable size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                    <el-select v-model="czytj.qypbh" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleFpChange">
+                      <el-option v-for="item in fps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="4">
                     管理等级:
-                    <el-select v-model="czytj.gldj" style="width: 100px" size="small" placeholder="管理等级">
+                    <el-select v-model="czytj.gldjdm" style="width: 110px" clearable size="small" placeholder="管理等级"
+                               @change="handleGldjChange">
                       <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
-                  <el-col :span="6">
+                  <el-col :span="5">
+                    车牌号:
+                    <el-input prefix-icon="el-icon-search" v-model="czytj.azclcph" size="small" style="width: 150px"
+                              placeholder="安装车辆车牌号"></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    车辆编号:
+                    <el-input prefix-icon="el-icon-search" v-model="czytj.azclzbh" size="small" style="width: 150px"
+                              placeholder="安装车辆车牌号"></el-input>
+                  </el-col>
+                  <el-col :span="5">
                     品牌型号:
                     <el-cascader
                       size="small"
@@ -105,6 +125,8 @@
                       end-placeholder="结束日期">
                     </el-date-picker>
                   </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     更新日期:
                     <el-date-picker
@@ -118,8 +140,6 @@
                       end-placeholder="结束日期">
                     </el-date-picker>
                   </el-col>
-                </el-row>
-                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     报废日期:
                     <el-date-picker
@@ -135,19 +155,42 @@
                   </el-col>
                   <el-col :span="4">
                     供应商:
-                    <el-select v-model="czytj.gysmc" style="width: 130px" clearable size="small" placeholder="请选择供应商">
+                    <el-select v-model="czytj.gysdm" style="width: 130px" clearable size="small" placeholder="请选择供应商"
+                               @change="handleGysChange">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh">
+                                 :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
+                  <el-col :span="4">
+                    集成商:
+                    <el-select v-model="czytj.jcsdm" style="width: 130px" clearable size="small" placeholder="请选择集成商"
+                               @change="handleJcsChange">
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id">
                       </el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="4">
-                    集成商:
-                    <el-select v-model="czytj.jcsmc" style="width: 130px" clearable size="small" placeholder="请选择集成商">
-                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh">
+                    清晰度:
+                    <el-select v-model="czytj.qxddm" style="width: 130px" clearable size="small" placeholder="请选择清晰度"
+                               @change="handleQxdChange">
+                      <el-option v-for="item in qxds" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id">
                       </el-option>
                     </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    车内摄像头:
+                    <el-input prefix-icon="el-icon-search" v-model="czytj.cnsxts" size="small" style="width: 150px"
+                              placeholder="车内摄像头"></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    车外摄像头:
+                    <el-input prefix-icon="el-icon-search" v-model="czytj.cwsxts" size="small" style="width: 150px"
+                              placeholder="车外摄像头"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
@@ -161,7 +204,7 @@
                       clearable
                       :options="czytjGsOptions"
                       v-model="czytjGsOption"
-                      @change="handleChange"
+                      @change="handleGsChange"
                       change-on-select>
                     </el-cascader>
                   </el-col>
@@ -203,7 +246,7 @@
                 <el-table-column prop="azclcph" label="车牌号" width="100" align="center"></el-table-column>
                 <el-table-column prop="azclzbh" label="车辆编号" width="95" align="center"></el-table-column>
               </el-table-column>
-              <el-table-column prop="gldj" label="管理等级" width="70" align="center"></el-table-column>
+              <el-table-column prop="gldj" label="管理等级" width="80" align="center"></el-table-column>
               <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
               <el-table-column prop="sbxh" label="型号" width="70" align="center"></el-table-column>
               <el-table-column prop="qxd" label="清晰度" width="130" align="center"></el-table-column>
@@ -252,11 +295,11 @@
           </div>
         </el-main>
       </el-container>
-      <!-- 添加车载一体机信息Begin -->
+      <!-- FORM Begin -->
       <el-form :model="czytj" :rules="rules" ref="czytj" style="margin: 0px;padding: 0px;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                     :visible.sync="dialogVisible" width="77%" @close="cancel_add('czytj')">
+                     :visible.sync="dialogVisible" width="77%" @close="cancelAdd('czytj')">
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
@@ -276,9 +319,12 @@
               </el-col>
               <el-col :span="7">
                 <div>
-                  <el-form-item label="分片编号:" prop="qypbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="czytj.qypbh" size="small" style="width: 150px"
-                              placeholder="请输入分片编号"></el-input>
+                  <el-form-item label="工作状态:" prop="sbgzzt">
+                    <el-select v-model="czytj.sbgzztdm" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleGzztChange">
+                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
@@ -286,36 +332,44 @@
             <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
-                  <el-form-item label="工作状态:" prop="sbgzzt">
-                    <el-select v-model="czytj.sbgzzt" style="width: 120px" size="small" placeholder="请选择">
-                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                  <el-form-item label="分片名称:" prop="qypmc">
+                    <el-select v-model="czytj.qypbh" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleFpChange">
+                      <el-option v-for="item in fps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
               <el-col :span="7">
                 <div>
-                  <el-form-item label="分片区域:" prop="qypmc">
-                    <el-select v-model="czytj.qypmc" style="width: 120px" size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
-                    </el-select>
+                  <el-form-item label="安装车牌号:" prop="azclcph">
+                    <el-input prefix-icon="el-icon-edit" v-model="czytj.azclcph" size="small" style="width: 150px"
+                              placeholder="请输入车牌号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="车辆编号:" prop="azclzbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="czytj.azclzbh" size="small" style="width: 150px"
+                              placeholder="请输入车辆编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="管理等级:" prop="gldj">
-                    <el-select v-model="czytj.gldj" style="width: 120px" size="small" placeholder="管理等级">
+                    <el-select v-model="czytj.gldjdm" style="width: 120px" size="small" placeholder="管理等级"
+                               @change="handleGldjChange">
                       <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="品牌型号:" prop="czytjPpxhOption">
@@ -335,29 +389,16 @@
               <el-col :span="7">
                 <div>
                   <el-form-item label="清晰度:" prop="qxd">
-                    <el-input prefix-icon="el-icon-edit" v-model="czytj.qxd" size="small" style="width: 130px"
-                              placeholder="请输入清晰度"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <div>
-                  <el-form-item label="安装车牌号:" prop="ancph">
-                    <el-input prefix-icon="el-icon-edit" v-model="czytj.azclcph" size="small" style="width: 150px"
-                              placeholder="请输入车牌号"></el-input>
+                    <el-select v-model="czytj.qxddm" style="width: 130px" size="small" placeholder="清晰度"
+                               @change="handleQxdChange">
+                      <el-option v-for="item in qxds" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="7">
-                <div>
-                  <el-form-item label="车辆编号:" prop="azclbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="czytj.azclzbh" size="small" style="width: 150px"
-                              placeholder="请输入车牌号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
               <el-col :span="7">
                 <div>
                   <el-form-item label="车内摄像头数:" prop="cnsxts">
@@ -371,16 +412,6 @@
                   <el-form-item label="车外摄像头数:" prop="cwsxts">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.cwsxts" size="small" style="width: 130px"
                               placeholder="车外摄像头数"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
-              <el-col :span="7">
-                <div>
-                  <el-form-item label="SIM卡号:" prop="simkh">
-                    <el-input prefix-icon="el-icon-edit" v-model="czytj.simkh" size="small" style="width: 200px"
-                              placeholder="请输入SIM卡号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -400,6 +431,8 @@
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="8">
                 <div>
                   <el-form-item label="二维码编号:" prop="ewmbh">
@@ -408,8 +441,6 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="启动日期:" prop="sbqyrq">
@@ -438,7 +469,9 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="6">
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="报废日期:" prop="sbbfrq">
                     <el-date-picker
@@ -452,14 +485,13 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="供应商:" prop="gysmc">
-                    <el-select v-model="czytj.gysmc" style="width: 130px" size="small" placeholder="供应商">
+                    <el-select v-model="czytj.gysdm" style="width: 130px" size="small" placeholder="供应商"
+                               @change="handleGysChange">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
@@ -467,10 +499,21 @@
               <el-col :span="6">
                 <div>
                   <el-form-item label="集成商:" prop="jcsmc">
-                    <el-select v-model="czytj.jcsmc" style="width: 130px" size="small" placeholder="集成商">
+                    <el-select v-model="czytj.jcsdm" style="width: 130px" size="small" placeholder="集成商"
+                               @change="handleJcsChange">
                       <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="SIM卡号:" prop="simkh">
+                    <el-input prefix-icon="el-icon-edit" v-model="czytj.simkh" size="small" style="width: 200px"
+                              placeholder="请输入SIM卡号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -506,25 +549,27 @@
     data() {
       return {
         czytj: {
-          // sblb: this.$store.getters.getSblb,
           sbjyh: '',
           sbzbh: '',
-          qypbh: '',
           htbh: '',
+          sbgzztdm: '',
           sbgzzt: '',
-          gldj: '',
           azzp: '',
-          azclcph: '',
-          azclzbh: '',
           qypbh: '',
           qypmc: '',
+          azclcph: '',
+          azclzbh: '',
+          gldjdm: '',
+          gldj: '',
           sbppdm: '',
           sbpp: '',
           sbxhdm: '',
           sbxh: '',
+          qxddm: '',
           qxd: '',
           cnsxts: '',
           cwsxts: '',
+          simkh: '',
           sbgsjtdm: '',
           sbgsjtmc: '',
           sbgsgsdm: '',
@@ -536,7 +581,9 @@
           sbqyrq: '',
           sbgxrq: '',
           sbbfrq: '',
+          gysdm: '',
           gysmc: '',
+          jcsdm: '',
           jcsmc: '',
           tmbh: '',
           ewmbh: ''
@@ -548,22 +595,19 @@
           qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
           qypmc: [{required: true, message: '必填:分片名称', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
+          azclcph: [{required: true, message: '必填:安装车辆车牌号', trigger: 'blur'}],
+          azclzbh: [{required: true, message: '必填:安装车辆编号', trigger: 'blur'}],
           czytjPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
-          // sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
-          // sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
           qxd: [{required: true, message: '必填:清晰度', trigger: 'blur'}],
           cnsxts: [{required: true, message: '必填:车内摄像头数', trigger: 'blur'}],
           cwsxts: [{required: true, message: '必填:车外摄像头数', trigger: 'blur'}],
           czytjGsOption: [{required: false, message: '必填:设备归属信息', trigger: 'blur'}],
-          // sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'blur'}],
-          // sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
-          // sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'blur'}],
-          // sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
           sbqyrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
           sbgxrq: [{required: false, message: '必填:更新日期', trigger: 'blur'}],
           sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'blur'}],
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
+          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
           ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
         },
@@ -592,7 +636,12 @@
         gs: [],
         gldjs: [],
         sbgzzts: [],
-        qypmcs: []
+        qxds: [],
+        fps: [],
+        sbgsjtdm: '',
+        sbgsgsdm: '',
+        sbgscddm: '',
+        sbgsxldm: ''
       }
     },
     components: {
@@ -601,10 +650,6 @@
       StatisticsCard
     },
     methods: {
-      getGsSelected(data) {
-        this.cardTitle = data.label
-        this.getGsTreeInfo(data, this.czytj.sbgsjtdm, this.czytj.sbgsgsdm, this.czytj.sbgscddm, this.czytj.sbgsxldm)
-      },
       initData() {
         var _this = this
         this.getRequest('/api/Sbs/gldj').then(res => {
@@ -623,19 +668,127 @@
             _this.sbgzzts = res.data.GzztList
           }
         })
-        this.getRequest('/api/Sbs/qypmc').then(res => {
-          if (res && res.status === 200) {
-            _this.qypmcs = res.data.QypmcList
-          }
-        })
         this.getRequest('/api/Sbs/ppxh').then(res => {
           if (res && res.status === 200) {
             _this.sbppxh = res.data.PpxhList
           }
         })
+        this.getRequest('/api/Sbs/qxd').then(res => {
+          if (res && res.status === 200) {
+            _this.qxds = res.data.QxdList
+          }
+        })
+        this.getRequest('/api/Sbs/fp').then(res => {
+          if (res && res.status === 200) {
+            _this.fps = res.data.FpList
+          }
+        })
       },
-      qypbhChange(val) {
+      // HANDLE FUNCTIONS
+      handleGsTreeSelect(data) {
+        var _this = this
+        this.cardTitle = data.label
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data, this.czytj.sbgsjtdm, this.czytj.sbgsgsdm, this.czytj.sbgscddm, this.czytj.sbgsxldm)
+        this.sbgsjtdm = jtdm
+        this.sbgsgsdm = gsdm
+        this.sbgscddm = cddm
+        this.sbgsxldm = xldm
+        let params = {
+          sbgsjtdm: jtdm,
+          sbgsgsdm: gsdm,
+          sbgscddm: cddm,
+          sbgsxldm: xldm
+        }
+        console.log('Tree参数信息', params)
+        this.getRequest('/api/czytj/basic', params).then(res => {
+          _this.tableLoading = false
+          if (res && res.status === 200) {
+            _this.Sbs = res.data.CzytjList
+            // totalRow会发生改变 currentPage、pageSize是向服务端发送的
+            _this.totalPage = res.data.totalRow
+          }
+        })
+      },
+      handleQypbhChange(val) {
         if (val === '') {
+          this.loadCzytjData()
+        }
+      },
+      handleGzztChange(val) {
+        var gzzt = parseInt(val)
+        if (gzzt) {
+          this.czytj.sbgzzt = this.sbgzzts[gzzt - 1].descriptionZh
+        }
+      },
+      handleFpChange(val) {
+        var fp = parseInt(val)
+        if (fp) {
+          this.czytj.qypmc = this.fps[fp - 1].descriptionZh
+        }
+      },
+      handleQxdChange(val) {
+        var qxd = parseInt(val)
+        if (qxd) {
+          this.czytj.qxd = this.qxds[qxd - 1].descriptionZh
+        }
+      },
+      handleGldjChange(val) {
+        var gldj = parseInt(val)
+        if (gldj) {
+          this.czytj.gldj = this.gldjs[gldj - 1].descriptionZh
+        }
+      },
+      handlePpxhChange(value) {
+        this.czytjPpxhOption = value
+        let [ppdm, pp, xhdm, xh] = this.getPpxhInfo(value, this.czytj.sbppdm, this.czytj.sbxhdm, this.czytj.sbpp, this.czytj.sbxh, this.sbppxh)
+        this.czytj.sbppdm = ppdm
+        this.czytj.sbpp = pp
+        this.czytj.sbxhdm = xhdm
+        this.czytj.sbxh = xh
+        console.log(this.czytj)
+      },
+      handleGysChange(val) {
+        var gys = parseInt(val)
+        if (gys) {
+          this.czytj.gysmc = this.gs[gys - 1].descriptionZh
+        }
+      },
+      handleJcsChange(val) {
+        var jcs = parseInt(val)
+        if (jcs) {
+          this.czytj.jcsmc = this.gs[jcs - 1].descriptionZh
+        }
+      },
+      handleGsChange(value) {
+        this.czytjGsOption = value
+        let [jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc] = this.getGsInfo(value, this.czytjGsOptions, this.czytj.sbgsjtdm, this.czytj.sbgsjtmc, this.czytj.sbgsgsdm, this.czytj.sbgsgsmc, this.czytj.sbgscddm, this.czytj.sbgscdmc, this.czytj.sbgsxldm, this.czytj.sbgsxlmc)
+        this.czytj.sbgsjtdm = jtdm
+        this.czytj.sbgsjtmc = jtmc
+        this.czytj.sbgsgsdm = gsdm
+        this.czytj.sbgsgsmc = gsmc
+        this.czytj.sbgscddm = cddm
+        this.czytj.sbgscdmc = cdmc
+        this.czytj.sbgsxldm = xldm
+        this.czytj.sbgsxlmc = xlmc
+        console.log(this.czytj)
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`)
+        this.pageSize = val
+        this.loadCzytjData()
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val
+        this.loadCzytjData()
+      },
+      showAdvanceSearchView() {
+        this.advanceSearchViewVisible = !this.advanceSearchViewVisible
+        this.czytj.qypbh = ''
+        if (!this.advanceSearchViewVisible) {
+          this.emptyCzytjData()
+          this.beginDateScope = ''
+          this.updateDateScope = ''
+          this.endDateScope = ''
           this.loadCzytjData()
         }
       },
@@ -650,27 +803,25 @@
         this.endDateScope = ''
         this.loadCzytjData()
       },
-      cancel_add(formName) {
-        this.$refs[formName].resetFields()
-        this.emptyCzytjData()
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val
-      },
-      showAdvanceSearchView() {
-        this.advanceSearchViewVisible = !this.advanceSearchViewVisible
-        this.czytj.qypbh = ''
-        if (!this.advanceSearchViewVisible) {
-          this.emptyCzytjData()
-          this.beginDateScope = ''
-          this.updateDateScope = ''
-          this.endDateScope = ''
-          this.loadCzytjData()
-        }
-      },
       showAddCzytjView() {
         this.dialogVisible = true
         this.dialogTitle = "添加车载一体机"
+      },
+      addCzytj(formName) {
+        var _this = this
+        _this.dialogVisible = true
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            _this.czytj.sbjyh = Date.now().toString()
+            console.log('czytj表单信息（先）', this.czytj)
+          } else {
+            return false
+          }
+        })
+      },
+      cancelAdd(formName) {
+        this.$refs[formName].resetFields()
+        this.emptyCzytjData()
       },
       showEditCzytjView(row) {
         console.log(row)
@@ -684,9 +835,9 @@
         this.czytj.azclcph = row.azclcph
         this.czytj.azclzbh = row.azclzbh
         this.czytj.gldj = row.gldj
-        this.czytj.sbppdm = row.sbppdm
+        // this.czytj.sbppdm = row.sbppdm
         this.czytj.sbpp = row.sbpp
-        this.czytj.sbxhdm = row.sbxhdm
+        // this.czytj.sbxhdm = row.sbxhdm
         this.czytj.sbxh = row.sbxh
         this.czytj.qxd = row.qxd
         this.czytj.cnsxt = row.cnsxt
@@ -702,23 +853,13 @@
         this.czytj.sbbfrq = this.formatDate(row.sbbfrq)
         this.czytj.gysmc = row.gysmc
         this.czytj.jcsmc = row.jcsmc
+        this.czytj.simkh = row.simkh
         this.czytj.tmbh = row.tmbh
         this.czytj.ewmbh = row.ewmbh
       },
       cancelEidt() {
         this.dialogVisible = false
         this.emptyCzytjData()
-      },
-      addCzytj(formName) {
-        var _this = this
-        _this.dialogVisible = true
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            console.log('czytj表单信息（先）', this.czytj)
-          } else {
-            return false
-          }
-        })
       },
       deleteCzytj(row) {
         this.$confirm('此操作将永久删除设备:车载一体机' + row.sbzbh + ', 是否继续?', '提示', {
@@ -748,6 +889,9 @@
         }).catch(() => {
         });
       },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
+      },
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -757,103 +901,51 @@
           this.$refs.multipleTable.clearSelection()
         }
       },
-      handleCurrentChange(val) {
-        this.currentPage = val
-        this.loadCzytjData()
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`)
-        this.pageSize = val
-        this.loadCzytjData()
-      },
-      handleChange(value) {
-        this.czytj.sbgsjtdm = value[0]
-        this.czytj.sbgsgsdm = value[1]
-        this.czytj.sbgscddm = value[2]
-      },
-      handlePpxhChange(value) {
-        this.czytjPpxhOption = value
-        // this.getPpxhInfo(value, this.czytj.sbppdm, this.czytj.sbxhdm, this.czytj.sbpp, this.czytj.sbxh, this.sbppxh)
-        // 设置代码=>dm
-        this.czytj.sbppdm = value[0]
-        this.czytj.sbxhdm = value[1]
-        // 设置名称=>mc
-        var pp = parseInt(value[0])
-        var xh = parseInt(value[1])
-        if (pp && xh) {
-          xh = parseInt((value[1]).substring(2, 4))
-          this.czytj.sbpp = this.sbppxh[pp - 1].label
-          this.czytj.sbxh = this.sbppxh[pp - 1].children[xh - 1].label
-        }
-        // 但就是未成功修改czytj
-        console.log(this.czytj)
-      },
-      handleGsChange(value) {
-        this.czytjGsOption = value
-        // 设置代码=>dm
-        this.czytj.sbgsjtdm = value[0]
-        this.czytj.sbgsgsdm = value[1]
-        this.czytj.sbgscddm = value[2]
-        this.czytj.sbgsxldm = value[3]
-        // 设置名称=>mc
-        var jt = parseInt(value[0])
-        var gs = parseInt(value[1])
-        var cd = parseInt(value[2])
-        var xl = parseInt(value[3])
-        if (jt && gs) {
-          // console.log('集团', jt)
-          gs = parseInt((value[1]).substring(2, 4))
-          // console.log('公司', gs)
-          if (cd) {
-            cd = parseInt((value[2]).substring(4, 6))
-            // console.log('车队', cd)
-            if (xl) {
-              xl = parseInt((value[3]).substring(6, 8))
-              // console.log('线路', xl)
-              this.czytj.sbgsjtmc = this.czytjGsOptions[jt - 1].label
-              this.czytj.sbgsgsmc = this.czytjGsOptions[jt - 1].children[gs - 1].label
-              this.czytj.sbgscdmc = this.czytjGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
-              this.czytj.sbgsxlmc = this.czytjGsOptions[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
-              console.log(this.czytj)
-            }
-          }
-        }
+      emptyCzytjGs() {
+        this.czytjGsOption = ['', '', '', '']
       },
       emptyCzytjPpxh() {
         this.czytjPpxhOption = ['', '']
-      },
-      emptyCzytjGs() {
-        this.czytjGsOption = ['', '', '']
       },
       emptyCzytjData() {
         this.emptyCzytjGs()
         this.emptyCzytjPpxh()
         this.czytj = {
-          sblb: '',
+          sbjyh: '',
           sbzbh: '',
-          qypbh: '',
           htbh: '',
+          sbgzztdm: '',
           sbgzzt: '',
+          azzp: '',
           qypbh: '',
           qypmc: '',
           azclcph: '',
           azclzbh: '',
+          gldjdm: '',
           gldj: '',
           sbppdm: '',
           sbpp: '',
           sbxhdm: '',
           sbxh: '',
+          qxddm: '',
           qxd: '',
-          cnsxt: '',
-          cwsxt: '',
+          cnsxts: '',
+          cwsxts: '',
+          simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqyrq: '',
           sbgxrq: '',
           sbbfrq: '',
+          gysdm: '',
           gysmc: '',
+          jcsdm: '',
           jcsmc: '',
           tmbh: '',
           ewmbh: ''
@@ -861,51 +953,71 @@
       },
       loadCzytjData() {
         var _this = this
+        let params
         this.tableLoading = true
-        let params = {
-          page: this.currentPage,
-          pagePize: this.pageSize,
-          qypbh: this.czytj.qypbh,
-          orderItemName: '',
-          order: '',
-          sblb: this.czytj.sblb,
-          gzzt: '',
-          sbzbh: this.czytj.sbzbh,
-          // 区域片编号
-          qypbh: '',
-          azdddm: '',
-          ssxzdm: '',
-          ssxzqy: '',
-          zdbh: '',
-          jzbh: '',
-          azzp: '',
-          dyxljhdm: '',
-          dyxljhmc: '',
-          sbxh: this.czytj.sbxh,
-          sbpp: this.czytj.sbpp,
-          // qxd:this.czytj.qxd,
-          // cnsxt:this.czytj.cnsxt,
-          // cwsxt:this.czytj.cwsxt,
-          simkh: '',
-          gldj: this.czytj.gldj,
-          sbgsjtdm: this.czytjGsOption[0],
-          sbgsjtmc: this.czytj.sbgsjtmc,
-          sbgsgsdm: this.czytjGsOption[1],
-          sbgsgsmc: this.czytj.sbgsgsmc,
-          sbgscddm: this.czytjGsOption[2],
-          sbgscdmc: this.czytj.sbgscdmc,
-          // sbgsxldm: '',
-          sbgsxldm: this.czytjGsOption[3],
-          sbgsxlmc: this.czytj.sbgsxlmc,
-          gysmc: this.czytj.gysmc,
-          jcsmc: this.czytj.jcsmc,
-          beginDateScope: this.beginDateScope,
-          updateDateScope: this.updateDateScope,
-          endDateScope: this.endDateScope
+        if (this.czytj.sbgsjtdm) {
+          params = {
+            page: this.currentPage,
+            pagePize: this.pageSize,
+            orderItemName: '',
+            order: '',
+            sbzbh: this.czytj.sbzbh,
+            htbh: this.czytj.htbh,
+            sbgzztdm: this.czytj.sbgzztdm,
+            // sbgzzt: '',
+            qypbh: this.czytj.qypbh,
+            // qypmc: '',
+            azclcph: this.czytj.azclcph,
+            azclzbh: this.czytj.azclzbh,
+            gldjdm: this.czytj.gldjdm,
+            // gldj: '',
+            sbppdm: this.czytj.sbppdm,
+            // sbpp: '',
+            sbxhdm: this.czytj.sbxhdm,
+            // sbxh: '',
+            qxddm: this.czytj.qxddm,
+            // qxd: '',
+            cnsxts: this.czytj.cnsxts,
+            cwsxts: this.czytj.cwsxts,
+            simkh: this.czytj.simkh,
+            sbgsjtdm: this.czytj.sbgsjtdm,
+            // sbgsjtmc: '',
+            sbgsgsdm: this.czytj.sbgsgsdm,
+            // sbgsgsmc: '',
+            sbgscddm: this.czytj.sbgscddm,
+            // sbgscdmc: '',
+            sbgsxldm: this.czytj.sbgsxldm,
+            // sbgsxlmc: '',
+            sbqyrq: this.czytj.sbqyrq,
+            sbgxrq: this.czytj.sbgxrq,
+            sbbfrq: this.czytj.sbbfrq,
+            gysdm: this.czytj.gysdm,
+            // gysmc: '',
+            jcsdm: this.czytj.jcsdm,
+            // jcsmc: '',
+            tmbh: this.czytj.tmbh,
+            ewmbh: this.czytj.ewmbh,
+            beginDateScope: this.beginDateScope,
+            updateDateScope: this.updateDateScope,
+            endDateScope: this.endDateScope
+          }
+        } else {
+          params = {
+            page: this.currentPage,
+            size: this.pageSize,
+            orderItemName: '',
+            order: '',
+            sbgsjtdm: this.sbgsjtdm,
+            sbgsgsdm: this.sbgsgsdm,
+            sbgscddm: this.sbgscddm,
+            sbgsxldm: this.sbgsxldm,
+            beginDateScope: this.beginDateScope,
+            updateDateScope: this.updateDateScope,
+            endDateScope: this.endDateScope
+          }
         }
-        console.log('1123 本次查询参数为')
         console.log(params)
-        this.getRequest('/api/czytj/basic/jt1').then(res => {
+        this.getRequest('/api/czytj/basic', params).then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
             _this.Sbs = res.data.CzytjList

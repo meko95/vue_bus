@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="站杆预报屏" @listenToChildEvent="getGsSelected"></SideBar>
+      <SideBar sb-type="站杆预报屏" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <!-- 设备材质、设备供电 -->
       <el-container>
@@ -13,7 +13,7 @@
             <el-input
               placeholder="通过分片编号查询"
               clearable
-              @change="qypbhChange"
+              @change="handleQypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
               size="mini"
               :disabled="advanceSearchViewVisible"
@@ -65,33 +65,49 @@
                   </el-col>
                   <el-col :span="4">
                     工作状态:
-                    <el-select v-model="zgybp.sbgzzt" style="width: 100px" size="small" placeholder="工作状态">
-                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="zgybp.sbgzztdm" style="width: 100px" size="small" placeholder="工作状态"
+                               @change="handleGzztChange">
+                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
-                  <el-col :span="5">
-                    区域名称:
-                    <el-input prefix-icon="el-icon-search" v-model="zgybp.ssqymc" size="small" style="width: 150px"
-                              placeholder="区域名称"></el-input>
+                  <el-col :span="4">
+                    分片区域:
+                    <el-select v-model="zgybp.qypbh" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleFpChange">
+                      <el-option v-for="item in fps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    行政区域:
+                    <el-select v-model="zgybp.ssxzqydm" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleXzqyChange">
+                      <el-option v-for="item in ssxzqys" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="5">
-                    站牌名称:
-                    <el-input prefix-icon="el-icon-search" v-model="zgybp.zpmc" size="small" style="width: 150px"
-                              placeholder="站牌名称"></el-input>
+                    站牌编号:
+                    <el-input prefix-icon="el-icon-search" v-model="zgybp.zpbh" size="small" style="width: 150px"
+                              placeholder="站牌编号"></el-input>
                   </el-col>
                   <el-col :span="4">
-                    分片区域:
-                    <el-select v-model="zgybp.qypmc" style="width: 120px" clearable size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                    站牌名称:
+                    <el-select v-model="zgybp.zpbh" style="width: 100px" size="small" placeholder="站牌名称"
+                               @change="handleZpChange">
+                      <el-option v-for="item in zps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="4">
                     管理等级:
-                    <el-select v-model="zgybp.gldj" style="width: 100px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="zgybp.gldjdm" style="width: 100px" size="small" placeholder="管理等级"
+                               @change="handleGldjChange">
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="5">
@@ -108,29 +124,55 @@
                       change-on-select>
                     </el-cascader>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="4">
                     设备材质:
-                    <el-input prefix-icon="el-icon-search" v-model="zgybp.plb" size="small" style="width: 150px"
-                              placeholder="设备材质"></el-input>
+                    <el-select v-model="zgybp.pczdm" style="width: 100px" size="small" placeholder="设备材质"
+                               @change="handlePczChange">
+                      <el-option v-for="item in pczs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
-                  <el-col :span="5">
+                  <el-col :span="4">
                     供电方法:
-                    <el-input prefix-icon="el-icon-search" v-model="zgybp.gdffmc" size="small" style="width: 150px"
-                              placeholder="供电方法"></el-input>
+                    <el-select v-model="zgybp.gdffdm" style="width: 110px" clearable size="small" placeholder="供电方法"
+                               @change="handleGdffChange">
+                      <el-option v-for="item in gdffs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="4">
                     屏幕尺寸:
-                    <el-input prefix-icon="el-icon-search" v-model="zgybp.sbccmc" size="small" style="width: 150px"
-                              placeholder="屏幕尺寸"></el-input>
+                    <el-select v-model="zgybp.sbccdm" style="width: 110px" clearable size="small" placeholder="屏幕尺寸"
+                               @change="handleSbccChange">
+                      <el-option v-for="item in sbccs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-col>
                   <el-col :span="4">
                     光照条件:
-                    <el-select v-model="zgybp.gztj" style="width: 100px" size="small" placeholder="光照条件">
-                      <el-option v-for="item in gztjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="zgybp.gztjdm" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleGztjChange">
+                      <el-option v-for="item in gztjs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
+                  <el-col :span="8">
+                    设备归属:
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备归属"
+                      style="width:300px;"
+                      expand-trigger="hover"
+                      :options="zgybpGsOptions"
+                      v-model="zgybpGsOption"
+                      @change="handleGsChange"
+                      change-on-select>
+                    </el-cascader>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     启动日期:
                     <el-date-picker
@@ -144,8 +186,6 @@
                       end-placeholder="结束日期">
                     </el-date-picker>
                   </el-col>
-                </el-row>
-                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     更新日期:
                     <el-date-picker
@@ -159,6 +199,8 @@
                       end-placeholder="结束日期">
                     </el-date-picker>
                   </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     报废日期:
                     <el-date-picker
@@ -174,45 +216,39 @@
                   </el-col>
                   <el-col :span="4">
                     供应商:
-                    <el-select v-model="zgybp.gysmc" style="width: 130px" size="small" placeholder="请选择供应商">
+                    <el-select v-model="zgybp.gysmc" style="width: 130px" size="small" placeholder="请选择供应商"
+                               @change="handleGysChange">
                       <el-option
                         v-for="item in gs"
                         :key="item.id"
                         :label="item.descriptionZh"
-                        :value="item.descriptionZh">
+                        :value="item.id">
                       </el-option>
                     </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    集成商:
+                    <el-select v-model="zgybp.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商"
+                               @change="handleJcsChange">
+                      <el-option
+                        v-for="item in gs"
+                        :key="item.id"
+                        :label="item.descriptionZh"
+                        :value="item.id">
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    条码编号:
+                    <el-input prefix-icon="el-icon-search" v-model="zgybp.tmbh" size="small" style="width: 150px"
+                              placeholder="设备条码编号"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="5">
-                    站牌编号:
-                    <el-input prefix-icon="el-icon-search" v-model="zgybp.zpbh" size="small" style="width: 150px"
-                              placeholder="站牌编号"></el-input>
-                  </el-col>
-                  <el-col :span="4">
-                    集成商:
-                    <el-select v-model="zgybp.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商">
-                      <el-option
-                        v-for="item in gs"
-                        :key="item.id"
-                        :label="item.descriptionZh"
-                        :value="item.descriptionZh">
-                      </el-option>
-                    </el-select>
-                  </el-col>
-                  <el-col :span="8">
-                    设备归属:
-                    <el-cascader
-                      size="small"
-                      placeholder="请选择设备归属"
-                      style="width:300px;"
-                      expand-trigger="hover"
-                      :options="zgybpGsOptions"
-                      v-model="zgybpGsOption"
-                      @change="handleGsChange"
-                      change-on-select>
-                    </el-cascader>
+                    二维码编号:
+                    <el-input prefix-icon="el-icon-search" v-model="zgybp.ewmbh" size="small" style="width: 150px"
+                              placeholder="设备二维码编号"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
@@ -276,18 +312,20 @@
               </el-table-column>
               <el-table-column prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
               <el-table-column prop="qypmc" label="分片名称" width="80" align="center"></el-table-column>
-              <el-table-column prop="ssqymc" label="区域名称" width="80" align="center"></el-table-column>
-              <el-table-column prop="gldj" label="管理等级" width="70" align="center"></el-table-column>
+              <el-table-column prop="ssxzqy" label="行政区域" width="80" align="center"></el-table-column>
+              <el-table-column prop="zdmc" label="站点" width="85" align="center"></el-table-column>
+              <el-table-column prop="zpbh" label="站牌编号" width="80" align="center"></el-table-column>
+              <el-table-column prop="zpmc" label="站牌名称" width="80" align="center"></el-table-column>
+              <el-table-column prop="gldj" label="管理等级" width="80" align="center"></el-table-column>
               <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
               <el-table-column prop="sbxh" label="型号" width="70" align="center"></el-table-column>
-              <el-table-column prop="plb" label="材质" width="70" align="center"></el-table-column>
+              <el-table-column prop="pcz" label="材质" width="70" align="center"></el-table-column>
               <el-table-column prop="gdffmc" label="供电" width="70" align="center"></el-table-column>
               <el-table-column prop="sbccmc" label="尺寸" width="70" align="center"></el-table-column>
               <el-table-column prop="gztj" label="光照条件" width="80" align="center"></el-table-column>
               <el-table-column prop="sbgsjtmc" label="集团" width="110" align="center"></el-table-column>
               <el-table-column prop="sbgsgsmc" label="公司" width="90" align="center"></el-table-column>
               <el-table-column prop="sbgscdmc" label="车队" width="70" align="center"></el-table-column>
-              <el-table-column prop="sbgszdmc" label="站点" width="85" align="center"></el-table-column>
               <el-table-column prop="sbgsxlmc" label="线路" width="70" align="center"></el-table-column>
               <el-table-column prop="sbqdrq" label="启用日期" width="100" align="center" sortable>
                 <!--<template slot-scope="scope">{{ scope.row.sbqdrq | formatDate}}</template>-->
@@ -328,7 +366,7 @@
           </div>
         </el-main>
       </el-container>
-      <!-- 添加站杆预报屏信息Begin -->
+      <!-- FORM Begin -->
       <el-form :model="zgybp" :rules="rules" ref="zgybp" style="margin: 0px;padding: 0px;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
@@ -353,98 +391,73 @@
               <el-col :span="7">
                 <div>
                   <el-form-item label="工作状态:" prop="sbgzzt">
-                    <el-select v-model="zgybp.sbgzzt" style="width: 150px" size="small" placeholder="请选择">
+                    <el-select v-model="zgybp.sbgzztdm" style="width: 150px" size="small" placeholder="请选择"
+                               @change="handleGzztChange">
                       <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="站杆预报屏分片编号:" prop="qypbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.qypbh" size="small" style="width: 150px"
-                              placeholder="请输入分片编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
               <el-col :span="7">
                 <div>
                   <el-form-item label="分片区域:" prop="qypmc">
-                    <el-select v-model="zgybp.qypmc" style="width: 150px" size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                    <el-select v-model="zgybp.qypbh" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleFpChange">
+                      <el-option v-for="item in fps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="区域名称:" prop="ssqymc">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.ssqymc" size="small" style="width: 150px"
-                              placeholder="请输入区域名称"></el-input>
+                  <el-form-item label="行政区域:" prop="ssxzqy">
+                    <el-select v-model="zgybp.ssxzqydm" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleXzqyChange">
+                      <el-option v-for="item in ssxzqys" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="站点名称:" prop="zdmc">
+                    <el-select v-model="zgybp.zdbh" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleZdChange">
+                      <el-option v-for="item in zds" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="8">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="站牌名称:" prop="zpmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.zpmc" size="small" style="width: 150px"
-                              placeholder="请输入站牌名称"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <div>
-                  <el-form-item label="设备材质:" prop="plb">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.plb" size="small" style="width: 150px"
-                              placeholder="请输入设备材质"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="供电方法:" prop="gdffmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.gdffmc" size="small" style="width: 150px"
-                              placeholder="请输入供电方法"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="设备尺寸:" prop="sbccmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.sbccmc" size="small" style="width: 150px"
-                              placeholder="请输入设备尺寸"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <div>
-                  <el-form-item label="光照条件:" prop="gztj">
-                    <el-select v-model="zgybp.gztj" style="width: 120px" size="small" placeholder="请选择">
-                      <el-option v-for="item in gztjs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                    <el-select v-model="zgybp.zpbh" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleZpChange">
+                      <el-option v-for="item in zps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="管理等级:" prop="gldj">
-                    <el-select v-model="zgybp.gldj" style="width: 120px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="zgybp.gldjdm" style="width: 120px" size="small" placeholder="管理等级"
+                               @change="handleGldjChange">
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="品牌型号:" prop="zgybpPpxhOption">
@@ -461,11 +474,51 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="6">
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="SIM卡号:" prop="simkh">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.simkh" size="small" style="width: 150px"
-                              placeholder="请输入SIM卡号"></el-input>
+                  <el-form-item label="设备材质:" prop="pcz">
+                    <el-select v-model="zgybp.pczdm" style="width: 120px" size="small" placeholder="设备材质"
+                               @change="handlePczChange">
+                      <el-option v-for="item in pczs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="供电方法:" prop="gdffmc">
+                    <el-select v-model="zgybp.gdffdm" style="width: 120px" size="small" placeholder="供电方法"
+                               @change="handleGdffChange">
+                      <el-option v-for="item in gdffs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="设备尺寸:" prop="sbccmc">
+                    <el-select v-model="zgybp.sbccdm" style="width: 120px" size="small" placeholder="设备尺寸"
+                               @change="handleSbccChange">
+                      <el-option v-for="item in sbccs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="光照条件:" prop="gztj">
+                    <el-select v-model="zgybp.gztjdm" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleGztjChange">
+                      <el-option v-for="item in gztjs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
@@ -485,8 +538,6 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="启动日期:" prop="sbqdrq">
@@ -501,6 +552,8 @@
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="更新日期:" prop="sbgxrq">
@@ -529,23 +582,35 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="供应商:" prop="gysmc">
-                    <el-select v-model="zgybp.gysmc" style="width: 130px" size="small" placeholder="供应商">
-                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="zgybp.gysdm" style="width: 130px" size="small" placeholder="供应商"
+                               @change="handleGysChange">
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="集成商:" prop="jcsmc">
-                    <el-select v-model="zgybp.jcsmc" style="width: 130px" size="small" placeholder="集成商">
-                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="zgybp.jcsdm" style="width: 130px" size="small" placeholder="集成商"
+                               @change="handleJcsChange">
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div>
+                  <el-form-item label="SIM卡号:" prop="simkh">
+                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.simkh" size="small" style="width: 150px"
+                              placeholder="请输入SIM卡号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -559,22 +624,6 @@
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="7">
-                <div>
-                  <el-form-item label="安装站点:" prop="sbgszdmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.sbgszdmc" size="small" style="width: 150px"
-                              placeholder="请输入安装站点"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="站牌编号:" prop="ewmbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="zgybp.zpbh" size="small" style="width: 180px"
-                              placeholder="请输入站牌编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
               <el-col :span="8">
                 <div>
                   <el-form-item label="二维码编号:" prop="ewmbh">
@@ -606,27 +655,32 @@
     data() {
       return {
         zgybp: {
-          // sblb: this.$store.getters.getSblb,
+          sbjyh: '',
           sbzbh: '',
           htbh: '',
+          sbgzztdm: '',
           sbgzzt: '',
           azzp: '',
           azzpzmz: '',
           azzpcmz: '',
           qypbh: '',
           qypmc: '',
-          zpmc: '',
-          ssqymc: '',
+          ssxzqydm: '',
+          ssxzqy: '',
+          gldjdm: '',
           gldj: '',
           sbppdm: '',
           sbpp: '',
           sbxhdm: '',
           sbxh: '',
-          plb: '',
-          gztj: '',
-          sbccmc: '',
+          pczdm: '',
+          pcz: '',
+          gdffdm: '',
           gdffmc: '',
-          simkh: '',
+          sbccdm: '',
+          sbccmc: '',
+          gztjdm: '',
+          gztj: '',
           sbgsjtdm: '',
           sbgsjtmc: '',
           sbgsgsdm: '',
@@ -636,45 +690,46 @@
           sbgsxldm: '',
           sbgsxlmc: '',
           zdbh: '',
-          sbgszdmc: '',
+          zdmc: '',
+          zpbh: '',
+          zpmc: '',
           sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
+          gysdm: '',
           gysmc: '',
+          jcsdm: '',
           jcsmc: '',
-          ztbh: '',
-          pbh: '',
-          zpbh: '',
+          simkh: '',
           tmbh: '',
           ewmbh: ''
         },
         rules: {
           sbzbh: [{required: true, message: '必填:编号', trigger: 'blur'}],
-          qypbh: [{required: true, message: '必填:分片编号', trigger: 'blur'}],
-          qypmc: [{required: true, message: '必填:分片区域', trigger: 'blur'}],
-          ssqymc: [{required: true, message: '必填:区域名称', trigger: 'blur'}],
-          zpmc:[{required: true, message: '必填:站牌名称', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
+          qypmc: [{required: true, message: '必填:分片区域', trigger: 'blur'}],
+          ssxzqy: [{required: true, message: '必填:区域名称', trigger: 'blur'}],
+          zdmc: [{required: true, message: '必填:归属站点', trigger: 'blur'}],
+          zpmc: [{required: true, message: '必填:站牌名称', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
-          sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
-          sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
-          plb: [{required: true, message: '必填:材质', trigger: 'blur'}],
-          gztj: [{required: true, message: '必填:光照条件', trigger: 'blur'}],
+          zgybpPpxhOption: [[{required: false, message: '必填:设备品牌型号信息', trigger: 'blur'}],],
+          // sbpp: [{required: true, message: '必填:品牌', trigger: 'blur'}],
+          // sbxh: [{required: true, message: '必填:型号', trigger: 'blur'}],
+          pcz: [{required: true, message: '必填:材质', trigger: 'blur'}],
           sbccmc: [{required: true, message: '必填:设备尺寸', trigger: 'blur'}],
           gdffmc: [{required: true, message: '必填:供电', trigger: 'blur'}],
-          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
+          gztj: [{required: true, message: '必填:光照条件', trigger: 'blur'}],
           zgybpGsOption: [{required: false, message: '必填:设备归属信息', trigger: 'blur'}],
-          sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'blur'}],
-          sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
-          sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'blur'}],
-          sbgszdmc: [{required: true, message: '必填:归属站点', trigger: 'blur'}],
-          sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
+          // sbgsjtmc: [{required: true, message: '必填:归属集团', trigger: 'blur'}],
+          // sbgsgsmc: [{required: true, message: '必填:归属公司', trigger: 'blur'}],
+          // sbgscdmc: [{required: true, message: '必填:归属车队', trigger: 'blur'}],
+          // sbgsxlmc: [{required: true, message: '必填:归属线路', trigger: 'blur'}],
           sbqdrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
           sbgxrq: [{required: false, message: '必填:更新日期', trigger: 'blur'}],
           sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'blur'}],
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
-          zpbh:[{required: true, message: '必填:站牌编号', trigger: 'blur'}],
+          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
           ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
         },
@@ -694,17 +749,28 @@
         multipleSelection: [],
         searchUp: 'el-icon-arrow-up',
         searchDown: 'el-icon-arrow-down',
-        zgybpGsOption: ['', '', '',''],
-        zgybpGsOptions: [],
-        sbppxh: [],
+        zgybpGsOption: ['', '', '', ''],
         zgybpPpxhOption: ['', ''],
         fileUploadBtnText: '导入数据',
         dialogTitle: '',
-        gs: [],
-        gldjs: [],
         sbgzzts: [],
-        qypmcs: [],
-        gztjs: []
+        fps: [],
+        ssxzqys: [],
+        gldjs: [],
+        gztjs: [],
+        sbppxh: [],
+        pczs: [],
+        gdffs: [],
+        sbccs: [],
+        gztjs: [],
+        zgybpGsOptions: [],
+        zds: [],
+        zps: [],
+        gs: [],
+        sbgsjtdm: '',
+        sbgsgsdm: '',
+        sbgscddm: '',
+        sbgsxldm: ''
       }
     },
     components: {
@@ -713,31 +779,26 @@
       StatisticsCard
     },
     methods: {
-      getGsSelected(data){
-        this.cardTitle = data.label
-        this.getGsTreeInfo(data,this.zgybp.sbgsjtdm,this.zgybp.sbgsgsdm,this.zgybp.sbgscddm,this.zgybp.sbgsxldm)
-      },
       initData() {
         var _this = this
-        this.getRequest('/api/Sbs/gldj').then(res => {
-          if (res && res.status === 200) {
-            _this.gldjs = res.data.GldjList
-          }
-        })
-        this.getRequest('/api/Sbs/gs').then(res => {
-          if (res && res.status === 200) {
-            _this.gs = res.data.GsList
-          }
-        })
-        this.zgybpGsOptions = this.$store.getters.getAllSubsidiary
         this.getRequest('/api/Sbs/gzzt').then(res => {
           if (res && res.status === 200) {
             _this.sbgzzts = res.data.GzztList
           }
         })
-        this.getRequest('/api/Sbs/qypmc').then(res => {
+        this.getRequest('/api/Sbs/fp').then(res => {
           if (res && res.status === 200) {
-            _this.qypmcs = res.data.QypmcList
+            _this.fps = res.data.FpList
+          }
+        })
+        this.getRequest('/api/Sbs/ssxzqy').then(res => {
+          if (res && res.status === 200) {
+            _this.ssxzqys = res.data.SsxzqyList
+          }
+        })
+        this.getRequest('/api/Sbs/gldj').then(res => {
+          if (res && res.status === 200) {
+            _this.gldjs = res.data.GldjList
           }
         })
         this.getRequest('/api/Sbs/ppxh').then(res => {
@@ -745,16 +806,176 @@
             _this.sbppxh = res.data.PpxhList
           }
         })
-        this.getRequest('/api/Sbs/gztj').then(res=>{
+        this.getRequest('/api/Sbs/pcz').then(res => {
+          if (res && res.status === 200) {
+            _this.pczs = res.data.PczList
+          }
+        })
+        this.getRequest('/api/Sbs/gdff').then(res => {
+          if (res && res.status === 200) {
+            _this.gdffs = res.data.GdffList
+          }
+        })
+        this.getRequest('/api/Sbs/sbcc').then(res => {
+          if (res && res.status === 200) {
+            _this.sbccs = res.data.SbccList
+          }
+        })
+        this.getRequest('/api/Sbs/gztj').then(res => {
           if (res && res.status === 200) {
             _this.gztjs = res.data.GztjList
           }
         })
+        this.zgybpGsOptions = this.$store.getters.getAllSubsidiary
+        this.getRequest('/api/Sbs/zd').then(res => {
+          if (res && res.status === 200) {
+            _this.zds = res.data.ZdList
+          }
+        })
+        this.getRequest('/api/Sbs/zp').then(res => {
+          if (res && res.status === 200) {
+            _this.zps = res.data.ZpList
+          }
+        })
+        this.getRequest('/api/Sbs/gs').then(res => {
+          if (res && res.status === 200) {
+            _this.gs = res.data.GsList
+          }
+        })
       },
-      qypbhChange(val) {
+      // HANDLE FUNCTIONS
+      //handlePczChange
+      handleGsTreeSelect(data) {
+        var _this = this
+        this.cardTitle = data.label
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data, this.zgybp.sbgsjtdm, this.zgybp.sbgsgsdm, this.zgybp.sbgscddm, this.zgybp.sbgsxldm)
+        this.sbgsjtdm = jtdm
+        this.sbgsgsdm = gsdm
+        this.sbgscddm = cddm
+        this.sbgsxldm = xldm
+        let params = {
+          sbgsjtdm: jtdm,
+          sbgsgsdm: gsdm,
+          sbgscddm: cddm,
+          sbgsxldm: xldm
+        }
+        console.log('Tree参数信息', params)
+        this.getRequest('/api/zgybp/basic', params).then(res => {
+          _this.tableLoading = false
+          if (res && res.status === 200) {
+            _this.Sbs = res.data.FfcpList
+            // totalRow会发生改变 currentPage、pageSize是向服务端发送的
+            _this.totalPage = res.data.totalRow
+          }
+        })
+      },
+      handleQypbhChange(val) {
         if (val === '') {
           this.loadZgybpData()
         }
+      },
+      handleGzztChange(val) {
+        var gzzt = parseInt(val)
+        if (gzzt) {
+          this.zgybp.sbgzzt = this.sbgzzts[gzzt - 1].descriptionZh
+        }
+      },
+      handleFpChange(val) {
+        var fp = parseInt(val)
+        if (fp) {
+          this.zgybp.qypmc = this.fps[fp - 1].descriptionZh
+        }
+      },
+      handleXzqyChange(val) {
+        var xzqy = parseInt(val)
+        if (xzqy) {
+          this.zgybp.ssxzqy = this.ssxzqys[xzqy - 1].descriptionZh
+        }
+      },
+      handleGldjChange(val) {
+        var gldj = parseInt(val)
+        if (gldj) {
+          this.zgybp.gldj = this.gldjs[gldj - 1].descriptionZh
+        }
+      },
+      handlePpxhChange(value) {
+        this.zgybpPpxhOption = value
+        let [ppdm, pp, xhdm, xh] = this.getPpxhInfo(value, this.zgybp.sbppdm, this.zgybp.sbxhdm, this.zgybp.sbpp, this.zgybp.sbxh, this.sbppxh)
+        this.zgybp.sbppdm = ppdm
+        this.zgybp.sbpp = pp
+        this.zgybp.sbxhdm = xhdm
+        this.zgybp.sbxh = xh
+        console.log(this.zgybp)
+      },
+      handlePczChange(val) {
+        var pcz = parseInt(val)
+        if (pcz) {
+          this.zgybp.pcz = this.pczs[pcz - 1].descriptionZh
+        }
+      },
+      handleGdffChange(val) {
+        var gdff = parseInt(val)
+        if (gdff) {
+          this.zgybp.gdffmc = this.gdffs[gdff - 1].descriptionZh
+        }
+      },
+      handleSbccChange(val) {
+        var sbcc = parseInt(val)
+        if (sbcc) {
+          this.zgybp.sbccmc = this.sbccs[sbcc - 1].descriptionZh
+        }
+      },
+      handleGztjChange(val) {
+        var gztj = parseInt(val)
+        if (gztj) {
+          this.zgybp.gztj = this.gztjs[gztj - 1].descriptionZh
+        }
+      },
+      handleGsChange(value) {
+        this.zgybpGsOption = value
+        let [jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc] = this.getGsInfo(value, this.zgybpGsOptions, this.zgybp.sbgsjtdm, this.zgybp.sbgsjtmc, this.zgybp.sbgsgsdm, this.zgybp.sbgsgsmc, this.zgybp.sbgscddm, this.zgybp.sbgscdmc, this.zgybp.sbgsxldm, this.zgybp.sbgsxlmc)
+        this.zgybp.sbgsjtdm = jtdm
+        this.zgybp.sbgsjtmc = jtmc
+        this.zgybp.sbgsgsdm = gsdm
+        this.zgybp.sbgsgsmc = gsmc
+        this.zgybp.sbgscddm = cddm
+        this.zgybp.sbgscdmc = cdmc
+        this.zgybp.sbgsxldm = xldm
+        this.zgybp.sbgsxlmc = xlmc
+        console.log(this.zgybp)
+      },
+      handleZdChange(val) {
+        var zd = parseInt(val)
+        if (zd) {
+          this.zgybp.zdmc = this.zds[zd - 1].descriptionZh
+        }
+      },
+      handleZpChange(val) {
+        var zp = parseInt(val)
+        if (zp) {
+          this.zgybp.zpmc = this.zps[zp - 1].descriptionZh
+        }
+      },
+      handleGysChange(val) {
+        var gys = parseInt(val)
+        if (gys) {
+          this.zgybp.gysmc = this.gs[gys - 1].descriptionZh
+        }
+      },
+      handleJcsChange(val) {
+        var jcs = parseInt(val)
+        if (jcs) {
+          this.zgybp.jcsmc = this.gs[jcs - 1].descriptionZh
+        }
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val
+        this.loadZgybpData()
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`)
+        this.pageSize = val
+        this.loadZgybpData()
       },
       showAdvanceSearchView() {
         this.advanceSearchViewVisible = !this.advanceSearchViewVisible
@@ -778,9 +999,6 @@
         this.endDateScope = ''
         this.loadZgybpData()
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val
-      },
       showAddZgybpView() {
         this.dialogVisible = true
         this.dialogTitle = "添加站杆预报屏"
@@ -790,6 +1008,7 @@
         _this.dialogVisible = true
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            _this.zgybp.sbjyh = Date.now().toString()
             console.log('zgybp表单信息（先）', this.zgybp)
           } else {
             return false
@@ -805,28 +1024,31 @@
         this.dialogVisible = true
         this.dialogTitle = "编辑站杆预报屏"
         this.zgybp = row
+        this.zgybp.sbjyh = row.sbjyh
         this.zgybp.sbzbh = row.sbzbh
         this.zgybp.htbh = row.htbh
         this.zgybp.sbgzzt = row.sbgzzt
         this.zgybp.qypbh = row.qypbh
         this.zgybp.qypmc = row.qypmc
-        this.zgybp.ssqymc = row.ssqymc
-        this.zgybp.sbgszdmc = row.sbgszdmc
+        this.zgybp.ssxzqy = row.ssxzqy
+        this.zgybp.zdmc = row.zdmc
+        this.zgybp.zpbh = row.zpbh
+        this.zgybp.zpmc = row.zpmc
         this.zgybp.gldj = row.gldj
+        this.zgybpPpxhOption = [row.sbppdm, row.sbxhdm]
         this.zgybp.sbpp = row.sbpp
         this.zgybp.sbxh = row.sbxh
-        this.zgybp.plb = row.plb
+        this.zgybp.pcz = row.pcz
+        this.zgybp.sbccmc = row.sbccmc
         this.zgybp.gdffmc = row.gdffmc
         this.zgybp.gztj = row.gztj
-        this.zgybp.simkh = row.simkh
-        this.zgybp.sbccmc = row.sbccmc
         this.zgybpGsOption = [row.sbgsjtdm, row.sbgsgsdm, row.sbgscddm, row.sbgsxldm]
-        this.zgybpPpxhOption = [row.sbppdm, row.sbxhdm]
         this.zgybp.sbqdrq = this.formatDate(row.sbqdrq)
         this.zgybp.sbgxrq = this.formatDate(row.sbgxrq)
         this.zgybp.sbbfrq = this.formatDate(row.sbbfrq)
         this.zgybp.gysmc = row.gysmc
         this.zgybp.jcsmc = row.jcsmc
+        this.zgybp.simkh = row.simkh
         this.zgybp.tmbh = row.tmbh
         this.zgybp.ewmbh = row.ewmbh
       },
@@ -862,6 +1084,9 @@
         }).catch(() => {
         });
       },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
+      },
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -869,61 +1094,6 @@
           })
         } else {
           this.$refs.multipleTable.clearSelection()
-        }
-      },
-      handleCurrentChange(val) {
-        this.currentPage = val
-        this.loadZgybpData()
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`)
-        this.pageSize = val
-        this.loadZgybpData()
-      },
-      handlePpxhChange(value) {
-        this.zgybpPpxhOption = value
-        // this.getPpxhInfo(value, this.rfid4g.sbppdm, this.rfid4g.sbxhdm, this.rfid4g.sbpp, this.rfid4g.sbxh, this.sbppxh)
-        // 设置代码=>dm
-        this.zgybp.sbppdm = value[0]
-        this.zgybp.sbxhdm = value[1]
-        // 设置名称=>mc
-        var pp = parseInt(value[0])
-        var xh = parseInt(value[1])
-        if (pp && xh) {
-          xh = parseInt((value[1]).substring(2, 4))
-          this.zgybp.sbpp = this.sbppxh[pp - 1].label
-          this.zgybp.sbxh = this.sbppxh[pp - 1].children[xh - 1].label
-        }
-        // 但就是未成功修改zgybp
-        console.log(this.zgybp)
-      },
-      handleGsChange(value) {
-        this.zgybpGsOption = value
-        this.zgybp.sbgsjtdm = value[0]
-        this.zgybp.sbgsgsdm = value[1]
-        this.zgybp.sbgscddm = value[2]
-        this.zgybp.sbgsxldm = value[3]
-        // 设置名称
-        var jt = parseInt(value[0])
-        var gs = parseInt(value[1])
-        var cd = parseInt(value[2])
-        var xl = parseInt(value[3])
-        if (jt && gs) {
-          console.log('集团', jt)
-          gs = parseInt((value[1]).substring(2, 4))
-          console.log('公司', gs)
-          if (cd) {
-            cd = parseInt((value[2]).substring(4, 6))
-            if (xl) {
-              xl = parseInt((value[3]).substring(6, 8))
-              // console.log('线路', xl)
-              this.zgybp.sbgsjtmc = this.zgybpGsOptions[jt - 1].label
-              this.zgybp.sbgsgsmc = this.zgybpGsOptions[jt - 1].children[gs - 1].label
-              this.zgybp.sbgscdmc = this.zgybpGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
-              this.zgybp.sbgsxlmc = this.zgybpGsOptions[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
-              console.log(this.zgybp)
-            }
-          }
         }
       },
       emptyZgybpGs() {
@@ -938,24 +1108,29 @@
         this.zgybp = {
           sbzbh: '',
           htbh: '',
+          sbgzztdm: '',
           sbgzzt: '',
           azzp: '',
           azzpzmz: '',
           azzpcmz: '',
           qypbh: '',
           qypmc: '',
-          zpmc: '',
-          ssqymc: '',
+          ssxzqydm: '',
+          ssxzqy: '',
+          gldjdm: '',
           gldj: '',
           sbppdm: '',
           sbpp: '',
           sbxhdm: '',
           sbxh: '',
-          plb: '',
-          gztj: '',
-          sbccmc: '',
+          pczdm: '',
+          pcz: '',
+          gdffdm: '',
           gdffmc: '',
-          simkh: '',
+          sbccdm: '',
+          sbccmc: '',
+          gztjdm: '',
+          gztj: '',
           sbgsjtdm: '',
           sbgsjtmc: '',
           sbgsgsdm: '',
@@ -964,63 +1139,102 @@
           sbgscdmc: '',
           sbgsxldm: '',
           sbgsxlmc: '',
-          sbgszdmc: '',
+          zdbh: '',
+          zdmc: '',
+          zpbh: '',
+          zpmc: '',
           sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
+          gysdm: '',
           gysmc: '',
+          jcsdm: '',
           jcsmc: '',
-          zpbh: '',
+          simkh: '',
           tmbh: '',
           ewmbh: ''
         }
       },
       loadZgybpData() {
         var _this = this
+        let params
         this.tableLoading = true
-        let params = {
-          page: this.currentPage,
-          pagePize: this.pageSize,
-          qypbh: this.zgybp.qypbh,
-          orderItemName: '',
-          order: '',
-          sblb: this.zgybp.sblb,
-          gzzt: '',
-          sbzbh: this.zgybp.sbzbh,
-          // 区域片编号
-          azdddm: '',
-          ssxzdm: '',
-          ssxzqy: '',
-          zdbh: '',
-          jzbh: '',
-          azzp: '',
-          dyxljhdm: '',
-          dyxljhmc: '',
-          sbxh: this.zgybp.sbxh,
-          sbpp: this.zgybp.sbpp,
-          // sbcz:this.zgybp.sbcz,
-          // gdffmc:this.zgybp.gdffmc,
-          simkh: '',
-          gldj: this.zgybp.gldj,
-          sbgsjtdm: this.zgybpGsOption[0],
-          sbgsjtmc: '',
-          sbgsgsdm: this.zgybpGsOption[1],
-          sbgsgsmc: '',
-          sbgscddm: this.zgybpGsOption[2],
-          sbgscdmc: '',
-          sbgsxldm: this.zgybpGsOption[3],
-          sbgsxlmc: '',
-          gysdm: '',
-          gysmc: this.zgybp.gysmc,
-          jcsdm: '',
-          jcsmc: this.zgybp.jcsmc,
-          beginDateScope: this.beginDateScope,
-          updateDateScope: this.updateDateScope,
-          endDateScope: this.endDateScope
+        if (this.zgybp.sbgsjtdm) {
+          params = {
+            page: this.currentPage,
+            pagePize: this.pageSize,
+            qypbh: this.zgybp.qypbh,
+            orderItemName: '',
+            order: '',
+            sbzbh: this.zgybp.sbzbh,
+            htbh: this.zgybp.htbh,
+            sbgzztdm: this.zgybp.sbgzztdm,
+            // sbgzzt: '',
+            // azzp: '',
+            // azzpzmz: '',
+            // azzpcmz: '',
+            qypbh: this.zgybp.qypbh,
+            // qypmc: '',
+            ssxzqydm: this.zgybp.ssxzqydm,
+            // ssxzqy: '',
+            gldjdm: this.zgybp.gldjdm,
+            // gldj: '',
+            sbppdm: this.zgybp.sbppdm,
+            // sbpp: '',
+            sbxhdm: this.zgybp.sbxhdm,
+            // sbxh: '',
+            pczdm: this.zgybp.pczdm,
+            // pcz: '',
+            gdffdm: this.zgybp.gztjdm,
+            // gdffmc: '',
+            sbccdm: this.zgybp.sbccdm,
+            // sbccmc: '',
+            gztjdm: this.zgybp.gztjdm,
+            // gztj: '',
+            sbgsjtdm: this.zgybp.sbgsjtdm,
+            // sbgsjtmc: '',
+            sbgsgsdm: this.zgybp.sbgsgsdm,
+            // sbgsgsmc: '',
+            sbgscddm: sbgscddm,
+            // sbgscdmc: '',
+            sbgsxldm: sbgsxldm,
+            // sbgsxlmc: '',
+            zdbh: this.zgybp.zdbh,
+            // zdmc: '',
+            zpbh: this.zgybp.zpbh,
+            // zpmc: '',
+            sbqdrq: this.zgybp.sbqdrq,
+            sbgxrq: this.zgybp.sbgxrq,
+            sbbfrq: this.zgybp.sbbfrq,
+            gysdm: this.zgybp.gysdm,
+            // gysmc: '',
+            jcsdm: this.zgybp.jcsdm,
+            // jcsmc: '',
+            simkh: this.zgybp.simkh,
+            tmbh: this.zgybp.tmbh,
+            ewmbh: this.zgybp.ewmbh,
+            beginDateScope: this.beginDateScope,
+            updateDateScope: this.updateDateScope,
+            endDateScope: this.endDateScope
+          }
+        } else {
+          params = {
+            page: this.currentPage,
+            size: this.pageSize,
+            orderItemName: '',
+            order: '',
+            sbgsjtdm: this.sbgsjtdm,
+            sbgsgsdm: this.sbgsgsdm,
+            sbgscddm: this.sbgscddm,
+            sbgsxldm: this.sbgsxldm,
+            beginDateScope: this.beginDateScope,
+            updateDateScope: this.updateDateScope,
+            endDateScope: this.endDateScope
+          }
         }
         console.log('1123 本次查询参数为')
         console.log(params)
-        this.getRequest('/api/zgybp/basic/jt1').then(res => {
+        this.getRequest('/api/zgybp/basic', params).then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
             _this.Sbs = res.data.ZgybpList

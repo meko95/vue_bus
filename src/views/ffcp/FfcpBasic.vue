@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="55寸屏" @listenToChildEvent="getGsSelected"></SideBar>
+      <SideBar sb-type="55寸屏" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <!-- 尺寸、供电方式 -->
       <el-container>
@@ -13,7 +13,7 @@
             <el-input
               placeholder="通过分片编号查询"
               clearable
-              @change="qypbhChange"
+              @change="handleQypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
               size="mini"
               :disabled="advanceSearchViewVisible"
@@ -54,7 +54,7 @@
                 v-show="advanceSearchViewVisible">
                 <el-row>
                   <el-col :span="5">
-                    预报屏编号:
+                    设备自编号:
                     <el-input prefix-icon="el-icon-search" v-model="ffcp.sbzbh" size="small" style="width: 150px"
                               placeholder="设备查询编号"></el-input>
                   </el-col>
@@ -63,21 +63,61 @@
                     <el-input prefix-icon="el-icon-search" v-model="ffcp.htbh" size="small" style="width: 150px"
                               placeholder="设备合同编号"></el-input>
                   </el-col>
+                  <el-col :span="5">
+                    屏编号:
+                    <el-input prefix-icon="el-icon-search" v-model="ffcp.pbh" size="small" style="width: 150px"
+                              placeholder="屏查询编号"></el-input>
+                  </el-col>
                   <el-col :span="4">
                     分片区域:
-                    <el-select v-model="ffcp.qypmc" style="width: 120px" clearable size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                    <el-select v-model="ffcp.qypbh" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleFpChange">
+                      <el-option v-for="item in fps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="4">
-                    管理等级:
-                    <el-select v-model="ffcp.gldj" style="width: 100px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    站亭名称:
+                    <el-select v-model="ffcp.ztbh" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleZtChange">
+                      <el-option v-for="item in zts" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
+                  <el-col :span="4">
+                    安装站点:
+                    <el-select v-model="ffcp.zdbh" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleZdChange">
+                      <el-option v-for="item in zds" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    行政区域:
+                    <el-select v-model="ffcp.ssxzqydm" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleXzqyChange">
+                      <el-option v-for="item in ssxzqys" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    光照条件:
+                    <el-select v-model="ffcp.gztjdm" style="width: 120px" clearable size="small" placeholder="请选择"
+                               @change="handleGztjChange">
+                      <el-option v-for="item in gztjs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    管理等级:
+                    <el-select v-model="ffcp.gldjdm" style="width: 110px" clearable size="small" placeholder="管理等级"
+                               @change="handleGldjChange">
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
                   <el-col :span="5">
                     品牌型号:
                     <el-cascader
@@ -92,6 +132,39 @@
                       change-on-select>
                     </el-cascader>
                   </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
+                  <el-col :span="4">
+                    尺寸:
+                    <el-select v-model="ffcp.sbccdm" style="width: 110px" clearable size="small" placeholder="管理等级"
+                               @change="handleSbccChange">
+                      <el-option v-for="item in sbccs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="4">
+                    供电方法:
+                    <el-select v-model="ffcp.gdffdm" style="width: 110px" clearable size="small" placeholder="供电方法"
+                               @change="handleGdffChange">
+                      <el-option v-for="item in gdffs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="8">
+                    设备归属:
+                    <el-cascader
+                      size="small"
+                      placeholder="请选择设备归属"
+                      style="width:300px;"
+                      expand-trigger="hover"
+                      :options="ffcpGsOptions"
+                      v-model="ffcpGsOption"
+                      @change="handleGsChange"
+                      change-on-select>
+                    </el-cascader>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 18px">
                   <el-col :span="9">
                     启动日期:
                     <el-date-picker
@@ -135,50 +208,31 @@
                   </el-col>
                   <el-col :span="4">
                     供应商:
-                    <el-select v-model="ffcp.gysmc" style="width: 130px" size="small" placeholder="请选择供应商">
-                      <el-option
-                        v-for="item in gs"
-                        :key="item.id"
-                        :label="item.descriptionZh"
-                        :value="item.descriptionZh">
-                      </el-option>
+                    <el-select v-model="ffcp.gysdm" style="width: 130px" size="small" placeholder="请选择供应商"
+                               @change="handleGysChange">
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="4">
                     集成商:
-                    <el-select v-model="ffcp.jcsmc" style="width: 130px" size="small" placeholder="请选择集成商">
-                      <el-option
-                        v-for="item in gs"
-                        :key="item.id"
-                        :label="item.descriptionZh"
-                        :value="item.descriptionZh">
-                      </el-option>
+                    <el-select v-model="ffcp.jcsdm" style="width: 130px" size="small" placeholder="请选择集成商"
+                               @change="handleJcsChange">
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-col>
                   <el-col :span="5">
-                    站亭名称:
-                    <el-input prefix-icon="el-icon-search" v-model="ffcp.ztmc" size="small" style="width: 150px"
-                              placeholder="设备站亭名称"></el-input>
+                    条码编号:
+                    <el-input prefix-icon="el-icon-search" v-model="ffcp.tmbh" size="small" style="width: 150px"
+                              placeholder="设备条码编号"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="5">
-                    安装站点:
-                    <el-input prefix-icon="el-icon-search" v-model="ffcp.azzdmc" size="small" style="width: 150px"
-                              placeholder="设备安装站点"></el-input>
-                  </el-col>
-                  <el-col :span="8">
-                    设备归属:
-                    <el-cascader
-                      size="small"
-                      placeholder="请选择设备归属"
-                      style="width:300px;"
-                      expand-trigger="hover"
-                      :options="ffcpGsOptions"
-                      v-model="ffcpGsOption"
-                      @change="handleGsChange"
-                      change-on-select>
-                    </el-cascader>
+                    二维码编号:
+                    <el-input prefix-icon="el-icon-search" v-model="ffcp.ewmbh" size="small" style="width: 150px"
+                              placeholder="设备二维码编号"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
@@ -197,6 +251,7 @@
               <el-table-column type="selection" width="36" align="center"></el-table-column>
               <el-table-column prop="sbzbh" label="55寸预报屏编号" width="130" align="center" fixed></el-table-column>
               <el-table-column prop="htbh" label="合同编号" width="95" align="center"></el-table-column>
+              <el-table-column prop="pbh" label="屏编号" width="100" align="center"></el-table-column>
               <el-table-column prop="sbgzzt" label="工作状态" width="80" align="center"></el-table-column>
               <el-table-column prop="azzp" label="安装全景照片" width="95" align="center">
                 <template slot-scope="scope">
@@ -242,16 +297,16 @@
               </el-table-column>
               <el-table-column prop="qypbh" label="分片编号" width="70" align="center"></el-table-column>
               <el-table-column prop="qypmc" label="分片名称" width="80" align="center"></el-table-column>
+              <el-table-column prop="ztbh" label="站亭编号" width="100" align="center"></el-table-column>
               <el-table-column prop="ztmc" label="站亭名称" width="80" align="center"></el-table-column>
-              <el-table-column prop="azzdmc" label="安装站点" width="110" align="center"></el-table-column>
-              <el-table-column prop="ssqymc" label="区域名称" width="80" align="center"></el-table-column>
+              <el-table-column prop="zdmc" label="安装站点" width="110" align="center"></el-table-column>
+              <el-table-column prop="ssxzqy" label="行政区域" width="80" align="center"></el-table-column>
               <el-table-column prop="gztj" label="光照条件" width="80" align="center"></el-table-column>
-              <el-table-column prop="gldj" label="管理等级" width="70" align="center"></el-table-column>
+              <el-table-column prop="gldj" label="管理等级" width="80" align="center"></el-table-column>
               <el-table-column prop="sbpp" label="品牌" width="70" align="center"></el-table-column>
               <el-table-column prop="sbxh" label="型号" width="70" align="center"></el-table-column>
               <el-table-column prop="sbccmc" label="尺寸" width="70" align="center"></el-table-column>
               <el-table-column prop="gdffmc" label="供电" width="70" align="center"></el-table-column>
-              <el-table-column prop="simkh" label="SIM卡号" width="160" align="center"></el-table-column>
               <el-table-column prop="sbgsjtmc" label="集团" width="110" align="center"></el-table-column>
               <el-table-column prop="sbgsgsmc" label="公司" width="90" align="center"></el-table-column>
               <el-table-column prop="sbgscdmc" label="车队" width="70" align="center"></el-table-column>
@@ -270,8 +325,7 @@
               </el-table-column>
               <el-table-column prop="jcsmc" label="集成商" width="75" align="center">
               </el-table-column>
-              <el-table-column prop="ztbh" label="站亭编号" width="100" align="center"></el-table-column>
-              <el-table-column prop="pbh" label="屏编号" width="100" align="center"></el-table-column>
+              <el-table-column prop="simkh" label="SIM卡号" width="160" align="center"></el-table-column>
               <el-table-column prop="tmbh" label="条码编号" width="100" align="center"></el-table-column>
               <el-table-column prop="ewmbh" label="二维码编号" width="100" align="center"></el-table-column>
             </el-table>
@@ -297,7 +351,7 @@
           </div>
         </el-main>
       </el-container>
-      <!-- 添加55寸屏信息Begin -->
+      <!-- FORM Begin -->
       <el-form :model="ffcp" :rules="rules" ref="ffcp" style="margin: 0px;padding: 0px;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
@@ -313,119 +367,100 @@
               </el-col>
               <el-col :span="7">
                 <div>
-                  <el-form-item label="屏编号:" prop="pbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.pbh" size="small" style="width: 150px"
-                              placeholder="请输入屏编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="7">
-                <div>
                   <el-form-item label="合同编号:" prop="htbh">
                     <el-input prefix-icon="el-icon-edit" v-model="ffcp.htbh" size="small" style="width: 150px"
                               placeholder="请输入设备合同编号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="屏编号:" prop="pbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.pbh" size="small" style="width: 150px"
+                              placeholder="请输入屏编号"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="8">
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="55寸屏分片编号:" prop="qypbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.qypbh" size="small" style="width: 150px"
-                              placeholder="请输入分片编号"></el-input>
+                  <el-form-item label="工作状态:" prop="sbgzzt">
+                    <el-select v-model="ffcp.sbgzztdm" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleGzztChange">
+                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
               <el-col :span="7">
                 <div>
                   <el-form-item label="分片区域:" prop="qypmc">
-                    <el-select v-model="ffcp.qypmc" style="width: 120px" size="small" placeholder="请选择">
-                      <el-option v-for="item in qypmcs" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                    <el-select v-model="ffcp.qypbh" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleFpChange">
+                      <el-option v-for="item in fps" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
               <el-col :span="7">
                 <div>
-                  <el-form-item label="工作状态:" prop="sbgzzt">
-                    <el-select v-model="ffcp.sbgzzt" style="width: 120px" size="small" placeholder="请选择">
-                      <el-option v-for="item in sbgzzts" :key="item.id" :label="item.descriptionZh"
-                                 :value="item.descriptionZh"></el-option>
+                  <el-form-item label="站亭名称:" prop="ztmc">
+                    <el-select v-model="ffcp.ztbh" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleZtChange">
+                      <el-option v-for="item in zts" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="8">
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="站亭编号:" prop="ztbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.ztbh" size="small" style="width: 150px"
-                              placeholder="请输入站亭编号"></el-input>
+                  <el-form-item label="安装站点:" prop="zdmc">
+                    <el-select v-model="ffcp.zdbh" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleZdChange">
+                      <el-option v-for="item in zds" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="站亭名称:" prop="ztmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.ztmc" size="small" style="width: 150px"
-                              placeholder="请输入站亭名称"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="安装站点:" prop="azzdmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.azzdmc" size="small" style="width: 150px"
-                              placeholder="请输入安装站点"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="区域名称:" prop="ssqymc">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.ssqymc" size="small" style="width: 150px"
-                              placeholder="请输入区域名称"></el-input>
+                  <el-form-item label="行政区域:" prop="ssxzqy">
+                    <el-select v-model="ffcp.ssxzqydm" style="width: 120px" size="small" placeholder="请选择"
+                               @change="handleXzqyChange">
+                      <el-option v-for="item in ssxzqys" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
               <el-col :span="6">
                 <div>
                   <el-form-item label="光照条件:" prop="gztj">
-                    <el-select v-model="ffcp.gztj" style="width: 120px" size="small" placeholder="光照条件">
-                      <el-option v-for="item in gztjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div>
-                  <el-form-item label="管理等级:" prop="gldj">
-                    <el-select v-model="ffcp.gldj" style="width: 120px" size="small" placeholder="管理等级">
-                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="ffcp.gztjdm" style="width: 120px" size="small" placeholder="光照条件"
+                               @change="handleGztjChange">
+                      <el-option v-for="item in gztjs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="8">
+              <el-col :span="7">
                 <div>
-                  <el-form-item label="设备尺寸:" prop="sbccmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.sbccmc" size="small" style="width: 150px"
-                              placeholder="请输入设备尺寸"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="供电方法:" prop="gdffmc">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.gdffmc" size="small" style="width: 150px"
-                              placeholder="请输入供电方法"></el-input>
+                  <el-form-item label="管理等级:" prop="gldj">
+                    <el-select v-model="ffcp.gldjdm" style="width: 120px" size="small" placeholder="管理等级"
+                               @change="handleGldjChange">
+                      <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
@@ -445,13 +480,27 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="6">
                 <div>
-                  <el-form-item label="SIM卡号:" prop="simkh">
-                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.simkh" size="small" style="width: 150px"
-                              placeholder="请输入SIM卡号"></el-input>
+                  <el-form-item label="设备尺寸:" prop="sbccmc">
+                    <el-select v-model="ffcp.sbccdm" style="width: 120px" size="small" placeholder="设备尺寸"
+                               @change="handleSbccChange">
+                      <el-option v-for="item in sbccs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="供电方法:" prop="gdffmc">
+                    <el-select v-model="ffcp.gdffdm" style="width: 120px" size="small" placeholder="设备尺寸"
+                               @change="handleGdffChange">
+                      <el-option v-for="item in gdffs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
+                    </el-select>
                   </el-form-item>
                 </div>
               </el-col>
@@ -487,7 +536,7 @@
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="更新日期:" prop="sbgxrq">
                     <el-date-picker
@@ -501,7 +550,7 @@
                   </el-form-item>
                 </div>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="报废日期:" prop="sbbfrq">
                     <el-date-picker
@@ -518,20 +567,32 @@
               <el-col :span="6">
                 <div>
                   <el-form-item label="供应商:" prop="gysmc">
-                    <el-select v-model="ffcp.gysmc" style="width: 130px" size="small" placeholder="供应商">
-                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="ffcp.gysdm" style="width: 130px" size="small" placeholder="供应商"
+                               @change="handleGysChange">
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
                 </div>
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="5">
+              <el-col :span="7">
                 <div>
                   <el-form-item label="集成商:" prop="jcsmc">
-                    <el-select v-model="ffcp.jcsmc" style="width: 130px" size="small" placeholder="集成商">
-                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh" :value="item.descriptionZh"></el-option>
+                    <el-select v-model="ffcp.jcsdm" style="width: 130px" size="small" placeholder="集成商"
+                               @change="handleJcsChange">
+                      <el-option v-for="item in gs" :key="item.id" :label="item.descriptionZh"
+                                 :value="item.id"></el-option>
                     </el-select>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="7">
+                <div>
+                  <el-form-item label="SIM卡号:" prop="simkh">
+                    <el-input prefix-icon="el-icon-edit" v-model="ffcp.simkh" size="small" style="width: 150px"
+                              placeholder="请输入SIM卡号"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -543,6 +604,8 @@
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="8">
                 <div>
                   <el-form-item label="二维码编号:" prop="ewmbh">
@@ -574,48 +637,62 @@
     data() {
       return {
         ffcp: {
-          // sblb: this.$store.getters.getSblb,
           sbzbh: '',
           htbh: '',
+          pbh: '',
+          sbgzztdm: '',
           sbgzzt: '',
           azzp: '',
           azzpzmz: '',
           azzpcmz: '',
           qypbh: '',
           qypmc: '',
+          ztbh: '',
           ztmc: '',
-          azzdmc: '',
-          ssqymc: '',
+          zdbh: '',
+          zdmc: '',
+          ssxzqydm: '',
+          ssxzqy: '',
+          gztjdm: '',
           gztj: '',
+          gldjdm: '',
           gldj: '',
+          sbppdm: '',
           sbpp: '',
+          sbxhdm: '',
           sbxh: '',
+          sbccdm: '',
           sbccmc: '',
+          gdffdm: '',
           gdffmc: '',
-          simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
-          // sbgszdmc: '',
           sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
+          gysdm: '',
           gysmc: '',
+          jcsdm: '',
           jcsmc: '',
-          pbh: '',
+          simkh: '',
           tmbh: '',
           ewmbh: ''
         },
         rules: {
           sbzbh: [{required: true, message: '必填:编号', trigger: 'blur'}],
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
+          pbh: [{required: true, message: '必填:屏编号', trigger: 'blur'}],
+          sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
           qypmc: [{required: true, message: '必填:分片区域', trigger: 'blur'}],
           ztmc: [{required: true, message: '必填:站亭名称', trigger: 'blur'}],
-          azzdmc: [{required: true, message: '必填:安装站点', trigger: 'blur'}],
-          ssqymc: [{required: true, message: '必填:区域名称', trigger: 'blur'}],
-          sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
-          ztbh: [{required: true, message: '必填:站亭编号', trigger: 'blur'}],
+          zdmc: [{required: true, message: '必填:安装站点', trigger: 'blur'}],
+          ssxzqy: [{required: true, message: '必填:区域名称', trigger: 'blur'}],
           gztj: [{required: true, message: '必填:光照条件', trigger: 'blur'}],
           gldj: [{required: true, message: '必填:管理等级', trigger: 'blur'}],
           ffcpPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
@@ -628,7 +705,7 @@
           sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'blur'}],
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
-          pbh: [{required: true, message: '必填:屏编号', trigger: 'blur'}],
+          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
           ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
         },
@@ -650,15 +727,24 @@
         searchDown: 'el-icon-arrow-down',
         ffcpGsOption: ['', '', '', ''],
         ffcpGsOptions: [],
-        sbppxh: [],
         ffcpPpxhOption: ['', ''],
         fileUploadBtnText: '导入数据',
         dialogTitle: '',
         gs: [],
         gldjs: [],
         sbgzzts: [],
-        qypmcs: [],
-        gztjs: []
+        fps: [],
+        gztjs: [],
+        sbppxh: [],
+        ssxzqys: [],
+        zts: [],
+        zds: [],
+        sbccs: [],
+        gdffs: [],
+        sbgsjtdm: '',
+        sbgsgsdm: '',
+        sbgscddm: '',
+        sbgsxldm: ''
       }
     },
     components: {
@@ -667,10 +753,6 @@
       StatisticsCard
     },
     methods: {
-      getGsSelected(data){
-        this.cardTitle = data.label
-        this.getGsTreeInfo(data,this.ffcp.sbgsjtdm,this.ffcp.sbgsgsdm,this.ffcp.sbgscddm,this.ffcp.sbgsxldm)
-      },
       initData() {
         var _this = this
         this.getRequest('/api/Sbs/gldj').then(res => {
@@ -683,14 +765,10 @@
             _this.gs = res.data.GsList
           }
         })
+        this.ffcpGsOptions = this.$store.getters.getAllSubsidiary
         this.getRequest('/api/Sbs/gzzt').then(res => {
           if (res && res.status === 200) {
             _this.sbgzzts = res.data.GzztList
-          }
-        })
-        this.getRequest('/api/Sbs/qypmc').then(res => {
-          if (res && res.status === 200) {
-            _this.qypmcs = res.data.QypmcList
           }
         })
         this.getRequest('/api/Sbs/ppxh').then(res => {
@@ -698,17 +776,168 @@
             _this.sbppxh = res.data.PpxhList
           }
         })
-        this.ffcpGsOptions = this.$store.getters.getAllSubsidiary
-        this.getRequest('/api/Sbs/gztj').then(res=>{
+        this.getRequest('/api/Sbs/ssxzqy').then(res => {
+          if (res && res.status === 200) {
+            _this.ssxzqys = res.data.SsxzqyList
+          }
+        })
+        this.getRequest('/api/Sbs/zt').then(res => {
+          if (res && res.status === 200) {
+            _this.zts = res.data.ZtList
+          }
+        })
+        this.getRequest('/api/Sbs/zd').then(res => {
+          if (res && res.status === 200) {
+            _this.zds = res.data.ZdList
+          }
+        })
+        this.getRequest('/api/Sbs/fp').then(res => {
+          if (res && res.status === 200) {
+            _this.fps = res.data.FpList
+          }
+        })
+        this.getRequest('/api/Sbs/gztj').then(res => {
           if (res && res.status === 200) {
             _this.gztjs = res.data.GztjList
           }
         })
+        this.getRequest('/api/Sbs/sbcc').then(res => {
+          if (res && res.status === 200) {
+            _this.sbccs = res.data.SbccList
+          }
+        })
+        this.getRequest('/api/Sbs/gdff').then(res => {
+          if (res && res.status === 200) {
+            _this.gdffs = res.data.GdffList
+          }
+        })
       },
-      qypbhChange(val) {
+      // HANDLE FUNCTIONS
+      handleGsTreeSelect(data) {
+        var _this = this
+        this.cardTitle = data.label
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data, this.ffcp.sbgsjtdm, this.ffcp.sbgsgsdm, this.ffcp.sbgscddm, this.ffcp.sbgsxldm)
+        this.sbgsjtdm = jtdm
+        this.sbgsgsdm = gsdm
+        this.sbgscddm = cddm
+        this.sbgsxldm = xldm
+        let params = {
+          sbgsjtdm: jtdm,
+          sbgsgsdm: gsdm,
+          sbgscddm: cddm,
+          sbgsxldm: xldm
+        }
+        console.log('Tree参数信息', params)
+        this.getRequest('/api/ffcp/basic', params).then(res => {
+          _this.tableLoading = false
+          if (res && res.status === 200) {
+            _this.Sbs = res.data.FfcpList
+            // totalRow会发生改变 currentPage、pageSize是向服务端发送的
+            _this.totalPage = res.data.totalRow
+          }
+        })
+      },
+      handleQypbhChange(val) {
         if (val === '') {
           this.loadFfcpData()
         }
+      },
+      handleGzztChange(val) {
+        var gzzt = parseInt(val)
+        if (gzzt) {
+          this.ffcp.sbgzzt = this.sbgzzts[gzzt - 1].descriptionZh
+        }
+      },
+      handleFpChange(val) {
+        var fp = parseInt(val)
+        if (fp) {
+          this.ffcp.qypmc = this.fps[fp - 1].descriptionZh
+        }
+      },
+      handleZtChange(val) {
+        var zt = parseInt(val)
+        if (zt) {
+          this.ffcp.ztmc = this.zts[zt - 1].descriptionZh
+        }
+      },
+      handleZdChange(val) {
+        var zd = parseInt(val)
+        if (zd) {
+          this.ffcp.zdmc = this.zds[zd - 1].descriptionZh
+        }
+      },
+      handleXzqyChange(val) {
+        var xzqy = parseInt(val)
+        if (xzqy) {
+          this.ffcp.ssxzqy = this.ssxzqys[xzqy - 1].descriptionZh
+        }
+      },
+      handleGztjChange(val) {
+        var gztj = parseInt(val)
+        if (gztj) {
+          this.ffcp.gztj = this.gztjs[gztj - 1].descriptionZh
+        }
+      },
+      handleGldjChange(val) {
+        var gldj = parseInt(val)
+        if (gldj) {
+          this.ffcp.gldj = this.gldjs[gldj - 1].descriptionZh
+        }
+      },
+      handlePpxhChange(value) {
+        this.ffcpPpxhOption = value
+        let [ppdm, pp, xhdm, xh] = this.getPpxhInfo(value, this.ffcp.sbppdm, this.ffcp.sbxhdm, this.ffcp.sbpp, this.ffcp.sbxh, this.sbppxh)
+        this.ffcp.sbppdm = ppdm
+        this.ffcp.sbpp = pp
+        this.ffcp.sbxhdm = xhdm
+        this.ffcp.sbxh = xh
+        console.log(this.ffcp)
+      },
+      handleSbccChange(val) {
+        var sbcc = parseInt(val)
+        if (sbcc) {
+          this.ffcp.sbccmc = this.sbccs[sbcc - 1].descriptionZh
+        }
+      },
+      handleGdffChange(val) {
+        var gdff = parseInt(val)
+        if (gdff) {
+          this.ffcp.gdffmc = this.gdffs[gdff - 1].descriptionZh
+        }
+      },
+      handleGysChange(val) {
+        var gys = parseInt(val)
+        if (gys) {
+          this.ffcp.gysmc = this.gs[gys - 1].descriptionZh
+        }
+      },
+      handleJcsChange(val) {
+        var jcs = parseInt(val)
+        if (jcs) {
+          this.ffcp.jcsmc = this.gs[jcs - 1].descriptionZh
+        }
+      },
+      handleGsChange(value) {
+        this.ffcpGsOption = value
+        let [jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc] = this.getGsInfo(value, this.ffcpGsOptions, this.ffcp.sbgsjtdm, this.ffcp.sbgsjtmc, this.ffcp.sbgsgsdm, this.ffcp.sbgsgsmc, this.ffcp.sbgscddm, this.ffcp.sbgscdmc, this.ffcp.sbgsxldm, this.ffcp.sbgsxlmc)
+        this.ffcp.sbgsjtdm = jtdm
+        this.ffcp.sbgsjtmc = jtmc
+        this.ffcp.sbgsgsdm = gsdm
+        this.ffcp.sbgsgsmc = gsmc
+        this.ffcp.sbgscddm = cddm
+        this.ffcp.sbgscdmc = cdmc
+        this.ffcp.sbgsxldm = xldm
+        this.ffcp.sbgsxlmc = xlmc
+        console.log(this.ffcp)
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`)
+        this.pageSize = val
+        this.loadFfcpData()
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val
+        this.loadFfcpData()
       },
       showAdvanceSearchView() {
         this.advanceSearchViewVisible = !this.advanceSearchViewVisible
@@ -732,14 +961,16 @@
         this.endDateScope = ''
         this.loadFfcpData()
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val
+      showAddFfcpView() {
+        this.dialogVisible = true
+        this.dialogTitle = "添加55寸预报屏"
       },
       addFfcp(formName) {
         var _this = this
         _this.dialogVisible = true
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            _this.ffcp.sbjyh = Date.now().toString()
             console.log('ffcp表单信息（先）', this.ffcp)
           } else {
             return false
@@ -750,37 +981,49 @@
         this.$refs[formName].resetFields()
         this.emptyFfcpData()
       },
-      showAddFfcpView() {
-        this.dialogVisible = true
-        this.dialogTitle = "添加55寸预报屏"
-      },
       showEditFfcpView(row) {
         console.log(row)
         this.dialogVisible = true
         this.dialogTitle = "编辑55寸预报屏"
         this.ffcp = row
+        this.ffcp.sbjyh = row.sbjyh
         this.ffcp.sbzbh = row.sbzbh
+        this.ffcp.htbh = row.htbh
+        this.ffcp.pbh = row.pbh
+        // this.ffcp.sbgzztdm = row.sbgzztdm
+        this.ffcp.sbgzzt = row.sbgzzt
         this.ffcp.qypbh = row.qypbh
         this.ffcp.qypmc = row.qypmc
-        this.ffcp.htbh = row.htbh
-        this.ffcp.sblb = row.sblb
-        this.ffcp.sbgzzt = row.sbgzzt
-        this.ffcp.azzdmc = row.azzdmc
+        // this.ffcp.ztbh = row.ztbh
+        this.ffcp.ztmc = row.ztmc
+        // this.ffcp.zdbh = row.zdbh
+        this.ffcp.zdmc = row.zdmc
+        // this.ffcp.ssxzqydm = row.ssxzqydm
+        this.ffcp.ssxzqy = row.ssxzqy
+        // this.ffcp.gztjdm = row.gztjdm
+        this.ffcp.gztj = row.gztj
+        // this.ffcp.gldjdm = row.gldjdm
         this.ffcp.gldj = row.gldj
-        this.ffcp.sbppdm = row.sbppdm
+        // this.ffcp.sbppdm = row.sbppdm
         this.ffcp.sbpp = row.sbpp
-        this.ffcp.sbxhdm = row.sbxhdm
+        // this.ffcp.sbxhdm = row.sbxhdm
         this.ffcp.sbxh = row.sbxh
+        // this.ffcp.sbccdm = row.sbccdm
         this.ffcp.sbccmc = row.sbccmc
+        // this.ffcp.gdffdm = row.gdffdm
         this.ffcp.gdffmc = row.gdffmc
-        this.ffcp.simkh = row.simkh
-        this.ffcpGsOption = [row.sbgsjtmc, row.sbgsgsmc, row.sbgscdmc, row.sbgsxldm]
+        this.ffcpGsOption = [row.sbgsjtdm, row.sbgsgsdm, row.sbgscddm, row.sbgsxldm]
         this.ffcpPpxhOption = [row.sbppdm, row.sbxhdm]
+        this.ffcp.sbgsjtmc = row.sbgsjtmc
+        this.ffcp.sbgsgsmc = row.sbgsgsmc
+        this.ffcp.sbgscdmc = row.sbgscdmc
+        this.ffcp.sbgsxlmc = row.sbgsxlmc
         this.ffcp.sbqdrq = this.formatDate(row.sbqdrq)
         this.ffcp.sbgxrq = this.formatDate(row.sbgxrq)
         this.ffcp.sbbfrq = this.formatDate(row.sbbfrq)
         this.ffcp.gysmc = row.gysmc
         this.ffcp.jcsmc = row.jcsmc
+        this.ffcp.simkh = row.simkh
         this.ffcp.tmbh = row.tmbh
         this.ffcp.ewmbh = row.ewmbh
       },
@@ -816,6 +1059,9 @@
         }).catch(() => {
         });
       },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
+      },
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -823,61 +1069,6 @@
           })
         } else {
           this.$refs.multipleTable.clearSelection()
-        }
-      },
-      handleCurrentChange(val) {
-        this.currentPage = val
-        this.loadfFCPData()
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`)
-        this.pageSize = val
-        this.loadFfcpData()
-      },
-      handlePpxhChange(value) {
-        this.ffcpPpxhOption = value
-        // this.getPpxhInfo(value, this.rfid4g.sbppdm, this.rfid4g.sbxhdm, this.rfid4g.sbpp, this.rfid4g.sbxh, this.sbppxh)
-        // 设置代码=>dm
-        this.ffcp.sbppdm = value[0]
-        this.ffcp.sbxhdm = value[1]
-        // 设置名称=>mc
-        var pp = parseInt(value[0])
-        var xh = parseInt(value[1])
-        if (pp && xh) {
-          xh = parseInt((value[1]).substring(2, 4))
-          this.ffcp.sbpp = this.sbppxh[pp - 1].label
-          this.ffcp.sbxh = this.sbppxh[pp - 1].children[xh - 1].label
-        }
-        // 但就是未成功修改ffcp
-        console.log(this.ffcp)
-      },
-      handleGsChange(value) {
-        this.ffcpGsOption = value
-        this.ffcp.sbgsjtdm = value[0]
-        this.ffcp.sbgsgsdm = value[1]
-        this.ffcp.sbgscddm = value[2]
-        this.ffcp.sbgsxldm = value[3]
-        // 设置名称
-        var jt = parseInt(value[0])
-        var gs = parseInt(value[1])
-        var cd = parseInt(value[2])
-        var xl = parseInt(value[3])
-        if (jt && gs) {
-          console.log('集团', jt)
-          gs = parseInt((value[1]).substring(2, 4))
-          console.log('公司', gs)
-          if (cd) {
-            cd = parseInt((value[2]).substring(4, 6))
-            if (xl) {
-              xl = parseInt((value[3]).substring(6, 8))
-              // console.log('线路', xl)
-              this.ffcp.sbgsjtmc = this.ffcpGsOptions[jt - 1].label
-              this.ffcp.sbgsgsmc = this.ffcpGsOptions[jt - 1].children[gs - 1].label
-              this.ffcp.sbgscdmc = this.ffcpGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
-              this.ffcp.sbgsxlmc = this.ffcpGsOptions[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
-              console.log(this.ffcp)
-            }
-          }
         }
       },
       emptyFfcpGs() {
@@ -890,79 +1081,131 @@
         this.emptyFfcpGs()
         this.emptyFfcpPpxh()
         this.ffcp = {
-          sblb: '',
           sbzbh: '',
+          htbh: '',
+          pbh: '',
+          sbgzztdm: '',
+          sbgzzt: '',
+          azzp: '',
+          azzpzmz: '',
+          azzpcmz: '',
           qypbh: '',
           qypmc: '',
-          azzdmc: '',
+          ztbh: '',
           ztmc: '',
-          sbgzzt: '',
-          htbh: '',
+          zdbh: '',
+          zdmc: '',
+          ssxzqydm: '',
+          ssxzqy: '',
+          gztjdm: '',
+          gztj: '',
+          gldjdm: '',
           gldj: '',
+          sbppdm: '',
           sbpp: '',
+          sbxhdm: '',
           sbxh: '',
+          sbccdm: '',
           sbccmc: '',
+          gdffdm: '',
           gdffmc: '',
-          simkh: '',
+          sbgsjtdm: '',
           sbgsjtmc: '',
+          sbgsgsdm: '',
           sbgsgsmc: '',
+          sbgscddm: '',
           sbgscdmc: '',
-          // sbgszdmc: '',
+          sbgsxldm: '',
           sbgsxlmc: '',
           sbqdrq: '',
           sbgxrq: '',
           sbbfrq: '',
+          gysdm: '',
           gysmc: '',
+          jcsdm: '',
           jcsmc: '',
+          simkh: '',
           tmbh: '',
           ewmbh: ''
         }
       },
       loadFfcpData() {
         var _this = this
+        let params
         this.tableLoading = true
-        let params = {
-          page: this.currentPage,
-          pagePize: this.pageSize,
-          orderItemName: '',
-          order: '',
-          sblb: this.ffcp.sblb,
-          gzzt: '',
-          sbzbh: this.ffcp.sbzbh,
-          // 区域片编号
-          qypbh: this.ffcp.qypbh,
-          ssxzdm: '',
-          ssxzqy: '',
-          zdbh: '',
-          jzbh: '',
-          azzp: '',
-          dyxljhdm: '',
-          dyxljhmc: '',
-          sbxh: this.ffcp.sbxh,
-          sbpp: this.ffcp.sbpp,
-          // sbcc:this.ffcp.sbcc,
-          // sbgd:this.ffcp.sbgd,
-          simkh: '',
-          gldj: this.ffcp.gldj,
-          sbgsjtdm: this.ffcpGsOption[0],
-          sbgsjtmc: '',
-          sbgsgsdm: this.ffcpGsOption[1],
-          sbgsgsmc: '',
-          sbgscddm: this.ffcpGsOption[2],
-          sbgscdmc: '',
-          sbgsxldm: this.ffcpGsOption[3],
-          sbgsxlmc: '',
-          gysdm: '',
-          gysmc: this.ffcp.gysmc,
-          jcsdm: '',
-          jcsmc: this.ffcp.jcsmc,
-          beginDateScope: this.beginDateScope,
-          updateDateScope: this.updateDateScope,
-          endDateScope: this.endDateScope
+        if (this.ffcp.sbgsjtdm) {
+          params = {
+            page: this.currentPage,
+            pagePize: this.pageSize,
+            orderItemName: '',
+            order: '',
+            sbzbh: this.ffcp.sbzbh,
+            htbh: this.ffcp.htbh,
+            pbh: this.ffcp.pbh,
+            sbgzztdm: this.ffcp.sbgzztdm,
+            // sbgzzt: '',
+            // azzp: '',
+            // azzpzmz: '',
+            // azzpcmz: '',
+            qypbh: this.ffcp.qypbh,
+            // qypmc: '',
+            ztbh: this.ffcp.ztbh,
+            // ztmc: '',
+            zdbh: this.ffcp.zdbh,
+            // zdmc: '',
+            ssxzqydm: this.ffcp.ssxzqydm,
+            // ssxzqy: '',
+            gztjdm: this.ffcp.gztjdm,
+            // gztj: '',
+            gldjdm: this.ffcp.gldjdm,
+            // gldj: '',
+            sbppdm: this.ffcp.sbppdm,
+            // sbpp: '',
+            sbxhdm: this.ffcp.sbxhdm,
+            // sbxh: '',
+            sbccdm: this.ffcp.sbccdm,
+            // sbccmc: '',
+            gdffdm: this.ffcp.gdffdm,
+            // gdffmc: '',
+            sbgsjtdm: this.ffcp.sbgsjtdm,
+            // sbgsjtmc: '',
+            sbgsgsdm: this.ffcp.sbgsgsdm,
+            // sbgsgsmc: '',
+            sbgscddm: this.ffcp.sbgscddm,
+            // sbgscdmc: '',
+            sbgsxldm: this.ffcp.sbgsxldm,
+            // sbgsxlmc: '',
+            sbqdrq: this.ffcp.sbqyrq,
+            sbgxrq: this.ffcp.sbgxrq,
+            sbbfrq: this.ffcp.sbbfrq,
+            gysdm: this.ffcp.gysdm,
+            // gysmc: '',
+            jcsdm: this.ffcp.jcsdm,
+            // jcsmc: '',
+            simkh: '',
+            tmbh: this.ffcp.tmbh,
+            ewmbh: this.ffcp.ewmbh,
+            beginDateScope: this.beginDateScope,
+            updateDateScope: this.updateDateScope,
+            endDateScope: this.endDateScope
+          }
+        } else {
+          params = {
+            page: this.currentPage,
+            size: this.pageSize,
+            orderItemName: '',
+            order: '',
+            sbgsjtdm: this.sbgsjtdm,
+            sbgsgsdm: this.sbgsgsdm,
+            sbgscddm: this.sbgscddm,
+            sbgsxldm: this.sbgsxldm,
+            beginDateScope: this.beginDateScope,
+            updateDateScope: this.updateDateScope,
+            endDateScope: this.endDateScope
+          }
         }
-        console.log('1123 本次查询参数为')
         console.log(params)
-        this.getRequest('/api/ffcp/basic/jt1').then(res => {
+        this.getRequest('/api/ffcp/basic', params).then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
             _this.Sbs = res.data.FfcpList

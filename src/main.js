@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
   }
 })
 // 全局函数 获取设备Selection归属信息
-Vue.prototype.getGsInfo = function (data, jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc) {
+Vue.prototype.getGsInfo = function (data, options, jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc) {
   console.log('归属Selection Change 参数选择信息')
   // 设置代码=>dm
   jtdm = data[0]
@@ -94,10 +94,10 @@ Vue.prototype.getGsInfo = function (data, jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xl
       if (xl) {
         xl = parseInt((data[3]).substring(6, 8))
         // console.log('线路', xl)
-        jtmc = this.rfid4gGsOptions[jt - 1].label
-        gsmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].label
-        cdmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].children[cd - 1].label
-        xlmc = this.rfid4gGsOptions[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
+        jtmc = options[jt - 1].label
+        gsmc = options[jt - 1].children[gs - 1].label
+        cdmc = options[jt - 1].children[gs - 1].children[cd - 1].label
+        xlmc = options[jt - 1].children[gs - 1].children[cd - 1].children[xl - 1].label
       }
     }
   }

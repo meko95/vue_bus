@@ -634,13 +634,12 @@
         fileUploadBtnText: '导入数据',
         dialogTitle: '',
         sbgzzts: [],
-        qypmcs: [],
+        fps: [],
         ssxzqys: [],
         gldjs: [],
         gs: [],
         jzs: [],
         zds: [],
-        fps: [],
         sbgsjtdm: '',
         sbgsgsdm: '',
         sbgscddm: '',
@@ -684,12 +683,6 @@
         this.getRequest('/api/Sbs/gzzt').then(res => {
           if (res && res.status === 200) {
             _this.sbgzzts = res.data.GzztList
-          }
-        })
-        // 获取启用片区域名称
-        this.getRequest('/api/Sbs/qypmc').then(res => {
-          if (res && res.status === 200) {
-            _this.qypmcs = res.data.QypmcList
           }
         })
         // 获取品牌型号信息
@@ -761,7 +754,7 @@
       handleFpChange(val) {
         var fp = parseInt(val)
         if (fp) {
-          this.rfid4g.qypmc = this.qypmcs[fp - 1].descriptionZh
+          this.rfid4g.qypmc = this.fps[fp - 1].descriptionZh
         }
       },
       handleXzqyChange(val) {
@@ -791,7 +784,9 @@
       handlePpxhChange(value) {
         this.rfid4gPpxhOption = value
         let [ppdm, pp, xhdm, xh] = this.getPpxhInfo(value, this.rfid4g.sbppdm, this.rfid4g.sbxhdm, this.rfid4g.sbpp, this.rfid4g.sbxh, this.sbppxh)
+        this.rfid4g.sbpp = pp
         this.rfid4g.sbppdm = ppdm
+        this.rfid4g.sbxh = xh
         this.rfid4g.sbxhdm = xhdm
         console.log(this.rfid4g)
       },
@@ -809,7 +804,7 @@
       },
       handleGsChange(value) {
         this.rfid4gGsOption = value
-        let [jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc] = this.getGsInfo(value, this.rfid4g.sbgsjtdm, this.rfid4g.sbgsjtmc, this.rfid4g.sbgsgsdm, this.rfid4g.sbgsgsmc, this.rfid4g.sbgscddm, this.rfid4g.sbgscdmc, this.rfid4g.sbgsxldm, this.rfid4g.sbgsxlmc)
+        let [jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc] = this.getGsInfo(value, this.rfid4gGsOptions, this.rfid4g.sbgsjtdm, this.rfid4g.sbgsjtmc, this.rfid4g.sbgsgsdm, this.rfid4g.sbgsgsmc, this.rfid4g.sbgscddm, this.rfid4g.sbgscdmc, this.rfid4g.sbgsxldm, this.rfid4g.sbgsxlmc)
         this.rfid4g.sbgsjtdm = jtdm
         this.rfid4g.sbgsjtmc = jtmc
         this.rfid4g.sbgsgsdm = gsdm
@@ -864,6 +859,7 @@
         var _this = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            _this.rfid4g.sbjyh = Date.now().toString()
             // 新增设备与编辑已有设备时唯一区别就是this.rfid4g.sbjyh存不存在,编辑时存在putRequest;
             // 新增时this.rfid4g.sbjyh不存在,但这时就要校验所填数据唯一性及合理性
             // 故,点击取消编辑按钮,一定要empty this.rfid4g.sbjyh
@@ -1068,7 +1064,10 @@
             jcsdm: this.rfid4g.jcsdm,
             // jcsmc: '',
             tmbh: this.rfid4g.tmbh,
-            ewmbh: this.rfid4g.ewmbh
+            ewmbh: this.rfid4g.ewmbh,
+            beginDateScope: this.beginDateScope,
+            updateDateScope: this.updateDateScope,
+            endDateScope: this.endDateScope
           }
         }else{
           params = {
@@ -1079,7 +1078,10 @@
             sbgsjtdm: this.sbgsjtdm,
             sbgsgsdm: this.sbgsgsdm,
             sbgscddm: this.sbgscddm,
-            sbgsxldm: this.sbgsxldm
+            sbgsxldm: this.sbgsxldm,
+            beginDateScope: this.beginDateScope,
+            updateDateScope: this.updateDateScope,
+            endDateScope: this.endDateScope
           }
         }
         console.log(params)

@@ -870,7 +870,7 @@
         }
         console.log('1123 本次查询参数为')
         console.log(params)
-        this.getRequest('/api/rfid4gcz/basic/jt1').then(res => {
+        this.getRequest('/api/rfid4gcz/basic').then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
             _this.Sbs = res.data.rfid4gczList

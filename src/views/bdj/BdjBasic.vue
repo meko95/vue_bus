@@ -824,7 +824,7 @@
         }
         console.log('1123 本次查询参数为')
         console.log(params)
-        this.getRequest('/api/bdj/basic/jt1').then(res => {
+        this.getRequest('/api/bdj/basic').then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
             _this.Sbs = res.data.BdjList
