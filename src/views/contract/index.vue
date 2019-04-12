@@ -176,7 +176,9 @@
             <el-table-column prop="jfmc" label="甲方名称" width="177" align="center"></el-table-column>
             <el-table-column prop="yfmc" label="乙方名称" width="177" align="center"></el-table-column>
             <el-table-column prop="bfmc" label="丙方名称" width="177" align="center"></el-table-column>
-            <el-table-column prop="htqdrq" label="签订日期" width="90" align="center"></el-table-column>
+            <el-table-column prop="htqdrq" label="签订日期" width="90" align="center">
+              <template slot-scope="scope">{{ scope.row.htqdrq | formatDate}}</template>
+            </el-table-column>
             <el-table-column prop="htqx" width="70" align="center">
               <template slot="header" slot-scope="scope">
                 <el-tooltip content="单位:年" placement="top">
