@@ -11,7 +11,7 @@
           <el-input
             placeholder="通过合同编号查询"
             clearable
-            @change="keywordsChange"
+            @change="handleHtbhChange"
             style="width: 300px;margin-left: 56px;padding: 0;"
             size="mini"
             :disabled="advanceSearchViewVisible"
@@ -19,25 +19,26 @@
             prefix-icon="el-icon-search"
             v-model="keywords">
           </el-input>
-          <el-select v-model="sblb" size="mini" style="width: 200px;margin-left: 20px;padding: 0;" clearable
-                     placeholder="通过设备类别查询">
+          <el-select v-model="contract.sblx" size="mini" :disabled="advanceSearchViewVisible"
+                     style="width: 200px;margin-left: 20px;padding: 0;" clearable placeholder="通过设备类型查询"
+                     @change="handleSblxChange">
             <el-option
-              v-for="item in DEVICE_LIST"
-              :key="item.text"
-              :label="item.text"
-              :value="item.value">
+              v-for="item in sblxs"
+              :key="item.id"
+              :label="item.descriptionZh"
+              :value="item.id">
             </el-option>
           </el-select>
-          <el-select v-model="contract.htlb" size="mini" style="width: 200px;margin-left: 20px;padding: 0;" clearable
+          <el-select v-model="contract.htlb" size="mini" :disabled="advanceSearchViewVisible" style="width: 200px;margin-left: 20px;padding: 0;" clearable
                      placeholder="通过合同类别查询">
             <el-option
-              v-for="item in CONTRACT_TYPE"
-              :key="item.text"
-              :label="item.text"
-              :value="item.value">
+              v-for="item in htlbs"
+              :key="item.id"
+              :label="item.descriptionZh"
+              :value="item.id">
             </el-option>
           </el-select>
-          <el-button type="primary" style="margin-left: 10px" size="mini" icon="el-icon-search" @click="searchContract">
+          <el-button type="primary" style="margin-left: 10px" size="mini" :disabled="advanceSearchViewVisible" icon="el-icon-search" @click="searchContract">
             搜索
           </el-button>
           <el-button slot="reference" type="primary" size="mini" style="margin-left: 10px"
@@ -47,7 +48,6 @@
             </i>高级搜索
           </el-button>
         </div>
-
         <div style="margin-left: 5px;margin-right: 20px;display: inline">
           <el-button type="success" size="mini" @click="importContracts">
             <i class="fa fa-lg fa-level-down" style="margin-right: 10px"></i>导入数据
@@ -62,48 +62,57 @@
       </el-header>
       <el-main style="padding-left: 20px;padding-top: 0">
         <div>
-          <!-- 高级搜索 -->
+          <!-- TRANSITION Begin -->
           <transition name="slide-fade">
             <div
               style="margin-bottom: 10px;border: 1px solid #20a0ff;border-radius: 5px;padding: 20px 35px;box-sizing:border-box;"
               v-show="advanceSearchViewVisible">
               <el-row>
-                <el-col :span="5">
-                  合同编号：
-                  <el-input prefix-icon="el-icon-search" v-model="contract.sbzbh" size="small" style="width: 160px"
+                <el-col :span="4">
+                  合同编号:
+                  <el-input prefix-icon="el-icon-search" v-model="contract.sbzbh" size="small" style="width: 155px"
                             placeholder="查询合同编号"></el-input>
                 </el-col>
                 <el-col :span="4">
-                  合同类别：
-                  <el-select v-model="contract.htlb" style="width: 100px" size="small" placeholder="合同类别">
-                    <el-option v-for="item in CONTRACT_TYPE" :key="item.text" :label="item.text"
-                               :value="item.value"></el-option>
+                  合同类别:
+                  <el-select v-model="contract.htlbdm" style="width: 120px" size="small" placeholder="合同类别"
+                             @change="handleHtlbChange">
+                    <el-option v-for="item in htlbs" :key="item.id" :label="item.descriptionZh"
+                               :value="item.id"></el-option>
+                  </el-select>
+                </el-col>
+                <el-col :span="4">
+                  设备类型:
+                  <el-select v-model="contract.sblxdm" style="width: 140px" size="small" placeholder="设备类型"
+                             @change="handleSblxChange">
+                    <el-option v-for="item in sblxs" :key="item.id" :label="item.descriptionZh"
+                               :value="item.id"></el-option>
                   </el-select>
                 </el-col>
                 <el-col :span="5">
-                  合同名称：
+                  合同名称:
                   <el-input prefix-icon="el-icon-search" v-model="contract.htmc" size="small" style="width: 170px"
                             placeholder="合同名称"></el-input>
                 </el-col>
                 <el-col :span="5">
-                  甲方名称：
+                  甲方名称:
                   <el-input prefix-icon="el-icon-search" v-model="contract.jfmc" size="small" style="width: 150px"
                             placeholder="甲方名称"></el-input>
                 </el-col>
+              </el-row>
+              <el-row style="margin-top: 18px">
                 <el-col :span="4">
-                  乙方名称：
+                  乙方名称:
                   <el-input prefix-icon="el-icon-search" v-model="contract.yfmc" size="small" style="width: 150px"
                             placeholder="乙方名称"></el-input>
                 </el-col>
-              </el-row>
-              <el-row style="margin-top: 18px">
                 <el-col :span="5">
-                  丙方名称：
+                  丙方名称:
                   <el-input prefix-icon="el-icon-search" v-model="contract.bfmc" size="small" style="width: 160px"
                             placeholder="丙方名称"></el-input>
                 </el-col>
                 <el-col :span="9">
-                  签订日期：
+                  签订日期:
                   <el-date-picker
                     v-model="dateScope"
                     unlink-panels
@@ -116,33 +125,34 @@
                   </el-date-picker>
                 </el-col>
                 <el-col :span="4">
-                  合同期限：
+                  合同期限:
                   <el-input prefix-icon="el-icon-search" v-model="contract.htqx" size="small" style="width: 150px"
-                            placeholder="单位：月"></el-input>
+                            placeholder="单位:年"></el-input>
                 </el-col>
               </el-row>
               <el-row style="margin-top: 18px">
                 <el-col :span="5">
-                  付款方式：
-                  <el-select v-model="contract.fkfs" style="width: 160px" size="small" placeholder="请选择付款方式">
-                    <el-option v-for="item in PAY_TYPE" :key="item.text" :label="item.text"
-                               :value="item.value"></el-option>
+                  付款方式:
+                  <el-select v-model="contract.fkfsdm" style="width: 160px" size="small" placeholder="请选择付款方式"
+                             @change="handleFkfsChange">
+                    <el-option v-for="item in fkfss" :key="item.id" :label="item.descriptionZh"
+                               :value="item.id"></el-option>
                   </el-select>
                 </el-col>
                 <el-col :span="4">
-                  使用寿命：
+                  使用寿命:
                   <el-input prefix-icon="el-icon-search" v-model="contract.sbsysm" size="small" style="width: 100px"
-                            placeholder="单位：月"></el-input>
+                            placeholder="单位:月"></el-input>
                 </el-col>
                 <el-col :span="5">
-                  设备质包款：
+                  设备质包款:
                   <el-input prefix-icon="el-icon-search" v-model="contract.sbzbk" size="small" style="width: 156px"
-                            placeholder="单位：万元"></el-input>
+                            placeholder="单位:万元"></el-input>
                 </el-col>
                 <el-col :span="5">
-                  设备质保期：
+                  设备质保期:
                   <el-input prefix-icon="el-icon-search" v-model="contract.sbzbq" size="small" style="width: 136px"
-                            placeholder="单位：月"></el-input>
+                            placeholder="单位:年"></el-input>
                 </el-col>
               </el-row>
               <el-row style="margin-top: 18px">
@@ -153,7 +163,7 @@
               </el-row>
             </div>
           </transition>
-          <!-- 合同信息Begin -->
+          <!-- TABLE Begin -->
           <el-table ref="multipleTable" :data="contracts" v-loading="tableLoading" border tooltip-effect="dark"
                     style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                     @selection-change="handleSelectionChange" stripe size="small" height="543"
@@ -161,16 +171,42 @@
             <el-table-column type="selection" width="36" align="center"></el-table-column>
             <el-table-column prop="htbh" label="合同编号" width="90" align="center" fixed></el-table-column>
             <el-table-column prop="htlb" label="合同类别" width="80" align="center"></el-table-column>
+            <el-table-column prop="sblx" label="设备类型" width="100" align="center"></el-table-column>
             <el-table-column prop="htmc" label="合同名称" width="170" align="center"></el-table-column>
-            <el-table-column prop="jfmc" label="甲方名称" width="170" align="center"></el-table-column>
-            <el-table-column prop="yfmc" label="乙方名称" width="170" align="center"></el-table-column>
-            <el-table-column prop="bfmc" label="丙方名称" width="170" align="center"></el-table-column>
+            <el-table-column prop="jfmc" label="甲方名称" width="177" align="center"></el-table-column>
+            <el-table-column prop="yfmc" label="乙方名称" width="177" align="center"></el-table-column>
+            <el-table-column prop="bfmc" label="丙方名称" width="177" align="center"></el-table-column>
             <el-table-column prop="htqdrq" label="签订日期" width="90" align="center"></el-table-column>
-            <el-table-column prop="htqx" label="合同期限(单位:月)" width="120" align="center"></el-table-column>
+            <el-table-column prop="htqx" width="70" align="center">
+              <template slot="header" slot-scope="scope">
+                <el-tooltip content="单位:年" placement="top">
+                  <span>合同期限</span>
+                </el-tooltip>
+              </template>
+            </el-table-column>
             <el-table-column prop="fkfs" label="付款方式" width="80" align="center"></el-table-column>
-            <el-table-column prop="sbsysm" label="设备使用寿命(单位:月)" width="150" align="center"></el-table-column>
-            <el-table-column prop="sbzbk" label="设备质包款" width="100" align="center"></el-table-column>
-            <el-table-column prop="sbzbq" label="设备质保期(单位:月)" width="130" align="center"></el-table-column>
+            <el-table-column prop="sbsysm" width="95" align="center">
+              <template slot="header" slot-scope="scope">
+                <el-tooltip content="单位:月" placement="top">
+                  <span>设备使用寿命</span>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="sbzbk" width="85" align="center">
+              <template slot="header" slot-scope="scope">
+                <el-tooltip content="单位:万元" placement="top">
+                  <span>设备质包款</span>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="sbzbq" width="85" align="center">
+              <template slot="header" slot-scope="scope">
+                <el-tooltip content="单位:年" placement="top">
+                  <span>设备质保期</span>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="qttk" label="其他条款" width="90" align="center"></el-table-column>
           </el-table>
           <!-- 合同信息End -->
           <!-- 批量删除及分页Begin -->
@@ -179,10 +215,10 @@
                        :disabled="multipleSelection.length===0||multipleSelection.length>1"
                        @click="showEditContractView(multipleSelection[0])">编辑
             </el-button>
-            <el-button type="danger" size="small" v-if="contracts.length>0" :disabled="multipleSelection.length==0"
+            <el-button type="danger" size="small" v-if="contracts.length>0" :disabled="multipleSelection.length===0"
                        @click="deleteManyContracts">批量删除
             </el-button>
-            <el-button size="small" v-if="contracts.length>0" :disabled="multipleSelection.length==0"
+            <el-button size="small" v-if="contracts.length>0" :disabled="multipleSelection.length===0"
                        @click="toggleSelection(multipleSelection)">
               取消选择
             </el-button>
@@ -194,13 +230,13 @@
         </div>
       </el-main>
     </el-container>
-    <!-- 新增合同信息Begin -->
-    <el-form :model="contract" :rules="rules" ref="addContractForm" style="margin: 0px;padding: 0px;">
+    <!-- FORM Begin -->
+    <el-form :model="contract" :rules="rules" ref="contract" style="margin: 0px;padding: 0px;">
       <div style="text-align: left">
         <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
-                   :visible.sync="dialogVisible" width="77%">
+                   :visible.sync="dialogVisible" width="77%" @close="cancelAdd('contract')">
           <el-row style="padding-left: 100px">
-            <el-col :span="7">
+            <el-col :span="6">
               <div>
                 <el-form-item label="合同编号:" prop="htbh">
                   <el-input prefix-icon="el-icon-edit" v-model="contract.htbh" size="small" style="width: 150px"
@@ -208,12 +244,24 @@
                 </el-form-item>
               </div>
             </el-col>
-            <el-col :span="7">
+            <el-col :span="5">
               <div>
                 <el-form-item label="合同类别:" prop="htlb">
-                  <el-select v-model="contract.htlb" style="width: 100px" size="small" placeholder="合同类别">
-                    <el-option v-for="item in CONTRACT_TYPE" :key="item.text" :label="item.text"
-                               :value="item.value"></el-option>
+                  <el-select v-model="contract.htlbdm" style="width: 100px" size="small" placeholder="合同类别"
+                             @change="handleHtlbChange">
+                    <el-option v-for="item in htlbs" :key="item.id" :label="item.descriptionZh"
+                               :value="item.id"></el-option>
+                  </el-select>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="5">
+              <div>
+                <el-form-item label="设备类型:" prop="sblx">
+                  <el-select v-model="contract.sblxdm" style="width: 130px" size="small" placeholder="设备类型"
+                             @change="handleSblxChange">
+                    <el-option v-for="item in sblxs" :key="item.id" :label="item.descriptionZh"
+                               :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
               </div>
@@ -252,6 +300,8 @@
                 </el-form-item>
               </div>
             </el-col>
+          </el-row>
+          <el-row style="padding-left: 100px">
             <el-col :span="7">
               <div>
                 <el-form-item label="签订日期:" prop="htqdrq">
@@ -270,53 +320,52 @@
               <div>
                 <el-form-item label="合同期限:" prop="htqx">
                   <el-input prefix-icon="el-icon-edit" v-model="contract.htqx" size="small" style="width: 150px"
-                            placeholder="单位：月"></el-input>
+                            placeholder="单位:月"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="7">
+              <div>
+                <el-form-item label="付款方式:" prop="fkfs">
+                  <el-select v-model="contract.fkfsdm" style="width: 150px" size="small" placeholder="付款方式"
+                             @change="handleFkfsChange">
+                    <el-option v-for="item in fkfss" :key="item.id" :label="item.descriptionZh"
+                               :value="item.id"></el-option>
+                  </el-select>
                 </el-form-item>
               </div>
             </el-col>
           </el-row>
           <el-row style="padding-left: 100px">
-            <el-col :span="7">
-              <div>
-                <el-form-item label="付款方式:" prop="fkfs">
-                  <el-select v-model="contract.fkfs" style="width: 150px" size="small" placeholder="付款方式">
-                    <el-option v-for="item in PAY_TYPE" :key="item.text" :label="item.text"
-                               :value="item.value"></el-option>
-                  </el-select>
-                </el-form-item>
-              </div>
-            </el-col>
             <!-- 使用寿命是否要放在设备基本信息表里面？？方便及时维护设备 -->
             <el-col :span="7">
               <div>
                 <el-form-item label="使用寿命:" prop="sbsysm">
                   <el-input prefix-icon="el-icon-edit" v-model="contract.sbsysm" size="small" style="width: 150px"
-                            placeholder="单位：月"></el-input>
+                            placeholder="单位:月"></el-input>
                 </el-form-item>
               </div>
             </el-col>
             <el-col :span="7">
               <div>
                 <el-form-item label="质包款:" prop="sbzbk">
-                  &nbsp;&nbsp;
                   <el-input prefix-icon="el-icon-edit" v-model="contract.sbzbk" size="small" style="width: 150px"
-                            placeholder="单位：万元"></el-input>
+                            placeholder="单位:万元"></el-input>
                 </el-form-item>
               </div>
             </el-col>
             <el-col :span="7">
               <div>
                 <el-form-item label="质保期:" prop="sbzbq">
-                  &nbsp;&nbsp;
                   <el-input prefix-icon="el-icon-edit" v-model="contract.sbzbq" size="small" style="width: 150px"
-                            placeholder="单位：月"></el-input>
+                            placeholder="单位:月"></el-input>
                 </el-form-item>
               </div>
             </el-col>
           </el-row>
           <span slot="footer" class="dialog-footer">
             <el-button size="large" @click="cancelEidt">取 消</el-button>
-            <el-button size="large" type="primary" @click="addContract('addContractForm')">确 定</el-button>
+            <el-button size="large" type="primary" @click="addContract('contract')">确 定</el-button>
           </span>
         </el-dialog>
       </div>
@@ -331,13 +380,9 @@
     name: "Contract",
     data() {
       return {
-        sblb: '',
         totalRow: 0,
         pageSize: 10,
         currentPage: 1,
-        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
-        CONTRACT_TYPE: this.$store.getters.getAllContractTypes,
-        PAY_TYPE: this.$store.getters.getAllPayTypes,
         advanceSearchViewVisible: false,
         dialogVisible: false,
         tableLoading: false,
@@ -345,7 +390,10 @@
         dateScope: '',
         contract: {
           htbh: '',
+          htlbdm: '',
           htlb: '',
+          sblxdm: '',
+          sblx: '',
           htmc: '',
           jfmc: '',
           yfmc: '',
@@ -356,22 +404,9 @@
           fkfs: '',
           sbsysm: '',
           sbzbk: '',
-          sbzbq: ''
+          sbzbq: '',
+          qttk: ''
         },
-        contracts: [],
-        multipleSelection: [],
-        searchUp: 'el-icon-arrow-up',
-        searchDown: 'el-icon-arrow-down',
-        contractGsOption: ['', '', ''],
-        contractGsOptions: [],
-        fileUploadBtnText: '导入数据',
-        dialogTitle: '',
-        gys: [],
-        jcs: [],
-        gsxl: [],
-        xh: [],
-        pp: [],
-        gldj: [],
         rules: {
           htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
           htlb: [{required: true, message: '必填:合同类别', trigger: 'blur'}],
@@ -385,32 +420,72 @@
           sbsysm: [{required: true, message: '必填:设备使用寿命', trigger: 'blur'}],
           sbzbk: [{required: true, message: '必填:质包款', trigger: 'blur'}],
           sbzbq: [{required: true, message: '必填:质保期', trigger: 'blur'}]
-        }
+        },
+        contracts: [],
+        multipleSelection: [],
+        searchUp: 'el-icon-arrow-up',
+        searchDown: 'el-icon-arrow-down',
+        fileUploadBtnText: '导入数据',
+        dialogTitle: '',
+        htlbs: [],
+        sblxs: [],
+        fkfss: []
       }
     },
     components: {
       ElementHeader
     },
     methods: {
-      keywordsChange(val) {
-        if (val == '') {
+      initData() {
+        var _this = this
+        this.getRequest('/api/contract/htlb').then(res => {
+          if (res && res.status === 200) {
+            _this.htlbs = res.data.HtlbList
+          }
+        })
+        this.getRequest('/api/sbs/sblx').then(res => {
+          if (res && res.status === 200) {
+            _this.sblxs = res.data.SblxList
+          }
+        })
+        this.getRequest('/api/contract/fkfs').then(res => {
+          if (res && res.status === 200) {
+            _this.fkfss = res.data.FkfsList
+          }
+        })
+      },
+      handleHtlbChange(val) {
+        let htlb = parseInt(val)
+        if (htlb) {
+          this.contract.htlb = this.htlbs[htlb - 1].descriptionZh
+        }
+      },
+      handleSblxChange(val) {
+        let sblx = parseInt(val)
+        if (sblx) {
+          this.contract.sblx = this.sblxs[sblx - 1].descriptionZh
+        }
+      },
+      handleFkfsChange(val) {
+        let fkfs = parseInt(val)
+        if (fkfs) {
+          this.contract.fkfs = this.fkfss[fkfs - 1].descriptionZh
+        }
+      },
+      handleHtbhChange(val) {
+        if (val === '') {
           this.loadContractData()
         }
       },
-      searchContract() {
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`)
+        this.pageSize = val
         this.loadContractData()
       },
-      cancelSearch() {
-        this.advanceSearchViewVisible = false
-        this.emptyContractData()
-        this.emptyContractGs()
-        this.dateScope = ''
+      handleCurrentChange(val) {
+        this.currentPage = val
         this.loadContractData()
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val
-      },
-      // 高级搜索的取消
       showAdvanceSearchView() {
         this.advanceSearchViewVisible = !this.advanceSearchViewVisible
         this.keywords = ''
@@ -420,10 +495,33 @@
           this.loadContractData()
         }
       },
+      searchContract() {
+        this.loadContractData()
+      },
+      cancelSearch() {
+        this.advanceSearchViewVisible = false
+        this.emptyContractData()
+        this.dateScope = ''
+        this.loadContractData()
+      },
       showAddContractView() {
         this.dialogVisible = true
         this.dialogTitle = "添加合同"
-        console.log('添加合同')
+      },
+      addContract(formName) {
+        var _this = this
+        _this.dialogVisible = true
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            console.log(this.contract)
+          } else {
+            return false
+          }
+        })
+      },
+      cancelAdd(formName){
+          this.$refs[formName].resetFields()
+          this.emptyContractData()
       },
       showEditContractView(row) {
         console.log(row)
@@ -446,27 +544,9 @@
       cancelEidt() {
         this.dialogVisible = false
         this.emptyContractData()
-        this.emptyContractGs()
-      },
-      addContract(formName) {
-        var _this = this
-        _this.dialogVisible = true
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            if (this.contract.htbh) {
-              // Edit
-              this.tableLoading = true
-            } else {
-              // Add
-              this.tableLoading = true
-            }
-          } else {
-            return false
-          }
-        })
       },
       deleteContract(row) {
-        this.$confirm('此操作将永久删除合同：合同' + row.htbh + ', 是否继续?', '提示', {
+        this.$confirm('此操作将永久删除合同:合同' + row.htbh + ', 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -476,16 +556,7 @@
         })
       },
       doDelete(ids) {
-        this.tableLoading = true;
-        var _this = this;
-        // this.deleteRequest("/employee/basic/emp/" + ids).then(resp => {
-        //   _this.tableLoading = false
-        //   if (resp && resp.status == 200) {
-        //     var data = resp.data
-        //     _this.contracts = data.contracts
-        //     _this.loadEmps()
-        //   }
-        // })
+        this.tableLoading = true
       },
       deleteManyContracts() {
         this.$confirm('此操作将删除[' + this.multipleSelection.length + ']条数据, 是否继续?', '提示', {
@@ -501,6 +572,9 @@
         }).catch(() => {
         });
       },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
+      },
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -510,19 +584,13 @@
           this.$refs.multipleTable.clearSelection()
         }
       },
-      handleCurrentChange(val) {
-        this.currentPage = val
-        this.loadContractData()
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`)
-        this.pageSize = val
-        this.loadContractData()
-      },
       emptyContractData() {
         this.contract = {
           htbh: '',
+          htlbdm: '',
           htlb: '',
+          sblxdm: '',
+          sblx: '',
           htmc: '',
           jfmc: '',
           yfmc: '',
@@ -533,10 +601,10 @@
           fkfs: '',
           sbsysm: '',
           sbzbk: '',
-          sbzbq: ''
+          sbzbq: '',
+          qttk: ''
         }
       },
-      /* 分页处理 pageSize currentPage 发生变化时向服务器发送 */
       // 根据所有可缺省参数向服务器请求数据
       loadContractData() {
         var _this = this
@@ -549,6 +617,7 @@
           order: '',
           htbh: this.contract.htbh,
           htlb: this.contract.htlb,
+          sblx: this.contract.sblx,
           htmc: this.contract.htmc,
           jfmc: this.contract.jfmc,
           yfmc: this.contract.yfmc,
@@ -560,6 +629,7 @@
           sbsysm: this.contract.sbsysm,
           sbzbk: this.contract.sbzbk,
           sbzbq: this.contract.sbzbq,
+          qttk: this.contract.qttk,
           dateScope: this.dateScope
         }
         console.log(params)
@@ -581,6 +651,7 @@
       }
     },
     mounted() {
+      this.initData()
       this.loadContractData()
     }
   }

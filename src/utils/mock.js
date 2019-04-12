@@ -401,24 +401,99 @@ Mock.mock('/api/Sbs/azdd',{
     }
   ]
 })
-// 获取合同信息
+// 获取合同类别信息
+Mock.mock('/api/contract/htlb',{
+  'HtlbList': [
+    {
+      id: '01',
+      descriptionZh: '主合同'
+    },
+    {
+      id: '02',
+      descriptionZh: '分包合同'
+    }
+  ]
+})
+// 获取付款方式信息
+Mock.mock('/api/contract/fkfs',{
+  'FkfsList': [
+    {
+      id: '01',
+      descriptionZh: '微信'
+    },
+    {
+      id: '02',
+      descriptionZh: '支付宝'
+    },
+    {
+      id: '03',
+      descriptionZh: '银行卡'
+    }
+  ]
+})
+// 获取设备类型信息
+Mock.mock('/api/sbs/sblx',{
+  'SblxList': [
+    {
+      id: '01',
+      descriptionZh: 'RFID4G'
+    },
+    {
+      id: '02',
+      descriptionZh: 'RFID4G(场站)'
+    },
+    {
+      id: '03',
+      descriptionZh: '车辆标签'
+    },
+    {
+      id: '04',
+      descriptionZh: '车载一体机'
+    },
+    {
+      id: '05',
+      descriptionZh: '报到机'
+    },
+    {
+      id: '06',
+      descriptionZh: '一程一检'
+    },
+    {
+      id: '07',
+      descriptionZh: '站点通'
+    },
+    {
+      id: '08',
+      descriptionZh: '55寸屏'
+    },
+    {
+      id: '09',
+      descriptionZh: '站杆预报屏'
+    }
+  ]
+})
+// CONTRACT
 Mock.mock('/api/sbs/contract',{
-  'totalRow': 20,
-  'ContractList|20': [
+  'totalRow': 40,
+  'ContractList|40': [
     {
       'htbh|10': /[0-9]/,
+      'htlbdm|1': ['01','02'],
       'htlb|1': ['主合同','分包合同'],
+      'sblxdm|1': ['01','02','03','04','05','06','07','08','09'],
+      'sblx|1': ['RFID4G','车辆标签','一程一检','55寸屏','报到机','站点通','站杆预报屏','RFID4G(场站)','车载一体机'],
       'htmc|1': ['合同合同合同合同名称A','合同合同合同合同名称B','合同合同合同合同名称C'],
-      'jfmc|1': ['甲方甲方甲方甲方名称A','甲方甲方甲方甲方名称B','甲方甲方甲方甲方名称C'],
-      'yfmc|1': ['乙方乙方乙方乙方名称A','乙方乙方乙方乙方名称B','乙方乙方乙方乙方名称C'],
-      'bfmc|1': ['丙方丙方丙方丙方名称A','丙方丙方丙方丙方名称B','丙方丙方丙方丙方名称C'],
+      'jfmc|1': ['甲甲甲甲甲甲甲甲方名称A','甲甲甲甲甲甲甲甲方名称B','甲甲甲甲甲甲甲甲方名称C'],
+      'yfmc|1': ['乙乙乙乙乙乙乙乙方名称A','乙乙乙乙乙乙乙乙方名称B','乙乙乙乙乙乙乙乙方名称C'],
+      'bfmc|1': ['丙丙丙丙丙丙丙丙方名称A','丙丙丙丙丙丙丙丙方名称B','丙丙丙丙丙丙丙丙方名称C'],
       'htqdrq': random.date(),
-      'htqx|1': ['3','6','9','12','15'],
+      'htqx|1': ['1','2','3','4','5','6','7','8'],
       'fkfsdm|1': ['01','02','03'],
       'fkfs|1': ['微信','支付宝','银行卡'],
       'sbsysm|1': ['9','12','15','18','21','24'],
       'sbzbk|1': ['12.5','23.6','30'],
-      'sbzbq|1': ['9','12','15','18','21','24']
+      'sbzbq|1': ['1','2','3','4','5','6','7','8'],
+      'qttk': '其他条款'
     }
   ]
 })
