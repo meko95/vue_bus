@@ -685,9 +685,9 @@
           ewmbh: ''
         },
         rules: {
-          sbzbh: [{required: true, message: '必填:编号', trigger: 'blur'}],
-          htbh: [{required: true, message: '必填:合同编号', trigger: 'blur'}],
-          pbh: [{required: true, message: '必填:屏编号', trigger: 'blur'}],
+          sbzbh: [{required: true, validator: this.validateSbzbh, trigger: 'blur'}],
+          htbh: [{required: true, validator: this.validateHtbh, trigger: 'blur'}],
+          pbh: [{required: true, validator: this.validatePbh, trigger: 'blur'}],
           sbgzzt: [{required: true, message: '必填:工作状态', trigger: 'blur'}],
           qypmc: [{required: true, message: '必填:分片区域', trigger: 'blur'}],
           ztmc: [{required: true, message: '必填:站亭名称', trigger: 'blur'}],
@@ -698,16 +698,15 @@
           ffcpPpxhOption: [{required: false, message: '必填:品牌型号', trigger: 'blur'}],
           sbccmc: [{required: true, message: '必填:尺寸', trigger: 'blur'}],
           gdffmc: [{required: true, message: '必填:供电方式', trigger: 'blur'}],
-          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
           ffcpGsOption: [{required: false, message: '必填:设备归属信息', trigger: 'blur'}],
           sbqdrq: [{required: true, message: '必填:启动日期', trigger: 'blur'}],
           sbgxrq: [{required: false, message: '必填:更新日期', trigger: 'blur'}],
           sbbfrq: [{required: false, message: '必填:报废日期', trigger: 'blur'}],
           gysmc: [{required: true, message: '必填:供应商', trigger: 'blur'}],
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
-          simkh: [{required: true, message: '必填:SIM卡号', trigger: 'blur'}],
-          tmbh: [{required: true, message: '必填:条码编号', trigger: 'blur'}],
-          ewmbh: [{required: true, message: '必填:二维码编号', trigger: 'blur'}]
+          simkh: [{required: true, validator: this.validateSimkh, trigger: 'blur'}],
+          tmbh: [{required: true, validator: this.validateTmbh, trigger: 'blur'}],
+          ewmbh: [{required: true, validator: this.validateEwmbh, trigger: 'blur'}]
         },
         cardTitle: '上海久事一集团',
         subsidiary: this.$store.getters.getAllSubsidiary,

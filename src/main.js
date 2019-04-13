@@ -20,13 +20,30 @@ import {getRequest} from "@/utils/api"
 import {postRequest} from "@/utils/api"
 import {deleteRequest} from "@/utils/api"
 import {putRequest} from "@/utils/api"
-import '@/utils/filter_utils'
-import '@/utils/mock' // !important
 Vue.prototype.getRequest = getRequest
 Vue.prototype.postRequest = postRequest
 Vue.prototype.deleteRequest = deleteRequest
 Vue.prototype.putRequest = putRequest
-
+import '@/utils/filter_utils'
+import '@/utils/mock' // !important
+import {validateSbzbh} from '@/utils/validate'
+import {validateHtbh} from '@/utils/validate'
+import {validateSimkh} from '@/utils/validate'
+import {validateTmbh} from '@/utils/validate'
+import {validateEwmbh} from '@/utils/validate'
+import {validateCph} from '@/utils/validate'
+import {validateClzbh} from '@/utils/validate'
+import {validateSxts} from '@/utils/validate'
+import {validatePbh} from '@/utils/validate'
+Vue.prototype.validateSbzbh = validateSbzbh
+Vue.prototype.validateHtbh = validateHtbh
+Vue.prototype.validateSimkh = validateSimkh
+Vue.prototype.validateTmbh = validateTmbh
+Vue.prototype.validateEwmbh = validateEwmbh
+Vue.prototype.validateCph = validateCph
+Vue.prototype.validateClzbh = validateClzbh
+Vue.prototype.validateSxts = validateSxts
+Vue.prototype.validatePbh = validatePbh
 import axios from 'axios'
 
 Vue.prototype.axios = axios // 把axios加到 Vue原型中 其他组件中this.axios调用
