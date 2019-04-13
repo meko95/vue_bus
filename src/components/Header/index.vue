@@ -19,8 +19,8 @@
           <el-menu-item index="/ffcp/basic">55寸屏</el-menu-item>
           <el-menu-item index="/zgybp/basic">站杆预报屏</el-menu-item>
         </el-submenu>
-        <!--<el-menu-item index="/bus/basicdata/getDeviceCollectData">查看采集数据</el-menu-item>-->
-        <!--<el-menu-item index="/bus/basicdata/getDeviceInstallInfo">查看安装信息</el-menu-item>-->
+        <el-menu-item index="/bus/basicdata/getDeviceCollectData">查看采集数据</el-menu-item>
+        <el-menu-item index="/bus/basicdata/getDeviceInstallInfo">查看安装信息</el-menu-item>
         <el-menu-item index="/bus/basicdata/getDeviceType">管理设备类型</el-menu-item>
       </el-submenu>
 
