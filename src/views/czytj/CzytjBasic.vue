@@ -10,7 +10,7 @@
           <div style="display: inline">
             <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
-              placeholder="通过分片编号查询"
+              placeholder="通过分片编号查询，长度5位"
               clearable
               @change="handleQypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
@@ -55,12 +55,12 @@
                   <el-col :span="6">
                     车载一体机编号:
                     <el-input prefix-icon="el-icon-search" v-model="czytj.sbzbh" size="small" style="width: 150px"
-                              placeholder="设备查询编号"></el-input>
+                              placeholder="长度为12位"></el-input>
                   </el-col>
                   <el-col :span="5">
                     合同编号:
                     <el-input prefix-icon="el-icon-search" v-model="czytj.htbh" size="small" style="width: 150px"
-                              placeholder="设备合同编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-col>
                   <el-col :span="4">
                     工作状态:
@@ -91,12 +91,12 @@
                   <el-col :span="5">
                     车牌号:
                     <el-input prefix-icon="el-icon-search" v-model="czytj.azclcph" size="small" style="width: 150px"
-                              placeholder="安装车辆车牌号"></el-input>
+                              placeholder="例：沪-A-10243"></el-input>
                   </el-col>
                   <el-col :span="5">
                     车辆编号:
                     <el-input prefix-icon="el-icon-search" v-model="czytj.azclzbh" size="small" style="width: 150px"
-                              placeholder="安装车辆车牌号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-col>
                   <el-col :span="5">
                     品牌型号:
@@ -185,12 +185,12 @@
                   <el-col :span="5">
                     车内摄像头:
                     <el-input prefix-icon="el-icon-search" v-model="czytj.cnsxts" size="small" style="width: 150px"
-                              placeholder="车内摄像头"></el-input>
+                              placeholder="不超过8个"></el-input>
                   </el-col>
                   <el-col :span="5">
                     车外摄像头:
                     <el-input prefix-icon="el-icon-search" v-model="czytj.cwsxts" size="small" style="width: 150px"
-                              placeholder="车外摄像头"></el-input>
+                              placeholder="不超过8个"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
@@ -305,7 +305,7 @@
                 <div>
                   <el-form-item label="车载一体机编号:" prop="sbzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.sbzbh" size="small" style="width: 150px"
-                              placeholder="请输入设备编号"></el-input>
+                              placeholder="长度为12位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -313,7 +313,7 @@
                 <div>
                   <el-form-item label="合同编号:" prop="htbh">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.htbh" size="small" style="width: 150px"
-                              placeholder="请输入设备合同编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -345,7 +345,7 @@
                 <div>
                   <el-form-item label="安装车牌号:" prop="azclcph">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.azclcph" size="small" style="width: 150px"
-                              placeholder="请输入车牌号"></el-input>
+                              placeholder="例：沪-A-10243"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -353,7 +353,7 @@
                 <div>
                   <el-form-item label="车辆编号:" prop="azclzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.azclzbh" size="small" style="width: 150px"
-                              placeholder="请输入车辆编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -403,7 +403,7 @@
                 <div>
                   <el-form-item label="车内摄像头数:" prop="cnsxts">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.cnsxts" size="small" style="width: 130px"
-                              placeholder="车内摄像头数"></el-input>
+                              placeholder="不超过8个"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -411,7 +411,7 @@
                 <div>
                   <el-form-item label="车外摄像头数:" prop="cwsxts">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.cwsxts" size="small" style="width: 130px"
-                              placeholder="车外摄像头数"></el-input>
+                              placeholder="不超过8个"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -433,14 +433,6 @@
               </el-col>
             </el-row>
             <el-row style="padding-left: 100px">
-              <el-col :span="8">
-                <div>
-                  <el-form-item label="二维码编号:" prop="ewmbh">
-                    <el-input prefix-icon="el-icon-edit" v-model="czytj.ewmbh" size="small" style="width: 180px"
-                              placeholder="请输入设备二维码编号"></el-input>
-                  </el-form-item>
-                </div>
-              </el-col>
               <el-col :span="7">
                 <div>
                   <el-form-item label="启动日期:" prop="sbqyrq">
@@ -469,8 +461,6 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="报废日期:" prop="sbbfrq">
@@ -485,6 +475,8 @@
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="供应商:" prop="gysmc">
@@ -507,21 +499,29 @@
                   </el-form-item>
                 </div>
               </el-col>
-            </el-row>
-            <el-row style="padding-left: 100px">
               <el-col :span="7">
                 <div>
                   <el-form-item label="SIM卡号:" prop="simkh">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.simkh" size="small" style="width: 200px"
-                              placeholder="请输入SIM卡号"></el-input>
+                              placeholder="长度为20位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
+            </el-row>
+            <el-row style="padding-left: 100px">
               <el-col :span="6">
                 <div>
                   <el-form-item label="条码编号:" prop="tmbh">
                     <el-input prefix-icon="el-icon-edit" v-model="czytj.tmbh" size="small" style="width: 150px"
-                              placeholder="请输入条码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="8">
+                <div>
+                  <el-form-item label="二维码编号:" prop="ewmbh">
+                    <el-input prefix-icon="el-icon-edit" v-model="czytj.ewmbh" size="small" style="width: 180px"
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>

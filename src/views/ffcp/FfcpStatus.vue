@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="55寸屏" @listenToChildEvent="getGsSelected"></SideBar>
+      <SideBar sb-type="55寸屏" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
@@ -69,10 +69,12 @@
         totalPage:0,
         pageSize:10,
         currentPage:1,
-        sbgsjtdm: '',
-        sbgsgsdm: '',
-        sbgscddm: '',
-        sbgsxldm: '',
+        ffcp:{
+          sbgsjtdm: '',
+          sbgsgsdm: '',
+          sbgscddm: '',
+          sbgsxldm: ''
+        },
         statistic: []
       }
     },
@@ -81,8 +83,13 @@
       SideBar
     },
     methods: {
-      getGsSelected(data) {
-        this.getSbGsInfo(data, this.sbgsjtdm, this.sbgsgsdm, this.sbgscddm, this.sbgsxldm)
+      handleGsTreeSelect(data) {
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data,this.ffcp.sbgsjtdm,this.ffcp.sbgsgsdm,this.ffcp.sbgscddm,this.ffcp.sbgsxldm)
+        this.ffcp.sbgsjtdm = jtdm
+        this.ffcp.sbgsgsdm = gsdm
+        this.ffcp.sbgscddm = cddm
+        this.ffcp.sbgsxldm = xldm
+        console.log(this.ffcp)
       },
       handleCurrentChange(val){
         this.currentPage = val

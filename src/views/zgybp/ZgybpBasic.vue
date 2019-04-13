@@ -11,7 +11,7 @@
           <div style="display: inline">
             <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
-              placeholder="通过分片编号查询"
+              placeholder="通过分片编号查询，长度为5位"
               clearable
               @change="handleQypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
@@ -56,12 +56,12 @@
                   <el-col :span="6">
                     站杆预报屏编号:
                     <el-input prefix-icon="el-icon-search" v-model="zgybp.sbzbh" size="small" style="width: 150px"
-                              placeholder="设备查询编号"></el-input>
+                              placeholder="长度为12位"></el-input>
                   </el-col>
                   <el-col :span="5">
                     合同编号:
                     <el-input prefix-icon="el-icon-search" v-model="zgybp.htbh" size="small" style="width: 150px"
-                              placeholder="设备合同编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-col>
                   <el-col :span="4">
                     工作状态:
@@ -89,11 +89,11 @@
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
-                  <el-col :span="5">
-                    站牌编号:
-                    <el-input prefix-icon="el-icon-search" v-model="zgybp.zpbh" size="small" style="width: 150px"
-                              placeholder="站牌编号"></el-input>
-                  </el-col>
+                  <!--<el-col :span="5">-->
+                    <!--站牌编号:-->
+                    <!--<el-input prefix-icon="el-icon-search" v-model="zgybp.zpbh" size="small" style="width: 150px"-->
+                              <!--placeholder="长度为4位"></el-input>-->
+                  <!--</el-col>-->
                   <el-col :span="4">
                     站牌名称:
                     <el-select v-model="zgybp.zpbh" style="width: 100px" size="small" placeholder="站牌名称"
@@ -241,14 +241,14 @@
                   <el-col :span="5">
                     条码编号:
                     <el-input prefix-icon="el-icon-search" v-model="zgybp.tmbh" size="small" style="width: 150px"
-                              placeholder="设备条码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
                   <el-col :span="5">
                     二维码编号:
                     <el-input prefix-icon="el-icon-search" v-model="zgybp.ewmbh" size="small" style="width: 150px"
-                              placeholder="设备二维码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
@@ -376,7 +376,7 @@
                 <div>
                   <el-form-item label="站杆预报屏编号:" prop="sbzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="zgybp.sbzbh" size="small" style="width: 150px"
-                              placeholder="请输入设备编号"></el-input>
+                              placeholder="长度为20位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -384,7 +384,7 @@
                 <div>
                   <el-form-item label="合同编号:" prop="htbh">
                     <el-input prefix-icon="el-icon-edit" v-model="zgybp.htbh" size="small" style="width: 150px"
-                              placeholder="请输入设备合同编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -610,7 +610,7 @@
                 <div>
                   <el-form-item label="SIM卡号:" prop="simkh">
                     <el-input prefix-icon="el-icon-edit" v-model="zgybp.simkh" size="small" style="width: 150px"
-                              placeholder="请输入SIM卡号"></el-input>
+                              placeholder="长度为20位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -618,7 +618,7 @@
                 <div>
                   <el-form-item label="条码编号:" prop="tmbh">
                     <el-input prefix-icon="el-icon-edit" v-model="zgybp.tmbh" size="small" style="width: 150px"
-                              placeholder="请输入条码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -628,7 +628,7 @@
                 <div>
                   <el-form-item label="二维码编号:" prop="ewmbh">
                     <el-input prefix-icon="el-icon-edit" v-model="zgybp.ewmbh" size="small" style="width: 180px"
-                              placeholder="请输入设备二维码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>

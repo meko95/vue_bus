@@ -11,7 +11,7 @@
           <div style="display: inline">
             <StatisticsCard :s-title="cardTitle"></StatisticsCard>
             <el-input
-              placeholder="通过分片编号查询"
+              placeholder="通过分片编号查询，长度为5位"
               clearable
               @change="handleQypbhChange"
               style="width: 192px;margin-left: 10px;padding: 0;"
@@ -58,12 +58,12 @@
                   <el-col :span="5">
                     RFID4G编号:
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.sbzbh" size="small" style="width: 150px"
-                              placeholder="设备查询编号"></el-input>
+                              placeholder="长度为12位"></el-input>
                   </el-col>
                   <el-col :span="5">
                     合同编号:
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.htbh" size="small" style="width: 150px"
-                              placeholder="设备合同编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-col>
                   <el-col :span="4">
                     工作状态:
@@ -193,22 +193,22 @@
                   <el-col :span="5">
                     站点编号:
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.zdbh" size="small" style="width: 150px"
-                              placeholder="设备站点编号"></el-input>
+                              placeholder="长度为5位"></el-input>
                   </el-col>
                   <el-col :span="5">
                     基站编号:
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.jzbh" size="small" style="width: 150px"
-                              placeholder="设备基站编号"></el-input>
+                              placeholder="长度为5位"></el-input>
                   </el-col>
                   <el-col :span="5">
                     条码编号:
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.tmbh" size="small" style="width: 150px"
-                              placeholder="设备条码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-col>
                   <el-col :span="5">
                     二维码编号:
                     <el-input prefix-icon="el-icon-search" v-model="rfid4g.ewmbh" size="small" style="width: 150px"
-                              placeholder="设备二维码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-col>
                 </el-row>
                 <el-row style="margin-top: 18px">
@@ -318,7 +318,7 @@
                 <div>
                   <el-form-item label="RFID4G编号:" prop="sbzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="rfid4g.sbzbh" size="small" style="width: 150px"
-                              placeholder="请输入设备编号"></el-input>
+                              placeholder="长度为12位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -326,7 +326,7 @@
                 <div>
                   <el-form-item label="合同编号:" prop="htbh">
                     <el-input prefix-icon="el-icon-edit" v-model="rfid4g.htbh" size="small" style="width: 150px"
-                              placeholder="请输入设备合同编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -505,7 +505,7 @@
                 <div>
                   <el-form-item label="SIM卡号:" prop="simkh">
                     <el-input prefix-icon="el-icon-edit" v-model="rfid4g.simkh" size="small" style="width: 190px"
-                              placeholder="请输入SIM卡号"></el-input>
+                              placeholder="长度为20位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -515,7 +515,7 @@
                 <div>
                   <el-form-item label="条码编号:" prop="tmbh">
                     <el-input prefix-icon="el-icon-edit" v-model="rfid4g.tmbh" size="small" style="width: 150px"
-                              placeholder="请输入条码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>
@@ -523,7 +523,7 @@
                 <div>
                   <el-form-item label="二维码编号:" prop="ewmbh">
                     <el-input prefix-icon="el-icon-edit" v-model="rfid4g.ewmbh" size="small" style="width: 180px"
-                              placeholder="请输入设备二维码编号"></el-input>
+                              placeholder="长度为10位"></el-input>
                   </el-form-item>
                 </div>
               </el-col>

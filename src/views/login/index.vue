@@ -8,10 +8,10 @@
       </el-header>
       <el-main>
         <div id="login">
-          <el-form label-position="left" :model="user" :rules="rules" ref="loginForm" label-width="80px">
-            <el-form-item label="用户名:" prop="username">
+          <el-form label-position="right" :model="user" :rules="rules" ref="loginForm" label-width="80px">
+            <el-form-item label="账户:" prop="username">
               <el-input prefix-icon="el-icon-edit" autofocus v-model="user.username" clearable
-                        placeholder="请输入用户名"></el-input>
+                        placeholder="请输入账户名"></el-input>
             </el-form-item>
             <el-form-item label="密码:" prop="password">
               <el-input prefix-icon="el-icon-edit" v-model="user.password" show-password clearable
@@ -32,6 +32,34 @@
   export default {
     name: "Login",
     data() {
+      // let usrReg = /^[\u4e00-\u9fa5]{2,3}$/ // 中文姓名:2-3个汉字
+      let usrReg = /^[a-zA-Z\w]{4,8}$/ // 英文姓名:4-8个字母,可带下划线_
+      // let usrReg = /^[0-12]{12}$/ // 账号:12个数字
+      let validateUsr = (rule,value,callback)=>{
+        if(!value){
+          return callback(new Error('账户名不可为空'))
+        }
+        setTimeout(()=>{
+          if(!usrReg.test(value)){
+            callback(new Error('账户名长度为4-8个字母,可带下划线 "_"'))
+          }else{
+            callback()
+          }
+        },500)
+      }
+      let passReg = /^(\w){8,12}$/
+      let validatePass = (rule,value,callback)=>{
+        if(!value){
+          return callback(new Error('密码不可为空'))
+        }
+        setTimeout(()=>{
+          if(!passReg.test(value)){
+            callback(new Error('字母、数字、下划线，且密码长度为8-12字符'))
+          }else{
+            callback()
+          }
+        },500)
+      }
       return {
         user: {
           username: '',
@@ -41,12 +69,10 @@
         },
         rules: {
           username: [
-            {required: true, message: '请输入姓名', trigger: 'blur'},
-            {min: 2, max: 3, message: '长度在2到3个字符', trigger: 'change'}
+            {required: true, validator: validateUsr, trigger: 'blur'}
           ],
           password: [
-            {required: true, message: '请输入密码', trigger: 'blur'},
-            {min: 8, max: 12, message: '长度在8到12个字符 不可包含特殊字符', trigger: 'change'}
+            {required: true, validator: validatePass, trigger: 'change'}
           ]
         }
       }

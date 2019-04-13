@@ -3,7 +3,7 @@
     <ElementHeader></ElementHeader>
     <el-container style="height: 701px; border: 1px solid #eee">
       <!-- Side Begin -->
-      <SideBar sb-type="报到机" @listenToChildEvent="getGsSelected"></SideBar>
+      <SideBar sb-type="报到机" @listenToChildEvent="handleGsTreeSelect"></SideBar>
       <!-- Container Begin -->
       <el-container>
         <!-- Header Begin -->
@@ -69,10 +69,12 @@
         totalPage:0,
         pageSize:10,
         currentPage:1,
-        sbgsjtdm: '',
-        sbgsgsdm: '',
-        sbgscddm: '',
-        sbgsxldm: '',
+        bdj:{
+          sbgsjtdm: '',
+          sbgsgsdm: '',
+          sbgscddm: '',
+          sbgsxldm: ''
+        },
         statistic: []
       }
     },
@@ -81,8 +83,13 @@
       SideBar
     },
     methods: {
-      getGsSelected(data) {
-        this.getSbGsInfo(data, this.sbgsjtdm, this.sbgsgsdm, this.sbgscddm, this.sbgsxldm)
+      handleGsTreeSelect(data) {
+        let [jtdm, gsdm, cddm, xldm] = this.getGsTreeInfo(data,this.bdj.sbgsjtdm,this.bdj.sbgsgsdm,this.bdj.sbgscddm,this.bdj.sbgsxldm)
+        this.bdj.sbgsjtdm = jtdm
+        this.bdj.sbgsgsdm = gsdm
+        this.bdj.sbgscddm = cddm
+        this.bdj.sbgsxldm = xldm
+        console.log(this.bdj)
       },
       handleCurrentChange(val){
         this.currentPage = val

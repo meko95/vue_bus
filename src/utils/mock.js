@@ -1,5 +1,4 @@
 import Mock from 'mockjs'
-
 var random = Mock.Random
 // 管理等级
 Mock.mock('/api/Sbs/gldj', {
@@ -523,7 +522,6 @@ Mock.mock('/api/rfid4g/basic', {
       'sbpp|1': ['索尼', '三星', '华为'],
       'sbxhdm|1': ['0101', '0102', '0201'],
       'sbxh|1': /[A-Z]-\d{4}/,
-      'simkh|20': /[0-9]/,
       'sbgsjtdm|1': ['01', '02'],
       'sbgsjtmc|1': ['上海久事一集团', '上海久事二集团'],
       'sbgsgsdm|1': ['0101', '0102', '0103', '0104', '0105'],
@@ -539,6 +537,7 @@ Mock.mock('/api/rfid4g/basic', {
       'gysmc|1': ['澳马', '中安', '秀派', '公用所'],
       'jcsdm|1': ['01', '02', '03', '04'],
       'jcsmc|1': ['澳马', '中安', '秀派', '公用所'],
+      'simkh|20': /[0-9]/,
       'tmbh|10': /[0-9]/,
       'ewmbh|10': /[0-9]/
     }

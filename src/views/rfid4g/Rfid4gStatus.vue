@@ -22,13 +22,14 @@
           <el-table :data="statistic" v-loading="tableLoading" border stripe size="small" style="width: 100%;"
                     highlight-current-row height="559" tooltip-effect="dark">
             <el-table-column prop="rq" label="日期" width="100" align="center" sortable>
-              <template slot-scope="scope">{{ scope.row.rq | formatDate}}</template>
+              <template slot-scope="scope">{{ scope.row.gzrq | formatDate}}</template>
             </el-table-column>
-            <el-table-column prop="jt" label="集团" width="110"></el-table-column>
             <el-table-column prop="jt" label="集团" width="110"></el-table-column>
             <el-table-column prop="gs" label="公司" width="110"></el-table-column>
             <el-table-column prop="cd" label="车队" width="110"></el-table-column>
-            <!--<el-table-column prop="xl" label="线路" width="110" fixed></el-table-column>-->
+            <el-table-column prop="xl" label="线路" width="110"></el-table-column>
+            <el-table-column prop="gzrq" label="工作日期" width="110"></el-table-column>
+            <el-table-column prop="sbzbh" label="RFID4G编号" width="110"></el-table-column>
             <el-table-column label="班次接收情况" align="center">
               <el-table-column prop="dzbc" label="到站班次" width="100" align="center"></el-table-column>
               <el-table-column prop="jsbc" label="接收班次" width="100" algin="center"></el-table-column>
@@ -70,12 +71,16 @@
         pageSize:10,
         currentPage:1,
         rfid4g:{
-          sbgsjtdm: '',
+          sbgsjtdm: '01',
           sbgsgsdm: '',
           sbgscddm: '',
           sbgsxldm: ''
         },
-        statistic: []
+        statistic: [],
+        showGs: true,
+        showCd: false,
+        showXl: false,
+        showSb: false
       }
     },
     components: {

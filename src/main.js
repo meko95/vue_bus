@@ -20,8 +20,8 @@ import {getRequest} from "@/utils/api"
 import {postRequest} from "@/utils/api"
 import {deleteRequest} from "@/utils/api"
 import {putRequest} from "@/utils/api"
-import './utils/filter_utils'
-import './utils/mock' // !important
+import '@/utils/filter_utils'
+import '@/utils/mock' // !important
 Vue.prototype.getRequest = getRequest
 Vue.prototype.postRequest = postRequest
 Vue.prototype.deleteRequest = deleteRequest
