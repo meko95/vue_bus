@@ -35,30 +35,30 @@
       // let usrReg = /^[\u4e00-\u9fa5]{2,3}$/ // 中文姓名:2-3个汉字
       let usrReg = /^[a-zA-Z\w]{4,8}$/ // 英文姓名:4-8个字母,可带下划线_
       // let usrReg = /^[0-12]{12}$/ // 账号:12个数字
-      let validateUsr = (rule,value,callback)=>{
-        if(!value){
+      let validateUsr = (rule, value, callback) => {
+        if (!value) {
           return callback(new Error('账户名不可为空'))
         }
-        setTimeout(()=>{
-          if(!usrReg.test(value)){
+        setTimeout(() => {
+          if (!usrReg.test(value)) {
             callback(new Error('账户名长度为4-8个字母,可带下划线 "_"'))
-          }else{
+          } else {
             callback()
           }
-        },500)
+        }, 500)
       }
       let passReg = /^(\w){8,12}$/
-      let validatePass = (rule,value,callback)=>{
-        if(!value){
+      let validatePass = (rule, value, callback) => {
+        if (!value) {
           return callback(new Error('密码不可为空'))
         }
-        setTimeout(()=>{
-          if(!passReg.test(value)){
+        setTimeout(() => {
+          if (!passReg.test(value)) {
             callback(new Error('字母、数字、下划线，且密码长度为8-12字符'))
-          }else{
+          } else {
             callback()
           }
-        },500)
+        }, 500)
       }
       return {
         user: {
@@ -83,9 +83,9 @@
         // 前端验证
         this.$refs[formName].validate((valid) => {
           if (valid) {
-          //  服务器端验证
-            this.postRequest('http://kathryn.cn:8080/bus/login',this.user).then(res=>{
-            //  通过res.code判断各种类型
+            //  服务器端验证
+            this.postRequest('http://kathryn.cn:8080/bus/login', this.user).then(res => {
+              //  通过res.code判断各种类型
               if (true) {
                 // 获取服务端session=>浏览器设置cookie=>每次请求判断cookie是否存在 退出账户时移除cookie
                 // main.js验证登录状态 next()表示验证通过
@@ -102,7 +102,7 @@
                 }
               }
             })
-          } else{
+          } else {
             return false
           }
           // this.user = {
@@ -122,12 +122,14 @@
   }
 
   #title {
-    background-color: #324157;
     text-align: left;
     font-size: 26px;
-    color: #409eff;
     height: 60px;
     line-height: 60px;
+    background: -webkit-linear-gradient(165deg, #67c2ff 20%, #9576ff 80%); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(165deg, #67c2ff 20%, #9576ff 80%); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(165deg, #67c2ff 20%, #9576ff 80%); /* Firefox 3.6 - 15 */
+    background: linear-gradient(165deg, #67c2ff 20%, #9576ff 80%); /* 标准的语法（必须放在最后） */
   }
 
   #login {

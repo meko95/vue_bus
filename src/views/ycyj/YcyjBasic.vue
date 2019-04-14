@@ -734,15 +734,6 @@
           this.ycyj.gldj = this.gldjs[gldj - 1].descriptionZh
         }
       },
-      handlePpxhChange(value) {
-        this.ycyjPpxhOption = value
-        let [ppdm, pp, xhdm, xh] = this.getPpxhInfo(value, this.ycyj.sbppdm, this.ycyj.sbxhdm, this.ycyj.sbpp, this.ycyj.sbxh, this.sbppxh)
-        this.ycyj.sbpp = pp
-        this.ycyj.sbppdm = ppdm
-        this.ycyj.sbxh = xh
-        this.ycyj.sbxhdm = xhdm
-        console.log(this.ycyj)
-      },
       handleGsChange(value) {
         this.ycyjGsOption = value
         let [jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc] = this.getGsInfo(value, this.ycyjGsOptions, this.ycyj.sbgsjtdm, this.ycyj.sbgsjtmc, this.ycyj.sbgsgsdm, this.ycyj.sbgsgsmc, this.ycyj.sbgscddm, this.ycyj.sbgscdmc, this.ycyj.sbgsxldm, this.ycyj.sbgsxlmc)
@@ -754,6 +745,15 @@
         this.ycyj.sbgscdmc = cdmc
         this.ycyj.sbgsxldm = xldm
         this.ycyj.sbgsxlmc = xlmc
+        console.log(this.ycyj)
+      },
+      handlePpxhChange(value) {
+        this.ycyjPpxhOption = value
+        let [ppdm, pp, xhdm, xh] = this.getPpxhInfo(value, this.ycyj.sbppdm, this.ycyj.sbxhdm, this.ycyj.sbpp, this.ycyj.sbxh, this.sbppxh)
+        this.ycyj.sbpp = pp
+        this.ycyj.sbppdm = ppdm
+        this.ycyj.sbxh = xh
+        this.ycyj.sbxhdm = xhdm
         console.log(this.ycyj)
       },
       handleGysChange(val) {
