@@ -49,7 +49,7 @@
         <!-- Main Begin:高级搜索框、Table、批量删除、分页 -->
         <el-main>
           <div>
-            <!-- 高级搜索 -->
+            <!-- TRANSITION Begin -->
             <transition name="slide-fade">
               <div
                 style="margin-bottom: 10px;border: 1px solid #20a0ff;border-radius: 5px;padding: 20px 35px;box-sizing:border-box;"

@@ -445,7 +445,7 @@
             _this.htlbs = res.data.HtlbList
           }
         })
-        this.getRequest('/api/sbs/sblx').then(res => {
+        this.getRequest('/api/Sbs/sblx').then(res => {
           if (res && res.status === 200) {
             _this.sblxs = res.data.SblxList
           }

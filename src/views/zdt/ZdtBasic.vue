@@ -53,7 +53,7 @@
                 v-show="advanceSearchViewVisible">
                 <el-row>
                   <el-col :span="5">
-                    站点通编号:
+                    设备编号:
                     <el-input prefix-icon="el-icon-search" v-model="zdt.sbzbh" size="small" style="width: 150px"
                               placeholder="设备查询编号"></el-input>
                   </el-col>
@@ -184,7 +184,8 @@
                   </el-col>
                   <el-col :span="4">
                     供应商:
-                    <el-select v-model="zdt.gysdm" style="width: 130px" size="small" placeholder="请选择供应商">
+                    <el-select v-model="zdt.gysdm" style="width: 130px" size="small" placeholder="请选择供应商"
+                               @change="handleGysChange">
                       <el-option
                         v-for="item in gs"
                         :key="item.id"
@@ -195,7 +196,8 @@
                   </el-col>
                   <el-col :span="4">
                     集成商:
-                    <el-select v-model="zdt.jcsdm" style="width: 130px" size="small" placeholder="请选择集成商">
+                    <el-select v-model="zdt.jcsdm" style="width: 130px" size="small" placeholder="请选择集成商"
+                               @change="handleJcsChange">
                       <el-option
                         v-for="item in gs"
                         :key="item.id"
@@ -225,13 +227,13 @@
                 </el-row>
               </div>
             </transition>
-            <!-- 站点通基础信息Begin -->
+            <!-- TABLE Begin -->
             <el-table ref="multipleTable" :data="Sbs" v-loading="tableLoading" border tooltip-effect="dark"
                       style="width: 100%;" :row-style="{'height': 0}" :cell-style="{'padding': 0}"
                       @selection-change="handleSelectionChange" stripe size="small" height="559"
                       :default-sort="{prop: 'sbqdrq', order: 'descending'}">
               <el-table-column type="selection" width="36" align="center"></el-table-column>
-              <el-table-column prop="sbzbh" label="站点通编号" width="130" align="center" fixed></el-table-column>
+              <el-table-column prop="sbzbh" label="设备编号" width="130" align="center" fixed></el-table-column>
               <el-table-column prop="htbh" label="合同编号" width="95" align="center"></el-table-column>
               <el-table-column prop="sblb" label="设备类别" width="100" align="center"></el-table-column>
               <el-table-column prop="sbgzzt" label="工作状态" width="80" align="center"></el-table-column>
@@ -298,7 +300,7 @@
           </div>
         </el-main>
       </el-container>
-      <!-- Form Begin -->
+      <!-- FORM Begin -->
       <el-form :model="zdt" :rules="rules" ref="zdt" style="margin: 0;padding: 0;">
         <div style="text-align: left">
           <el-dialog :title="dialogTitle" style="padding: auto;" :close-on-click-modal="false"
@@ -306,7 +308,7 @@
             <el-row style="padding-left: 100px">
               <el-col :span="8">
                 <div>
-                  <el-form-item label="站点通编号:" prop="sbzbh">
+                  <el-form-item label="设备编号:" prop="sbzbh">
                     <el-input prefix-icon="el-icon-edit" v-model="zdt.sbzbh" size="small" style="width: 150px"
                               placeholder="请输入设备编号"></el-input>
                   </el-form-item>
@@ -369,14 +371,14 @@
             </el-row>
             <el-row style="padding-left: 100px">
               <!--<el-col :span="8">-->
-                <!--<div>-->
-                  <!--<el-form-item label="设备类别:" prop="sblb">-->
-                    <!--<el-select v-model="zdt.sblb" style="width: 120px" size="small" placeholder="管理等级">-->
-                      <!--<el-option v-for="item in sblbs" :key="item.id" :label="item.descriptionZh"-->
-                                 <!--:value="item.descriptionZh"></el-option>-->
-                    <!--</el-select>-->
-                  <!--</el-form-item>-->
-                <!--</div>-->
+              <!--<div>-->
+              <!--<el-form-item label="设备类别:" prop="sblb">-->
+              <!--<el-select v-model="zdt.sblb" style="width: 120px" size="small" placeholder="设备类别">-->
+              <!--<el-option v-for="item in sblbs" :key="item.id" :label="item.descriptionZh"-->
+              <!--:value="item.descriptionZh"></el-option>-->
+              <!--</el-select>-->
+              <!--</el-form-item>-->
+              <!--</div>-->
               <!--</el-col>-->
               <el-col :span="7">
                 <div>
@@ -593,14 +595,14 @@
           jcsmc: [{required: true, message: '必填:集成商', trigger: 'blur'}],
           simkh: [{required: true, validator: this.validateSimkh, trigger: 'blur'}],
           tmbh: [{required: true, validator: this.validateTmbh, trigger: 'blur'}],
-          ewmbh: [{required: true,  validator: this.validateEwmbh, trigger: 'blur'}]
+          ewmbh: [{required: true, validator: this.validateEwmbh, trigger: 'blur'}]
         },
         cardTitle: '上海久事一集团',
-        subsidiary: this.$store.getters.getAllSubsidiary,
+        // subsidiary: this.$store.getters.getAllSubsidiary,
         totalPage: 0,
         pageSize: 10,
         currentPage: 1,
-        DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
+        // DEVICE_LIST: this.$store.getters.getAllDeviceTypes,
         advanceSearchViewVisible: false,
         dialogVisible: false,
         tableLoading: false,
@@ -741,6 +743,15 @@
           this.zdt.gldj = this.gldjs[gldj - 1].descriptionZh
         }
       },
+      handlePpxhChange(value) {
+        this.zdtPpxhOption = value
+        let [ppdm, pp, xhdm, xh] = this.getPpxhInfo(value, this.zdt.sbppdm, this.zdt.sbxhdm, this.zdt.sbpp, this.zdt.sbxh, this.sbppxh)
+        this.zdt.sbpp = pp
+        this.zdt.sbppdm = ppdm
+        this.zdt.sbxh = xh
+        this.zdt.sbxhdm = xhdm
+        console.log(this.zdt)
+      },
       handleGsChange(value) {
         this.zdtGsOption = value
         let [jtdm, jtmc, gsdm, gsmc, cddm, cdmc, xldm, xlmc] = this.getGsInfo(value, this.zdtGsOptions, this.zdt.sbgsjtdm, this.zdt.sbgsjtmc, this.zdt.sbgsgsdm, this.zdt.sbgsgsmc, this.zdt.sbgscddm, this.zdt.sbgscdmc, this.zdt.sbgsxldm, this.zdt.sbgsxlmc)
@@ -752,15 +763,6 @@
         this.zdt.sbgscdmc = cdmc
         this.zdt.sbgsxldm = xldm
         this.zdt.sbgsxlmc = xlmc
-        console.log(this.zdt)
-      },
-      handlePpxhChange(value) {
-        this.zdtPpxhOption = value
-        let [ppdm, pp, xhdm, xh] = this.getPpxhInfo(value, this.zdt.sbppdm, this.zdt.sbxhdm, this.zdt.sbpp, this.zdt.sbxh, this.sbppxh)
-        this.zdt.sbpp = pp
-        this.zdt.sbppdm = ppdm
-        this.zdt.sbxh = xh
-        this.zdt.sbxhdm = xhdm
         console.log(this.zdt)
       },
       handleGysChange(val) {
@@ -949,7 +951,7 @@
         var _this = this
         this.tableLoading = true
         let params
-        if(this.zdt.sbjyh){
+        if (this.zdt.sbjyh) {
           params = {
             page: this.currentPage,
             pagePize: this.pageSize,
@@ -995,7 +997,7 @@
             updateDateScope: this.updateDateScope,
             endDateScope: this.endDateScope
           }
-        }else{
+        } else {
           params = {
             page: this.currentPage,
             size: this.pageSize,
@@ -1011,7 +1013,7 @@
           }
         }
         console.log(params)
-        this.getRequest('/api/zdt/basic',params).then(res => {
+        this.getRequest('/api/zdt/basic', params).then(res => {
           _this.tableLoading = false
           if (res && res.status === 200) {
             _this.Sbs = res.data.ZdtList
