@@ -587,7 +587,6 @@
         endDateScope: '',
         Sbs: [],
         multipleSelection: [],
-        rfid4g_location: [],
         searchUp: 'el-icon-arrow-up',
         searchDown: 'el-icon-arrow-down',
         rfid4gczGsOptions: [],
