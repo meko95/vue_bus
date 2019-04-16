@@ -12,7 +12,8 @@ module.exports = {
     proxyTable: {
       '/api/**': {
         // 目标接口域名
-        target: 'http://localhost:8888',
+        target: 'http://kathryn.cn:8888',
+        // target: 'http://localhost:8888',
         crossOrigin: true,
         pathRewrite: {
           '^/api': '/'

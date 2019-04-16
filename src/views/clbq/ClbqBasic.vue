@@ -398,7 +398,8 @@
               <el-col :span="7">
                 <div>
                   <el-form-item label="管理等级:" prop="gldj">
-                    <el-select v-model="clbq.gldjdm" style="width: 120px" size="small" placeholder="管理等级" @change="handleGldjChange">
+                    <el-select v-model="clbq.gldjdm" style="width: 120px" size="small" placeholder="管理等级"
+                               @change="handleGldjChange">
                       <el-option v-for="item in gldjs" :key="item.id" :label="item.descriptionZh"
                                  :value="item.id"></el-option>
                     </el-select>

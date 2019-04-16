@@ -1087,12 +1087,14 @@
         console.log(params)
         // console.log(params.beginDateScope) // 数组 Date类型
         // console.log(this.formatDate(params.beginDateScope[0])) // 字符串 String类型 2019-03-15
-        this.getRequest('/api/rfid4g/basic', params).then(res => {
+        //  /api/rfid4g/basic Rfid4gList totalRow
+        this.getRequest('/api/sb/rfid4g', params).then(res => {
           _this.tableLoading = false
+          console.log(res)
           if (res && res.status === 200) {
-            _this.Sbs = res.data.Rfid4gList
+            _this.Sbs = res.data.data.list
             // totalRow会发生改变 currentPage、pageSize是向服务端发送的
-            _this.totalPage = res.data.totalRow
+            _this.totalPage = res.data.data.total
           }
         })
       },
